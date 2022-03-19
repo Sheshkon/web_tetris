@@ -409,8 +409,11 @@ window.addEventListener("keydown", (event) => {
 document.addEventListener('touchstart', handleTouchStart, false);
 document.addEventListener('touchmove', handleTouchMove, false);
 
+
+var tapedTwice = false;
 var xDown = null;
 var yDown = null;
+
 
 function getTouches(evt) {
     return evt.touches ||             // browser API
@@ -419,10 +422,23 @@ function getTouches(evt) {
 
 function handleTouchStart(evt) {
     const firstTouch = getTouches(evt)[0];
+    
 
     xDown = firstTouch.clientX;
     yDown = firstTouch.clientY;
+
+    if(!tapedTwice) {
+        tapedTwice = true;
+        setTimeout( function() { tapedTwice = false; }, 300 );
+        return false;
+    }
+    evt.preventDefault();
+    
+    //action on double tap goes below
+    tetris.hard_drop();
 };
+
+
 
 function handleTouchMove(evt) {
     if (!xDown || !yDown) {
@@ -438,15 +454,15 @@ function handleTouchMove(evt) {
 
     if (Math.abs(xDiff) > Math.abs(yDiff)) {/*most significant*/
         if (xDiff > 0) {
-
+            tetris.move(-1,0);
         } else {
-
+            tetris.move(1,0);
         }
     } else {
         if (yDiff > 0) {
-
+            tetris.rotate();
         } else {
-
+            tetris.move(0,1);
         }
     }
     /* reset values */
