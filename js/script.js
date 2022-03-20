@@ -248,7 +248,7 @@ class Tetris {
         for (var i = 0; i < tmp.tetromino.length; i++) {
             for (var j = 0; j < tmp.tetromino[0].length; j++) {
                 if (tmp.tetromino[i][j] === 1) {
-                    console.log("x: ", tmp.y + i, "y:", tmp.x + j + 1);
+                    // console.log("x: ", tmp.y + i, "y:", tmp.x + j + 1);
                     // console.log("taki tak", this.board_matrix[this.current_tetromino.y + i][this.current_tetromino.x+j]);
                     this.board_matrix[tmp.y + i][tmp.x + j + 1] = 2;
                 }
@@ -372,8 +372,8 @@ class Tetris {
                 Tetris.list_of_colors[5]
             );
         
-        console.log("buttons");
-        console.log(this.buttons);
+        // console.log("buttons");
+        // console.log(this.buttons);
     }
 
     draw_buttons() {
@@ -524,7 +524,7 @@ window.addEventListener("keydown", (event) => {
     }
 
     else if (event.code === 'Space') {
-        console.log("space");
+        // console.log("space");
         tetris.hard_drop();
     }
 
