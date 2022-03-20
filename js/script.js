@@ -132,20 +132,20 @@ class Tetris {
     static CELLS_COUNT = 20;
     static PADDING = 20;
     static SCORE = 560;
-
+    buttons = [];
+    board = [];
+    score = 0;
 
     constructor(ctx, width, height) {
         this.ctx = ctx;
         this.set_board_pos(width, height);
-        this.score = 0;
         this.current_tetromino = this.create_new_tetromino();
         this.next_tetromino = this.create_new_tetromino();
         this.board_matrix = this.create_board();
-        this.board = [];
         this.game_over = false;
-        this.buttons = [new MyButton(), new MyButton(), new MyButton(), new MyButton(), new MyButton()];
+        for(let i = 0; i < 6; i++)
+            this.buttons.push(new MyButton());
         this.set_buttons();
-
     }
 
     create_board() {
@@ -350,15 +350,34 @@ class Tetris {
                 this.cell_size * 3,
                 this.cell_size * 3,
                 this.cell_size / 2,
-                Tetris.list_of_colors[Tetris.list_of_colors.length - 3 - i]
+                Tetris.list_of_colors[i+2]
             );
         }
+       
+        y = this.glass_pos.y + (Tetris.CELLS_COUNT+5) * this.cell_size + this.width / 6;
+        
+            this.buttons[4].setButton(
+                x + padding_x - 2.5*this.cell_size,
+                y, this.cell_size * 3,
+                this.cell_size * 3,
+                this.cell_size / 2,
+                Tetris.list_of_colors[4]
+            );
+            this.buttons[5].setButton(
+                this.width - x - padding_x - this.cell_size/2,
+                y,
+                this.cell_size * 3,
+                this.cell_size * 3,
+                this.cell_size / 2,
+                Tetris.list_of_colors[5]
+            );
+        
         console.log("buttons");
         console.log(this.buttons);
     }
 
     draw_buttons() {
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i< this.buttons.length; i++) {
             this.ctx.fillStyle = this.buttons[i].c;
             this.ctx.roundRect(this.buttons[i].x, this.buttons[i].y, this.buttons[i].w, this.buttons[i].h, this.buttons[i].r).fill();
         }
@@ -541,14 +560,24 @@ function handleTouchStart(evt) {
             tetris.move(-1, 0);
         }
         else if(pushed_button === 1){
-            tetris.hard_drop();
-        }
-        else if(pushed_button === 3){
-            tetris.rotate();
+            tetris.move(1,0);
+           
         }
         else if(pushed_button === 2){
-            tetris.move(1,0);
+            tetris.rotate();
         }
+        else if(pushed_button === 3){
+            
+        }
+
+        else if(pushed_button === 4){
+            tetris.move(0,1);
+        }
+
+        else if(pushed_button === 5){
+            tetris.hard_drop();
+        }
+        
         xDown = null;
         yDown = null;
         return;
@@ -566,8 +595,8 @@ function handleTouchStart(evt) {
 };
 
 function checkButtons(x_pos, y_pos) {
-    var x, y, w, h, r;
-    for (let i = 0; i < 4; i++) {
+    var x, y, w, h;
+    for (let i = 0; i < tetris.buttons.length; i++) {
         x = tetris.buttons[i].x;
          y = tetris.buttons[i].y;
          w = tetris.buttons[i].w;
