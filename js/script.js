@@ -47,9 +47,8 @@ class Tetromino {
     ];
 
     static O = [
-        [0, 1, 1, 0],
-        [0, 1, 1, 0],
-        [0, 0, 0, 0]
+        [1, 1],
+        [1, 1]
     ];
 
     static S = [
@@ -85,19 +84,19 @@ class Tetromino {
     }
 
     rotate() {
-        let rotated_tetromino = [
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0]
-        ];
+        let rotated_tetromino = [];
 
         let N = this.tetromino.length;
+       
+        for(var i = 0; i < N;i++){
+            rotated_tetromino[i] = new Array(N).fill(0);
+        }
 
 
-        for (let y = 0; y < this.tetromino.length; y++) {
-            for (let x = 0; x < this.tetromino[0].length; x++) {
-                rotated_tetromino[x][N - y - 1] = this.tetromino[y][x];
+
+        for (let y = 0; y < N; y++) {
+            for (let x = 0; x < N; x++) {
+                rotated_tetromino[x][y] = this.tetromino[N-y-1][x];
             }
         }
         this.tetromino = rotated_tetromino;
@@ -120,7 +119,7 @@ class Tetris {
     static RIGHT = 1;
     static UP = 2;
     static DOWN = -2;
-    static TIC = 1000;
+    static TIC = 500;
     static CELLS_COUNT = 20;
     static PADDING = 20;
     static SCORE = 560;
@@ -133,6 +132,7 @@ class Tetris {
         this.current_tetromino = this.create_new_tetromino();
         this.next_tetromino = this.create_new_tetromino();
         this.board_matrix = this.create_board();
+        this.board = [];
         this.game_over = false;
     }
 
@@ -156,11 +156,11 @@ class Tetris {
     draw_board_details() {
         this.ctx.strokeStyle = "black";
         this.ctx.fillStyle = "gray";
+        
         for (var i = 0; i < this.board_matrix.length - 1; i++) {
             for (var j = 1; j < this.board_matrix[0].length - 1; j++) {
                 if (this.board_matrix[i][j] == 2) {
                     // this.ctx.fillRect((j - 1) * this.cell_size + Tetris.PADDING, (i) * this.cell_size + Tetris.PADDING, this.cell_size, this.cell_size);
-
                     this.ctx.roundRect((j - 1) * this.cell_size + Tetris.PADDING, (i) * this.cell_size + Tetris.PADDING, this.cell_size, this.cell_size, this.cell_size / 5).fill();
                     this.ctx.roundRect((j - 1) * this.cell_size + Tetris.PADDING, (i) * this.cell_size + Tetris.PADDING, this.cell_size, this.cell_size, this.cell_size / 5).stroke()
                 }
@@ -170,19 +170,13 @@ class Tetris {
 
 
 
-    colision(prev_x = null, prev_y = null, prev_figure = null) {
+    collision(prev_figure) {
         try {
             for (var i = 0; i < this.current_tetromino.tetromino.length; i++) {
                 for (var j = 0; j < this.current_tetromino.tetromino[0].length; j++) {
                     if (this.current_tetromino.tetromino[i][j] == 1) {
                         if (this.board_matrix[this.current_tetromino.y + i][this.current_tetromino.x + j + 1] + 1 >= 3) {
-                            if (prev_x != null && prev_y != null) {
-                                this.current_tetromino.x = prev_x;
-                                this.current_tetromino.y = prev_y;
-                            }
-                            if (prev_figure) {
-                                this.current_tetromino = prev_figure.clone();
-                            }
+                            this.current_tetromino = prev_figure.clone();
                             return true;
                         }
                     }
@@ -190,19 +184,17 @@ class Tetris {
             }
         }
         catch {
-            if (prev_x || prev_y) {
-                this.current_tetromino.tetromino.x = prev_x;
-                this.current_tetromino.tetromino.y = prev_y;
-            }
-            if (prev_figure) {
-                this.current_tetromino = prev_figure.clone();
-            }
+            // if (prev_x || prev_y) {
+            //     this.current_tetromino.tetromino.x = prev_x;
+            //     this.current_tetromino.tetromino.y = prev_y;
+            // }
+            // if (prev_figure) {
+            //     this.current_tetromino = prev_figure.clone();
+            // }
 
             // return true;
 
         }
-
-
         return false;
     }
 
@@ -219,20 +211,24 @@ class Tetris {
 
     move(x, y) {
         if (this.game_over) {
-            return;
-        }
-        let prev_x = this.current_tetromino.x;
-        let prev_y = this.current_tetromino.y;
-        this.current_tetromino.move(x, y);
-        let is_colided = this.colision(prev_x, prev_y);
-
-        if (is_colided && y) {
-            let tmp = this.current_tetromino.clone();
-
-            this.add_to_board(tmp);
-            
-            
             return false;
+        }
+        var prev = this.current_tetromino.clone();
+        this.current_tetromino.move(x, y);
+        let is_colided = this.collision(prev);
+
+        if (is_colided) {
+            prev = this.current_tetromino.clone();
+            this.current_tetromino.move(0, 1);
+            this.collision(prev);
+            if (this.current_tetromino.y === prev.y) {
+                var tmp = this.current_tetromino.clone();
+                this.current_tetromino = this.next_tetromino.clone();
+                this.next_tetromino = this.create_new_tetromino();
+                this.add_to_board(tmp);
+                return false;
+            }
+            this.current_tetromino.move(0,-1);
 
         }
         return true;
@@ -241,11 +237,10 @@ class Tetris {
     add_to_board(tmp) {
         for (var i = 0; i < tmp.tetromino.length; i++) {
             for (var j = 0; j < tmp.tetromino[0].length; j++) {
-                if (tmp.tetromino[i][j] == 1) {
+                if (tmp.tetromino[i][j] === 1) {
+                    console.log("x: ", tmp.y + i, "y:", tmp.x + j + 1);
                     // console.log("taki tak", this.board_matrix[this.current_tetromino.y + i][this.current_tetromino.x+j]);
-
                     this.board_matrix[tmp.y + i][tmp.x + j + 1] = 2;
-
                 }
             }
         }
@@ -254,27 +249,17 @@ class Tetris {
     }
 
     hard_drop() {
-        let y = this.current_tetromino.y;
-        for (var i = 0; i < this.board_matrix.length - y; i++) {
-            let prev_x = this.current_tetromino.x;
-            let prev_y = this.current_tetromino.y;
-            this.current_tetromino.move(0, 1);
-            let is_colided = this.colision(prev_x, prev_y);
 
-            if (is_colided) {
-                let tmp = this.current_tetromino.clone();
-                this.add_to_board(tmp);
-                this.current_tetromino = this.next_tetromino.clone();
-                this.next_tetromino = this.create_new_tetromino();
+        while (true)
+            if (!this.move(0, 1)) {
                 return;
             }
-        }
     }
 
     rotate() {
-        let prev_figure = this.current_tetromino.clone();
+        let prev = this.current_tetromino.clone();
         this.current_tetromino.rotate();
-        this.colision(null, null, prev_figure);
+        this.collision(prev);
     }
 
     set_board_pos(width, height) {
@@ -286,21 +271,21 @@ class Tetris {
     }
 
     paint() {
+        this.remove_lines();
+        if (this.is_game_over()) {
+            // document.location.reload();
+        }
         this.update();
         this.draw_glass();
         this.draw_next_and_score();
         this.draw_current_tetromino();
         this.draw_board_details();
-        this.remove_lines();
-        if (this.is_game_over()) {
-            // document.location.reload();
-        }
+
     }
 
     is_game_over() {
-
         // console.log(this.board_matrix);
-        for (var i = 0; i < 2; i++) {
+        for (var i = 0; i < 1; i++) {
             for (var j = 1; j < this.board_matrix[0].length - 1; j++) {
                 if (this.board_matrix[i][j] == 2) {
                     this.game_over = true;
@@ -320,14 +305,14 @@ class Tetris {
             }
             if (sum == Tetris.CELLS_COUNT / 2 * 2) {
                 for (var k = i; k > 1; k--) {
-                    this.board_matrix[k] = this.board_matrix[k - 1];
+                    this.board_matrix[k] = Array.from(this.board_matrix[k - 1]);
                 }
 
-                for (var l = 1; l < this.board_matrix[0].length - 1; l++) {
-                    this.board_matrix[0][l] = 0;
-                }
-
-                i--;
+                this.board_matrix[0] = new Array(Tetris.CELLS_COUNT/2 + 2).fill(0);
+                this.board_matrix[0][0] = 2;
+                this.board_matrix[0][Tetris.CELLS_COUNT/2 + 1] = 2;
+               
+                // i--;
                 counter++;
             }
         }
@@ -336,7 +321,7 @@ class Tetris {
 
     draw_next_and_score() {
         this.ctx.fillStyle = "black";
-        this.ctx.fillRect(this.cell_size * Tetris.CELLS_COUNT / 2 + this.cell_size * 2, this.cell_size * 2, this.cell_size * Tetris.CELLS_COUNT / 3, this.cell_size * Tetris.CELLS_COUNT / 3);
+        this.ctx.fillRect(this.cell_size * Tetris.CELLS_COUNT / 2 + this.cell_size * 2, this.cell_size * 2, this.cell_size * Tetris.CELLS_COUNT / 4, this.cell_size * Tetris.CELLS_COUNT / 4);
         this.ctx.fillStyle = "white";
         this.ctx.font = `${this.cell_size}px serif`;
         this.ctx.fillText("_next_", this.cell_size * Tetris.CELLS_COUNT / 2 + this.cell_size * 3, this.cell_size);
