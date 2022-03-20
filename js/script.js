@@ -281,7 +281,7 @@ class Tetris {
     paint() {
         this.clear_lines();
         if (this.is_game_over()) {
-            document.location.reload();
+            // document.location.reload();
         }
         this.update();
         this.draw_glass();
@@ -607,10 +607,10 @@ function checkButtons(x_pos, y_pos) {
 
         if (x_pos > x && x_pos < x+w) {
             if (y_pos > y && y_pos < y+h) {
-                tetris.buttons[i].y -= 20;
+                tetris.buttons[i].y -= 10;
                 setTimeout( ()=>{
                     tetris.buttons[i].y = y;
-                },100);
+                },25);
                 
                 return i;
             }
