@@ -609,7 +609,7 @@ function checkButtons(x_pos, y_pos) {
             if (y_pos > y && y_pos < y+h) {
                 tetris.buttons[i].y -= 10;
                 setTimeout( ()=>{
-                    tetris.buttons[i].y = y;
+                    tetris.set_buttons();
                 },25);
                 
                 return i;
