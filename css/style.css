@@ -1,8 +1,9 @@
 
 #game_field{
+    background-image:  linear-gradient(to right, #270897, #f701ff);
     background-color: rgb(0, 204, 255);
 }
 
 html, body {
-    margin: 0; height: 100%; overflow: hidden
+    margin: 0; height: 100%; overflow: hidden;
 }
