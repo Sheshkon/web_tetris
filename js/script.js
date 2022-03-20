@@ -565,9 +565,11 @@ function handleTouchStart(evt) {
         }
         else if(pushed_button === 2){
             tetris.rotate();
+            //clockwise
         }
         else if(pushed_button === 3){
-            
+            tetris.rotate();
+            //counterclockwise
         }
 
         else if(pushed_button === 4){
@@ -605,6 +607,11 @@ function checkButtons(x_pos, y_pos) {
 
         if (x_pos > x && x_pos < x+w) {
             if (y_pos > y && y_pos < y+h) {
+                tetris.buttons[i].y -= 20;
+                setTimeout( ()=>{
+                    tetris.buttons[i].y = y;
+                },100);
+                
                 return i;
             }
         }
