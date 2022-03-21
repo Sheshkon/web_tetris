@@ -1,4 +1,4 @@
-import Tetris from "/js/tetris.js";
+import Tetris from "../js/tetris.js";
 let canvas = document.getElementById('game_field');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;

@@ -1,6 +1,6 @@
 
-import Tetromino from '/js/tetromino.js';
-import Position from '/js/position.js';
+import Tetromino from '../js/tetromino.js';
+import Position from '../js/position.js';
 
 
 CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
