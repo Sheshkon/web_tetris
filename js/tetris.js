@@ -399,7 +399,7 @@ export default class Tetris {
         
         // this.ctx.fillStyle = "white";
         // this.ctx.roundRect(this.glass_pos.x-Tetris.PADDING/2, this.glass_pos.y-Tetris.PADDING/2, this.cell_size * Tetris.CELLS_COUNT / 2+Tetris.PADDING, this.cell_size * Tetris.CELLS_COUNT+Tetris.PADDING, this.cell_size).fill();
-        this.ctx.globalAlpha = 0.5;
+        this.ctx.globalAlpha = 0.7;
         this.ctx.fillStyle ="black";
         
         this.ctx.roundRect(this.glass_pos.x, this.glass_pos.y, this.cell_size * Tetris.CELLS_COUNT / 2, this.cell_size * Tetris.CELLS_COUNT, this.cell_size).fill();

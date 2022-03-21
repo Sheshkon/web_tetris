@@ -1,7 +1,6 @@
 
 #game_field{
-    background-image:  linear-gradient(to right, #270897, #f701ff);
-    background-color: rgb(0, 204, 255);
+    background-image: url(../img/bg.jpg);
 }
 
 html, body {
