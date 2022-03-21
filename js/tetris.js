@@ -1,15 +1,3 @@
-CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
-    if (w < 2 * r) r = w / 2;
-    if (h < 2 * r) r = h / 2;
-    this.beginPath();
-    this.moveTo(x + r, y);
-    this.arcTo(x + w, y, x + w, y + h, r);
-    this.arcTo(x + w, y + h, x, y + h, r);
-    this.arcTo(x, y + h, x, y, r);
-    this.arcTo(x, y, x + w, y, r);
-    this.closePath();
-    return this;
-}
 
 class MyButton {
     constructor() {
@@ -118,7 +106,7 @@ class Tetromino {
 }
 
 
-class Tetris {
+export default class Tetris {
     static list_of_tetrominos = ["L", "J", "S", "Z", "I", "O", "T"];
     static list_of_colors = ["rgb(255,127,0)", "rgb(0, 0, 255)", "rgb(0, 255, 0)",
         "rgb(255, 0, 0)", "rgb(114,188,212)",
@@ -135,13 +123,7 @@ class Tetris {
     buttons = [];
     board = [];
     score = 0;
-    static counter_clock_wise_img = new Image(150, 150);   // Размер изображения  
-    static clock_wise_img = new Image(150, 150);
-    static hard_drop_img = new Image(150, 150);
-    static left_img = new Image(150, 150);
-    static right_img = new Image(150, 150);
-    static down_img = new Image(150, 150);
-
+    static image = new Image(150, 150);   // Размер изображения   
    
 
     constructor(ctx, width, height) {
@@ -154,13 +136,7 @@ class Tetris {
         for(let i = 0; i < 6; i++)
             this.buttons.push(new MyButton());
         this.set_buttons();
-        Tetris.counter_clock_wise_img.src = 'img/counterclockwise.png';
-        Tetris.clock_wise_img.src = 'img/clockwise.png';
-        Tetris.hard_drop_img.src = 'img/harddrop.png';
-        Tetris.left_img.src = 'img/left.png';
-        Tetris.right_img.src = 'img/right.png';
-        Tetris.down_img.src = 'img/down.png';
-
+        Tetris.image.src = 'img/counterclockwise.png';
     }
 
     create_board() {
@@ -394,16 +370,9 @@ class Tetris {
     draw_buttons() {
         for (var i = 0; i< this.buttons.length; i++) {
             this.ctx.fillStyle = this.buttons[i].c;
-            this.ctx.roundRect(this.buttons[i].x, this.buttons[i].y, this.buttons[i].w, this.buttons[i].h, this.buttons[i].r).fill();
+            // this.ctx.roundRect(this.buttons[i].x, this.buttons[i].y, this.buttons[i].w, this.buttons[i].h, this.buttons[i].r).fill();
+            this.ctx.drawImage(Tetris.image, this.buttons[i].x, this.buttons[i].y, this.buttons[i].w, this.buttons[i].h);
         }
-        this.ctx.drawImage(Tetris.left_img, this.buttons[0].x, this.buttons[0].y, this.buttons[0].w, this.buttons[0].h);
-        this.ctx.drawImage(Tetris.right_img, this.buttons[1].x, this.buttons[1].y, this.buttons[1].w, this.buttons[1].h);
-        this.ctx.drawImage(Tetris.clock_wise_img, this.buttons[2].x, this.buttons[2].y, this.buttons[2].w, this.buttons[2].h);
-        this.ctx.drawImage(Tetris.counter_clock_wise_img, this.buttons[3].x, this.buttons[3].y, this.buttons[3].w, this.buttons[3].h);
-        this.ctx.drawImage(Tetris.down_img, this.buttons[4].x, this.buttons[4].y, this.buttons[4].w, this.buttons[4].h);
-        this.ctx.drawImage(Tetris.hard_drop_img, this.buttons[5].x, this.buttons[5].y, this.buttons[5].w, this.buttons[5].h);
-        
-
     }
 
     draw_next_and_score() {
@@ -481,201 +450,3 @@ class Tetris {
         return Math.floor(Math.random() * max);
     }
 }
-
-
-
-var canvas = document.getElementById('game_field');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-var tetris = new Tetris(canvas.getContext('2d'), canvas.width, canvas.height);
-
-
-function start() {
-    console.log('start');
-
-    timer2 = setInterval(() => {
-        tetris.move(0, 1);
-    }, Tetris.TIC);
-
-    timer = setInterval(() => {
-        tetris.paint();
-    }, 33);
-}
-
-window.addEventListener('load', () => {
-    console.log('All assets are loaded');
-    start();
-})
-
-
-window.addEventListener('resize', (event) => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    tetris.set_board_pos(canvas.width, canvas.height);
-    tetris.set_buttons();
-}, true);
-
-
-
-window.addEventListener("keydown", (event) => {
-    if (event.defaultPrevented) {
-        return; // Do nothing if the event was already processed
-    }
-    let key = event.key;
-
-    if (key == "DOWN" || key == "ArrowDown") {
-        tetris.move(0, 1);
-        // Do something for "down arrow" key press.
-    }
-
-    else if (key == "Up" || key == "ArrowUp") {
-        tetris.rotate();
-    }
-
-    else if (key == "Left" || key == "ArrowLeft") {
-        tetris.move(-1, 0);
-    }
-    else if (key == "Right" || key == "ArrowRight") {
-        tetris.move(1, 0);
-    }
-
-    else if (key == "Enter") {
-        // for first screen
-        tetris.rotate();
-        // else if (key == "Esc" || key == "Escape")
-        //   snake.eat();
-    }
-
-    else if (event.code === 'Space') {
-        // console.log("space");
-        tetris.hard_drop();
-    }
-
-    // Cancel the default action to avoid it being handled twice
-    event.preventDefault();
-}, true);
-
-
-document.addEventListener('touchstart', handleTouchStart, false);
-document.addEventListener('touchmove', handleTouchMove, false);
-
-
-var tapedTwice = false;
-var xDown = null;
-var yDown = null;
-
-
-function getTouches(evt) {
-    return evt.touches ||             // browser API
-        evt.originalEvent.touches; // jQuery
-}
-
-function handleTouchStart(evt) {
-    const firstTouch = getTouches(evt)[0];
-
-
-    xDown = firstTouch.clientX;
-    yDown = firstTouch.clientY;
-
-    pushed_button = checkButtons(xDown, yDown);
-    if (pushed_button !== -1) {
-        if(pushed_button === 0){
-            tetris.move(-1, 0);
-        }
-        else if(pushed_button === 1){
-            tetris.move(1,0);
-           
-        }
-        else if(pushed_button === 2){
-            tetris.rotate();
-            //clockwise
-        }
-        else if(pushed_button === 3){
-            tetris.rotate();
-            //counterclockwise
-        }
-
-        else if(pushed_button === 4){
-            tetris.move(0,1);
-        }
-
-        else if(pushed_button === 5){
-            tetris.hard_drop();
-        }
-        
-        xDown = null;
-        yDown = null;
-        return;
-    }
-    // evt.preventDefault();
-    if (!tapedTwice) {
-        tapedTwice = true;
-        setTimeout(() => { tapedTwice = false; }, 300);
-        return false;
-    }
-    
-
-    //action on double tap goes below
-    // tetris.hard_drop();
-};
-
-function checkButtons(x_pos, y_pos) {
-    var x, y, w, h;
-    for (let i = 0; i < tetris.buttons.length; i++) {
-        x = tetris.buttons[i].x;
-         y = tetris.buttons[i].y;
-         w = tetris.buttons[i].w;
-        h = tetris.buttons[i].h;
-        r = tetris.buttons[i].r;
-
-        if (x_pos > x && x_pos < x+w) {
-            if (y_pos > y && y_pos < y+h) {
-                tetris.buttons[i].y -= 10;
-                tetris.buttons[i].x -= 10;
-                tetris.buttons[i].w += 20;
-                tetris.buttons[i].h += 20;
-                setTimeout( ()=>{
-                    tetris.set_buttons();
-                },25);
-                
-                return i;
-            }
-        }
-        // console.log(xDown, yDown);
-        // console.log(x, y);
-    }
-    return -1;
-}
-
-
-
-
-function handleTouchMove(evt) {
-    if (!xDown || !yDown) {
-        return;
-    }
-
-
-    var xUp = evt.touches[0].clientX;
-    var yUp = evt.touches[0].clientY;
-
-    var xDiff = xDown - xUp;
-    var yDiff = yDown - yUp;
-
-    if (Math.abs(xDiff) > Math.abs(yDiff)) {/*most significant*/
-        if (xDiff > 0) {
-            tetris.move(-1, 0);
-        } else {
-            tetris.move(1, 0);
-        }
-    } else {
-        if (yDiff > 0) {
-            tetris.rotate();
-        } else {
-            tetris.move(0, 1);
-        }
-    }
-    /* reset values */
-    xDown = null;
-    yDown = null;
-};
