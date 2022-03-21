@@ -370,9 +370,20 @@ export default class Tetris {
 
         this.ctx.roundRect(next_field_x, next_field_y, next_field_w, next_field_h, this.cell_size).fill();
         this.ctx.globalAlpha = 1;
-        this.ctx.font = `${this.cell_size}px serif`;
-        this.ctx.fillText("_next_", this.cell_size * Tetris.CELLS_COUNT / 2 + this.cell_size * 3, this.cell_size);
-        this.ctx.fillText(`score: ${this.score}`, this.cell_size * Tetris.CELLS_COUNT / 2 + this.cell_size * 4, this.cell_size * 4 + this.cell_size * (Tetris.CELLS_COUNT / 4 + 1))
+        let font_size = this.cell_size*2;
+        this.ctx.font = `bold ${font_size}px Courier New`;
+        this.ctx.textAlign = "center";
+        this.ctx.fillText("NEXT", next_field_center_x, next_field_y-font_size/10);
+        this.ctx.fillText("SCORE", next_field_center_x, next_field_y+next_field_h + font_size);
+        
+        if(this.score){
+            this.ctx.fillStyle = "white";
+            this.ctx.fillText(`${this.score}`, next_field_center_x, next_field_y+next_field_h + font_size*2);
+            this.ctx.strokeStyle = "black";
+            this.ctx.strokeText(`${this.score}`, next_field_center_x, next_field_y+next_field_h + font_size*2);
+
+        }
+
         this.ctx.fillStyle = this.next_tetromino.color;
         this.ctx.strokeStyle = "black";
         for (var i = 0; i < this.next_tetromino.tetromino.length; i++) {
