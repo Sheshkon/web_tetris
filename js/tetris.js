@@ -359,19 +359,28 @@ export default class Tetris {
     }
 
     draw_next_and_score() {
+        this.ctx.globalAlpha = 0.7;
         this.ctx.fillStyle = "black";
-        this.ctx.roundRect(this.cell_size * Tetris.CELLS_COUNT / 2 + this.cell_size * 2, this.cell_size * 2, this.cell_size * Tetris.CELLS_COUNT / 4, this.cell_size * Tetris.CELLS_COUNT / 4, this.cell_size).fill();
-        this.ctx.fillStyle = "white";
+        let next_field_x = this.cell_size * (Tetris.CELLS_COUNT / 2 + 2);
+        let next_field_y = this.cell_size + this.glass_pos.y;
+        let next_field_w = this.cell_size * Tetris.CELLS_COUNT / 3;
+        let next_field_h = this.cell_size * Tetris.CELLS_COUNT / 3;
+        let next_field_center_x = next_field_x + next_field_w/2;
+        let next_field_center_y = next_field_y + next_field_h/2;
+
+        this.ctx.roundRect(next_field_x, next_field_y, next_field_w, next_field_h, this.cell_size).fill();
+        this.ctx.globalAlpha = 1;
         this.ctx.font = `${this.cell_size}px serif`;
         this.ctx.fillText("_next_", this.cell_size * Tetris.CELLS_COUNT / 2 + this.cell_size * 3, this.cell_size);
-        this.ctx.fillText(`score: ${this.score}`, this.cell_size * Tetris.CELLS_COUNT / 2 + this.cell_size * 3, this.cell_size * 2 + this.cell_size * (Tetris.CELLS_COUNT / 3 + 1))
+        this.ctx.fillText(`score: ${this.score}`, this.cell_size * Tetris.CELLS_COUNT / 2 + this.cell_size * 4, this.cell_size * 4 + this.cell_size * (Tetris.CELLS_COUNT / 4 + 1))
         this.ctx.fillStyle = this.next_tetromino.color;
         this.ctx.strokeStyle = "black";
         for (var i = 0; i < this.next_tetromino.tetromino.length; i++) {
             for (var j = 0; j < this.next_tetromino.tetromino[0].length; j++) {
                 if (this.next_tetromino.tetromino[i][j]) {
-                    let x = (j + 1) * this.cell_size + this.cell_size * Tetris.CELLS_COUNT / 2 + this.cell_size * 2;
-                    let y = (i + 3) * this.cell_size;
+                    
+                    let x = (j - this.next_tetromino.tetromino[0].length/2) * this.cell_size + next_field_center_x;
+                    let y = (i - this.next_tetromino.tetromino.length/2) * this.cell_size+ next_field_center_y;
                     this.ctx.roundRect(x, y, this.cell_size, this.cell_size, this.cell_size / 5).fill();
                     this.ctx.roundRect(x, y, this.cell_size, this.cell_size, this.cell_size / 5).stroke();
                 }
@@ -396,20 +405,21 @@ export default class Tetris {
     }
 
     draw_glass() {
-        
         // this.ctx.fillStyle = "white";
         // this.ctx.roundRect(this.glass_pos.x-Tetris.PADDING/2, this.glass_pos.y-Tetris.PADDING/2, this.cell_size * Tetris.CELLS_COUNT / 2+Tetris.PADDING, this.cell_size * Tetris.CELLS_COUNT+Tetris.PADDING, this.cell_size).fill();
-        this.ctx.globalAlpha = 0.7;
         this.ctx.fillStyle ="black";
-        
+        this.ctx.globalAlpha = 0.7;
         this.ctx.roundRect(this.glass_pos.x, this.glass_pos.y, this.cell_size * Tetris.CELLS_COUNT / 2, this.cell_size * Tetris.CELLS_COUNT, this.cell_size).fill();
+        this.draw_cells()
+        this.ctx.globalAlpha = 1.0;
+    }
+
+
+    draw_cells(){
+        this.ctx.globalAlpha = 0.1;
         this.ctx.strokeStyle = 'white';
-        
-        
-        
         for (var i = 0; i < Tetris.CELLS_COUNT; i++) {
             for (var j = 0; j < Tetris.CELLS_COUNT / 2; j++) {
-            
                 this.ctx.beginPath();
                 this.ctx.moveTo(j * this.cell_size + Tetris.PADDING, i * this.cell_size + Tetris.PADDING);
                 this.ctx.lineTo((j + 1) * this.cell_size + Tetris.PADDING, i * this.cell_size + Tetris.PADDING);
@@ -423,7 +433,6 @@ export default class Tetris {
                 this.ctx.closePath();
             }
         }
-        this.ctx.globalAlpha = 1.0;
     }
 
     update() {
