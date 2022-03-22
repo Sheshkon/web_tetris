@@ -30,15 +30,10 @@ class MyButton {
     }
 }
 
-
-
-
-
-
 export default class Tetris {
     static list_of_tetrominos = ["L", "J", "S", "Z", "I", "O", "T"];
     static list_of_colors = ["rgb(255,127,0)", "rgb(0, 0, 255)", "rgb(0, 255, 0)",
-        "rgb(255, 0, 0)", "rgb(114,188,212)",
+        "rgb(203, 40, 40)", "rgb(114,188,212)",
         "rgb(237, 226, 21)", "rgb(161, 13, 143)"];
     static bg_color = "rgb(237, 177, 164)";
     static LEFT = -1;
@@ -77,7 +72,9 @@ export default class Tetris {
         Tetris.left_img.src = 'img/left.png';
         Tetris.right_img.src = 'img/right.png';
         Tetris.down_img.src = 'img/down.png';
-
+        this.matrix_of_colors = []
+        for (let i = 0; i < Tetris.CELLS_COUNT; i++)
+            this.matrix_of_colors.push(new Array(Tetris.CELLS_COUNT/2).fill(-1));
     }
 
     create_board() {
@@ -103,9 +100,12 @@ export default class Tetris {
         for (var i = 0; i < this.board_matrix.length - 1; i++) {
             for (var j = 1; j < this.board_matrix[0].length - 1; j++) {
                 if (this.board_matrix[i][j] == 2) {
+                    this.ctx.fillStyle = Tetris.list_of_colors[this.matrix_of_colors[i][j-1]];
                     // this.ctx.fillRect((j - 1) * this.cell_size + Tetris.PADDING, (i) * this.cell_size + Tetris.PADDING, this.cell_size, this.cell_size);
                     this.ctx.roundRect((j - 1) * this.cell_size + Tetris.PADDING, (i) * this.cell_size + Tetris.PADDING, this.cell_size, this.cell_size, this.cell_size / 5).fill();
-                    this.ctx.roundRect((j - 1) * this.cell_size + Tetris.PADDING, (i) * this.cell_size + Tetris.PADDING, this.cell_size, this.cell_size, this.cell_size / 5).stroke()
+                    this.ctx.roundRect((j - 1) * this.cell_size + Tetris.PADDING, (i) * this.cell_size + Tetris.PADDING, this.cell_size, this.cell_size, this.cell_size / 5).stroke();
+
+
                 }
             }
         }
@@ -143,7 +143,7 @@ export default class Tetris {
 
     create_new_tetromino() {
         let value = this.getRandomInt(7);
-        let tetromino = eval(`new Tetromino(Tetromino.${Tetris.list_of_tetrominos[value]}, 3, 0, Tetris.list_of_colors[value])`);
+        let tetromino = eval(`new Tetromino(Tetromino.${Tetris.list_of_tetrominos[value]}, 3, 0, Tetris.list_of_colors[value], value)`);
         return tetromino;
     }
 
@@ -177,15 +177,19 @@ export default class Tetris {
     }
 
     add_to_board(tmp) {
+        let color_id = tmp.color_id;
         for (var i = 0; i < tmp.tetromino.length; i++) {
             for (var j = 0; j < tmp.tetromino[0].length; j++) {
                 if (tmp.tetromino[i][j] === 1) {
                     // console.log("x: ", tmp.y + i, "y:", tmp.x + j + 1);
                     // console.log("taki tak", this.board_matrix[this.current_tetromino.y + i][this.current_tetromino.x+j]);
+
                     this.board_matrix[tmp.y + i][tmp.x + j + 1] = 2;
+                    this.matrix_of_colors[tmp.y + i][tmp.x + j] = color_id;
                 }
             }
         }
+        // console.log(this.matrix_of_colors);
         // console.log(this.board_matrix);
     }
 
@@ -247,11 +251,14 @@ export default class Tetris {
             if (sum == Tetris.CELLS_COUNT / 2 * 2) {
                 for (var k = i; k > 1; k--) {
                     this.board_matrix[k] = Array.from(this.board_matrix[k - 1]);
+                    this.matrix_of_colors[k] = Array.from(this.matrix_of_colors[k - 1]);
                 }
 
                 this.board_matrix[0] = new Array(Tetris.CELLS_COUNT / 2 + 2).fill(0);
                 this.board_matrix[0][0] = 2;
                 this.board_matrix[0][Tetris.CELLS_COUNT / 2 + 1] = 2;
+
+                this.matrix_of_colors[0] = new Array(Tetris.CELLS_COUNT / 2).fill(-1);
 
                 // i--;
                 counter++;

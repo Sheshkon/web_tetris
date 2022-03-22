@@ -1,4 +1,3 @@
-
 export default class Tetromino {
 
     static I = [
@@ -43,11 +42,12 @@ export default class Tetromino {
         [0, 0, 0]
     ];
 
-    constructor(tetromino, x, y, color) {
+    constructor(tetromino, x, y, color, color_id) {
         this.tetromino = tetromino;
         this.x = x;
         this.y = y;
         this.color = color;
+        this.color_id = color_id;
     }
 
     clone() {
@@ -60,7 +60,7 @@ export default class Tetromino {
             tetromino.push(row);
         }
 
-        return new Tetromino(tetromino, this.x, this.y, this.color);
+        return new Tetromino(tetromino, this.x, this.y, this.color, this.color_id);
     }
 
     rotate() {
