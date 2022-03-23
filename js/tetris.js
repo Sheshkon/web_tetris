@@ -198,7 +198,8 @@ export default class Tetris {
 
         let prev = this.currentTetromino.clone();
         this.currentTetromino.rotate(isClockWise)
-        this.isCollided(this.currentTetromino);
+        if (this.isCollided(this.currentTetromino))
+            this.currentTetromino = prev;
     }
 
     setBoardPos(width, height) {
