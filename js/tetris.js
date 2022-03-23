@@ -51,6 +51,8 @@ export default class Tetris {
     board = [];
     score = 0;
     isTouchableDevice = false;
+    isGameOver = false;
+    
 
     constructor(ctx, width, height) {
         this.ctx = ctx;
@@ -58,7 +60,6 @@ export default class Tetris {
         this.currentTetromino = this.createNewTetromino();
         this.nextTetromino = this.createNewTetromino();
         this.boardMatrix = this.createBoard();
-        this.gameOver = false;
         for (let i = 0; i < 6; i++)
             this.buttons.push(new MyButton());
         this.setButtons();
@@ -139,7 +140,7 @@ export default class Tetris {
     }
 
     move(x, y) {
-        if (this.gameOver) {
+        if (this.isGameOver) {
             return false;
         }
 
@@ -178,14 +179,15 @@ export default class Tetris {
     hardDrop() {
         while (true)
             if (!this.move(0, 1)) {
+
                 return;
             }
         
     }
 
-    rotate() {
+    rotate(isClockWise) {
         let prev = this.currentTetromino.clone();
-        this.currentTetromino.rotate();
+        this.currentTetromino.rotate(isClockWise)
         this.isCollided(prev);
     }
 
@@ -198,6 +200,7 @@ export default class Tetris {
     }
 
     paint() {
+        console.log("game over?", this.isGameOver);
         this.clearLines();
         this.update();
         this.drawGlass();
@@ -205,7 +208,8 @@ export default class Tetris {
         this.drawButtons();
         this.drawCurrentTetromino();
         this.drawBoardDetails();
-        if (this.isGameOver()) {
+        this.checkGameOver();
+        if (this.isGameOver) {
             // document.location.reload();
             this.drawGameOverScreen();
             // return;
@@ -225,16 +229,14 @@ export default class Tetris {
         this.ctx.strokeText('GAME OVER', centerGlass.x, centerGlass.y);
     }
 
-    isGameOver() {
+    checkGameOver() {
         for (let i = 0; i < 1; i++) {
             for (let j = 1; j < this.boardMatrix[0].length - 1; j++) {
                 if (this.boardMatrix[i][j] == 2) {
-                    this.gameOver = true;
-                    return true;
+                    this.isGameOver = true;
                 }
             }
         }
-        return false;
     }
 
     clearLines() {

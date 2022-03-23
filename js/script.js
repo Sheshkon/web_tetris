@@ -40,24 +40,29 @@ window.addEventListener("keydown", (event) => {
         return; // Do nothing if the event was already processed
     }
     let key = event.key;
+    let code = event.code
 
-    if (key == "DOWN" || key == "ArrowDown") {
+    if (key == "DOWN" || key == "ArrowDown" || code == "KeyS") {
         tetris.move(0, 1);
     }
 
-    else if (key == "Up" || key == "ArrowUp") {
-        tetris.rotate();
+    else if (key == "Up" || key == "ArrowUp" || code == "KeyW" || code == "KeyE") {
+        tetris.rotate(true);
     }
 
-    else if (key == "Left" || key == "ArrowLeft") {
+    else if(code == "KeyQ"){
+        tetris.rotate(false);
+    }
+
+    else if (key == "Left" || key == "ArrowLeft" || code == "KeyA") {
         tetris.move(-1, 0);
     }
-    else if (key == "Right" || key == "ArrowRight") {
+    else if (key == "Right" || key == "ArrowRight" || code == "KeyD") {
         tetris.move(1, 0);
     }
 
     else if (key == "Enter") {  
-        tetris.rotate();
+        tetris.rotate(true);
     }
 
      // else if (key == "Esc" || key == "Escape")
@@ -104,11 +109,11 @@ function handleTouchStart(evt) {
 
         }
         else if (pushedButton === 2) {
-            tetris.rotate();
+            tetris.rotate(true);
             //clockwise
         }
         else if (pushedButton === 3) {
-            tetris.rotate();
+            tetris.rotate(false);
             //counterclockwise
         }
 
