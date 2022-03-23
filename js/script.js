@@ -50,7 +50,7 @@ window.addEventListener("keydown", (event) => {
         tetris.rotate(true);
     }
 
-    else if(code == "KeyQ"){
+    else if (code == "KeyQ") {
         tetris.rotate(false);
     }
 
@@ -61,12 +61,13 @@ window.addEventListener("keydown", (event) => {
         tetris.move(1, 0);
     }
 
-    else if (key == "Enter") {  
+    else if (key == "Enter") {
         tetris.rotate(true);
     }
 
-     // else if (key == "Esc" || key == "Escape")
-        //   pause;
+    else if (key == "Esc" || key == "Escape") {
+        tetris.changePausedStatus();
+    }
 
     else if (event.code === 'Space') {
         // console.log("space");
@@ -99,7 +100,7 @@ function handleTouchStart(evt) {
     xDown = firstTouch.clientX;
     yDown = firstTouch.clientY;
 
-   let pushedButton = tetris.checkButtons(xDown, yDown);
+    let pushedButton = tetris.checkButtons(xDown, yDown);
     if (pushedButton !== -1) {
         if (pushedButton === 0) {
             tetris.move(-1, 0);
