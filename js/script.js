@@ -7,15 +7,15 @@ let tetris = new Tetris(canvas.getContext('2d'), canvas.width, canvas.height);
 
 function start() {
     console.log('start');
-    let is_touchable_device = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
-    tetris.is_touchable_device = is_touchable_device;
-    console.log(is_touchable_device);
+    let isTouchableDevice = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
+    tetris.isTouchableDevice = isTouchableDevice;
+    console.log(isTouchableDevice);
 
-    let game_timer = setInterval(() => {
+    let gameTimer = setInterval(() => {
         tetris.move(0, 1);
     }, Tetris.TIC);
 
-    let repaint_timer = setInterval(() => {
+    let repaintTimer = setInterval(() => {
         tetris.paint();
     }, 33);
 }
@@ -29,8 +29,8 @@ window.addEventListener('load', () => {
 window.addEventListener('resize', (event) => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    tetris.set_board_pos(canvas.width, canvas.height);
-    tetris.set_buttons();
+    tetris.setBoardPos(canvas.width, canvas.height);
+    tetris.setButtons();
 }, true);
 
 
@@ -43,7 +43,6 @@ window.addEventListener("keydown", (event) => {
 
     if (key == "DOWN" || key == "ArrowDown") {
         tetris.move(0, 1);
-        // Do something for "down arrow" key press.
     }
 
     else if (key == "Up" || key == "ArrowUp") {
@@ -57,16 +56,16 @@ window.addEventListener("keydown", (event) => {
         tetris.move(1, 0);
     }
 
-    else if (key == "Enter") {
-        // for first screen
+    else if (key == "Enter") {  
         tetris.rotate();
-        // else if (key == "Esc" || key == "Escape")
-        //   snake.eat();
     }
+
+     // else if (key == "Esc" || key == "Escape")
+        //   pause;
 
     else if (event.code === 'Space') {
         // console.log("space");
-        tetris.hard_drop();
+        tetris.hardDrop();
     }
 
     // Cancel the default action to avoid it being handled twice
@@ -95,30 +94,30 @@ function handleTouchStart(evt) {
     xDown = firstTouch.clientX;
     yDown = firstTouch.clientY;
 
-   let  pushed_button = tetris.checkButtons(xDown, yDown);
-    if (pushed_button !== -1) {
-        if (pushed_button === 0) {
+   let pushedButton = tetris.checkButtons(xDown, yDown);
+    if (pushedButton !== -1) {
+        if (pushedButton === 0) {
             tetris.move(-1, 0);
         }
-        else if (pushed_button === 1) {
+        else if (pushedButton === 1) {
             tetris.move(1, 0);
 
         }
-        else if (pushed_button === 2) {
+        else if (pushedButton === 2) {
             tetris.rotate();
             //clockwise
         }
-        else if (pushed_button === 3) {
+        else if (pushedButton === 3) {
             tetris.rotate();
             //counterclockwise
         }
 
-        else if (pushed_button === 4) {
+        else if (pushedButton === 4) {
             tetris.move(0, 1);
         }
 
-        else if (pushed_button === 5) {
-            tetris.hard_drop();
+        else if (pushedButton === 5) {
+            tetris.hardDrop();
         }
 
         xDown = null;
@@ -134,7 +133,7 @@ function handleTouchStart(evt) {
 
 
     //action on double tap goes below
-    // tetris.hard_drop();
+    // tetris.hardDrop();
 };
 
 

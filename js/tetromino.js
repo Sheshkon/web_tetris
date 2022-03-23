@@ -42,12 +42,12 @@ export default class Tetromino {
         [0, 0, 0]
     ];
 
-    constructor(tetromino, x, y, color, color_id) {
+    constructor(tetromino, x, y, color, colorID) {
         this.tetromino = tetromino;
         this.x = x;
         this.y = y;
         this.color = color;
-        this.color_id = color_id;
+        this.colorID = colorID;
     }
 
     clone() {
@@ -60,21 +60,21 @@ export default class Tetromino {
             tetromino.push(row);
         }
 
-        return new Tetromino(tetromino, this.x, this.y, this.color, this.color_id);
+        return new Tetromino(tetromino, this.x, this.y, this.color, this.colorID);
     }
 
     rotate() {
-        let rotated_tetromino = [];
+        let rotatedTetromino = [];
         let N = this.tetromino.length;
         for (var i = 0; i < N; i++) {
-            rotated_tetromino[i] = new Array(N).fill(0);
+            rotatedTetromino[i] = new Array(N).fill(0);
         }
         for (let y = 0; y < N; y++) {
             for (let x = 0; x < N; x++) {
-                rotated_tetromino[x][y] = this.tetromino[N - y - 1][x];
+                rotatedTetromino[x][y] = this.tetromino[N - y - 1][x];
             }
         }
-        this.tetromino = rotated_tetromino;
+        this.tetromino = rotatedTetromino;
     }
 
     move(x, y) {

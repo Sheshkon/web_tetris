@@ -30,56 +30,55 @@ class MyButton {
 }
 
 export default class Tetris {
-    static list_of_tetrominos = ["L", "J", "S", "Z", "I", "O", "T"];
-    static list_of_colors = ["rgb(255,127,0)", "rgb(0, 0, 255)", "rgb(0, 255, 0)",
-                             "rgb(203, 40, 40)", "rgb(114,188,212)","rgb(237, 226, 21)", 
-                             "rgb(161, 13, 143)"];
-    static LEFT = -1;
-    static RIGHT = 1;
-    static UP = 2;
-    static DOWN = -2;
-    static TIC = 500;
+    static LIST_OF_COLORS = ["rgb(255,127,0)", "rgb(0, 0, 255)", "rgb(0, 255, 0)","rgb(203, 40, 40)", "rgb(114,188,212)", "rgb(237, 226, 21)","rgb(161, 13, 143)"];
+    static LIST_OF_TETROMINOES = ["L", "J", "S", "Z", "I", "O", "T"];
+    static counterClockWiseImg = new Image(150, 150);
+    static clockWiseImg = new Image(150, 150);
+    static hardDropImg = new Image(150, 150);
+    static leftImg = new Image(150, 150);
+    static rightImg = new Image(150, 150);
+    static downImg = new Image(150, 150);
     static CELLS_COUNT = 20;
     static PADDING = 20;
     static SCORE = 560;
-    static counter_clock_wise_img = new Image(150, 150);
-    static clock_wise_img = new Image(150, 150);
-    static hard_drop_img = new Image(150, 150);
-    static left_img = new Image(150, 150);
-    static right_img = new Image(150, 150);
-    static down_img = new Image(150, 150);
+    static DOWN = -2;
+    static TIC = 500;
+    static LEFT = -1;
+    static RIGHT = 1;
+    static UP = 2;
+   
     buttons = [];
     board = [];
     score = 0;
-    is_touchable_device = false;
+    isTouchableDevice = false;
 
     constructor(ctx, width, height) {
         this.ctx = ctx;
-        this.set_board_pos(width, height);
-        this.current_tetromino = this.create_new_tetromino();
-        this.next_tetromino = this.create_new_tetromino();
-        this.board_matrix = this.create_board();
-        this.game_over = false;
+        this.setBoardPos(width, height);
+        this.currentTetromino = this.createNewTetromino();
+        this.nextTetromino = this.createNewTetromino();
+        this.boardMatrix = this.createBoard();
+        this.gameOver = false;
         for (let i = 0; i < 6; i++)
             this.buttons.push(new MyButton());
-        this.set_buttons();
-        Tetris.counter_clock_wise_img.src = 'img/counterclockwise.png';
-        Tetris.clock_wise_img.src = 'img/clockwise.png';
-        Tetris.hard_drop_img.src = 'img/harddrop.png';
-        Tetris.left_img.src = 'img/left.png';
-        Tetris.right_img.src = 'img/right.png';
-        Tetris.down_img.src = 'img/down.png';
-        this.create_matrix_of_colors();
+        this.setButtons();
+        Tetris.counterClockWiseImg.src = 'img/counterclockwise.png';
+        Tetris.clockWiseImg.src = 'img/clockwise.png';
+        Tetris.hardDropImg.src = 'img/harddrop.png';
+        Tetris.leftImg.src = 'img/left.png';
+        Tetris.rightImg.src = 'img/right.png';
+        Tetris.downImg.src = 'img/down.png';
+        this.createMatrixOfColors();
     }
 
-    create_matrix_of_colors(){
-        this.matrix_of_colors = []
+    createMatrixOfColors() {
+        this.matrixOfColors = []
         for (let i = 0; i < Tetris.CELLS_COUNT; i++)
-            this.matrix_of_colors.push(new Array(Tetris.CELLS_COUNT/2).fill(-1));
+            this.matrixOfColors.push(new Array(Tetris.CELLS_COUNT / 2).fill(-1));
     }
 
-    create_board() {
-        let board_matrix = [];
+    createBoard() {
+        let boardMatrix = [];
         for (let i = 0; i < Tetris.CELLS_COUNT + 1; i++) {
             let row = [2];
             for (let j = 0; j < Tetris.CELLS_COUNT / 2 + 1; j++) {
@@ -88,38 +87,34 @@ export default class Tetris {
                 else
                     row.push(0);
             } Tetris.PADDING
-            board_matrix.push(row);
+            boardMatrix.push(row);
         }
 
-        return board_matrix;
+        return boardMatrix;
     }
 
 
-    draw_board_details() {
+    drawBoardDetails() {
         this.ctx.strokeStyle = "black";
-        this.ctx.fillStyle = "gray";
-        for (let i = 0; i < this.board_matrix.length - 1; i++) {
-            for (let j = 1; j < this.board_matrix[0].length - 1; j++) {
-                if (this.board_matrix[i][j] == 2) {
-                    this.ctx.fillStyle = Tetris.list_of_colors[this.matrix_of_colors[i][j-1]];
-                    // this.ctx.fillRect((j - 1) * this.cell_size + Tetris.PADDING, (i) * this.cell_size + Tetris.PADDING, this.cell_size, this.cell_size);
-                    this.ctx.roundRect((j - 1) * this.cell_size + Tetris.PADDING, (i) * this.cell_size + Tetris.PADDING, this.cell_size, this.cell_size, this.cell_size / 5).fill();
-                    this.ctx.roundRect((j - 1) * this.cell_size + Tetris.PADDING, (i) * this.cell_size + Tetris.PADDING, this.cell_size, this.cell_size, this.cell_size / 5).stroke();
-
-
+        for (let i = 0; i < this.boardMatrix.length - 1; i++) {
+            for (let j = 1; j < this.boardMatrix[0].length - 1; j++) {
+                if (this.boardMatrix[i][j] == 2) {
+                    this.ctx.fillStyle = Tetris.LIST_OF_COLORS[this.matrixOfColors[i][j - 1]];
+                    this.ctx.roundRect((j - 1) * this.cellSize + Tetris.PADDING, (i) * this.cellSize + Tetris.PADDING, this.cellSize, this.cellSize, this.cellSize / 5).fill();
+                    this.ctx.roundRect((j - 1) * this.cellSize + Tetris.PADDING, (i) * this.cellSize + Tetris.PADDING, this.cellSize, this.cellSize, this.cellSize / 5).stroke();
                 }
             }
         }
     }
 
 
-    collision(prev_figure) {
+    isCollided(prevFigure) {
         try {
-            for (let i = 0; i < this.current_tetromino.tetromino.length; i++) {
-                for (let j = 0; j < this.current_tetromino.tetromino[0].length; j++) {
-                    if (this.current_tetromino.tetromino[i][j] == 1) {
-                        if (this.board_matrix[this.current_tetromino.y + i][this.current_tetromino.x + j + 1] + 1 >= 3) {
-                            this.current_tetromino = prev_figure.clone();
+            for (let i = 0; i < this.currentTetromino.tetromino.length; i++) {
+                for (let j = 0; j < this.currentTetromino.tetromino[0].length; j++) {
+                    if (this.currentTetromino.tetromino[i][j] == 1) {
+                        if (this.boardMatrix[this.currentTetromino.y + i][this.currentTetromino.x + j + 1] + 1 >= 3) {
+                            this.currentTetromino = prevFigure.clone();
                             return true;
                         }
                     }
@@ -127,24 +122,15 @@ export default class Tetris {
             }
         }
         catch {
-            // if (prev_x || prev_y) {
-            //     this.current_tetromino.tetromino.x = prev_x;
-            //     this.current_tetromino.tetromino.y = prev_y;
-            // }
-            // if (prev_figure) {
-            //     this.current_tetromino = prev_figure.clone();
-            // }
-
-            // return true;
-
+            console.log("collision exception")
         }
         return false;
     }
 
 
-    create_new_tetromino() {
+    createNewTetromino() {
         let value = this.getRandomInt(7);
-        let tetromino = eval(`new Tetromino(Tetromino.${Tetris.list_of_tetrominos[value]}, 3, 0, Tetris.list_of_colors[value], value)`);
+        let tetromino = eval(`new Tetromino(Tetromino.${Tetris.LIST_OF_TETROMINOES[value]}, 3, 0, Tetris.LIST_OF_COLORS[value], value)`);
         return tetromino;
     }
 
@@ -153,101 +139,97 @@ export default class Tetris {
     }
 
     move(x, y) {
-        if (this.game_over) {
+        if (this.gameOver) {
             return false;
         }
 
-        let prev = this.current_tetromino.clone();
-        this.current_tetromino.move(x, y);
-        let is_colided = this.collision(prev);
+        let prev = this.currentTetromino.clone();
+        this.currentTetromino.move(x, y);
+        let isCollided = this.isCollided(prev);
 
-        if (is_colided) {
-            prev = this.current_tetromino.clone();
-            this.current_tetromino.move(0, 1);
-            this.collision(prev);
-            if (this.current_tetromino.y === prev.y) {
-                let tmp = this.current_tetromino.clone();
-                this.current_tetromino = this.next_tetromino.clone();
-                this.next_tetromino = this.create_new_tetromino();
-                this.add_to_board(tmp);
+        if (isCollided) {
+            prev = this.currentTetromino.clone();
+            this.currentTetromino.move(0, 1);
+            this.isCollided(prev);
+            if (this.currentTetromino.y === prev.y) {
+                let tmp = this.currentTetromino.clone();
+                this.currentTetromino = this.nextTetromino.clone();
+                this.nextTetromino = this.createNewTetromino();
+                this.addToBoard(tmp);
                 return false;
             }
-            this.current_tetromino.move(0, -1);
+            this.currentTetromino.move(0, -1);
         }
         return true;
     }
 
-    add_to_board(tmp) {
-        let color_id = tmp.color_id;
+    addToBoard(tmp) {
+        let colorID = tmp.colorID;
         for (let i = 0; i < tmp.tetromino.length; i++) {
             for (let j = 0; j < tmp.tetromino[0].length; j++) {
                 if (tmp.tetromino[i][j] === 1) {
-                    // console.log("x: ", tmp.y + i, "y:", tmp.x + j + 1);
-                    // console.log("taki tak", this.board_matrix[this.current_tetromino.y + i][this.current_tetromino.x+j]);
-
-                    this.board_matrix[tmp.y + i][tmp.x + j + 1] = 2;
-                    this.matrix_of_colors[tmp.y + i][tmp.x + j] = color_id;
+                    this.boardMatrix[tmp.y + i][tmp.x + j + 1] = 2;
+                    this.matrixOfColors[tmp.y + i][tmp.x + j] = colorID;
                 }
             }
         }
-        // console.log(this.matrix_of_colors);
-        // console.log(this.board_matrix);
     }
 
-    hard_drop() {
+    hardDrop() {
         while (true)
             if (!this.move(0, 1)) {
                 return;
             }
+        
     }
 
     rotate() {
-        let prev = this.current_tetromino.clone();
-        this.current_tetromino.rotate();
-        this.collision(prev);
+        let prev = this.currentTetromino.clone();
+        this.currentTetromino.rotate();
+        this.isCollided(prev);
     }
 
-    set_board_pos(width, height) {
+    setBoardPos(width, height) {
         this.width = width;
         this.height = height;
         let delta = Math.abs(width - height);
-        this.cell_size = width > height ? (width - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT : (height - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT;
-        this.glass_pos = new Position(Tetris.PADDING, Tetris.PADDING);
+        this.cellSize = width > height ? (width - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT : (height - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT;
+        this.glassPos = new Position(Tetris.PADDING, Tetris.PADDING);
     }
 
     paint() {
-        this.clear_lines();
+        this.clearLines();
         this.update();
-        this.draw_glass();
-        this.draw_next_and_score();
-        this.draw_buttons();
-        this.draw_current_tetromino();
-        this.draw_board_details();
-        if (this.is_game_over()) {
+        this.drawGlass();
+        this.drawNextAndScore();
+        this.drawButtons();
+        this.drawCurrentTetromino();
+        this.drawBoardDetails();
+        if (this.isGameOver()) {
             // document.location.reload();
-            this.draw_game_over_screen();
+            this.drawGameOverScreen();
             // return;
         }
     }
 
 
-    draw_game_over_screen(){
-        let center_glass = new Position(
-            this.glass_pos.x + Tetris.CELLS_COUNT * this.cell_size / 4,
-            this.glass_pos.y + Tetris.CELLS_COUNT * this.cell_size / 2,
+    drawGameOverScreen() {
+        let centerGlass = new Position(
+            this.glassPos.x + Tetris.CELLS_COUNT * this.cellSize / 4,
+            this.glassPos.y + Tetris.CELLS_COUNT * this.cellSize / 2,
         )
         this.ctx.fillStyle = 'black';
         this.ctx.strokeStyle = 'white';
         this.ctx.textAlign = "center";
-        this.ctx.fillText('GAME OVER', center_glass.x, center_glass.y);
-        this.ctx.strokeText('GAME OVER', center_glass.x, center_glass.y);
+        this.ctx.fillText('GAME OVER', centerGlass.x, centerGlass.y);
+        this.ctx.strokeText('GAME OVER', centerGlass.x, centerGlass.y);
     }
 
-    is_game_over() {
+    isGameOver() {
         for (let i = 0; i < 1; i++) {
-            for (let j = 1; j < this.board_matrix[0].length - 1; j++) {
-                if (this.board_matrix[i][j] == 2) {
-                    this.game_over = true;
+            for (let j = 1; j < this.boardMatrix[0].length - 1; j++) {
+                if (this.boardMatrix[i][j] == 2) {
+                    this.gameOver = true;
                     return true;
                 }
             }
@@ -255,75 +237,75 @@ export default class Tetris {
         return false;
     }
 
-    clear_lines() {
+    clearLines() {
         let counter = 0;
-        for (let i = 0; i < this.board_matrix.length - 1; i++) {
+        for (let i = 0; i < this.boardMatrix.length - 1; i++) {
             let sum = 0;
-            for (let j = 1; j < this.board_matrix[0].length - 1; j++) {
-                sum += this.board_matrix[i][j];
+            for (let j = 1; j < this.boardMatrix[0].length - 1; j++) {
+                sum += this.boardMatrix[i][j];
             }
             if (sum == Tetris.CELLS_COUNT / 2 * 2) {
                 for (let k = i; k > 1; k--) {
-                    this.board_matrix[k] = Array.from(this.board_matrix[k - 1]);
-                    this.matrix_of_colors[k] = Array.from(this.matrix_of_colors[k - 1]);
+                    this.boardMatrix[k] = Array.from(this.boardMatrix[k - 1]);
+                    this.matrixOfColors[k] = Array.from(this.matrixOfColors[k - 1]);
                 }
 
-                this.board_matrix[0] = new Array(Tetris.CELLS_COUNT / 2 + 2).fill(0);
-                this.board_matrix[0][0] = 2;
-                this.board_matrix[0][Tetris.CELLS_COUNT / 2 + 1] = 2;
-                this.matrix_of_colors[0] = new Array(Tetris.CELLS_COUNT / 2).fill(-1);
+                this.boardMatrix[0] = new Array(Tetris.CELLS_COUNT / 2 + 2).fill(0);
+                this.boardMatrix[0][0] = 2;
+                this.boardMatrix[0][Tetris.CELLS_COUNT / 2 + 1] = 2;
+                this.matrixOfColors[0] = new Array(Tetris.CELLS_COUNT / 2).fill(-1);
                 counter++;
             }
         }
         this.score += Tetris.SCORE * counter;
     }
 
-    set_buttons() {
-        let padding_x = (this.width - Tetris.PADDING * 2) / 4;
-        let y = this.glass_pos.y + Tetris.CELLS_COUNT * this.cell_size + this.width / 6;
-        let x = this.glass_pos.x;
+    setButtons() {
+        let paddingX = (this.width - Tetris.PADDING * 2) / 4;
+        let y = this.glassPos.y + Tetris.CELLS_COUNT * this.cellSize + this.width / 6;
+        let x = this.glassPos.x;
 
         for (let i = 0; i < 2; i++) {
             this.buttons[i].setButton(
-                x + i * padding_x,
-                y, this.cell_size * 3,
-                this.cell_size * 3,
-                this.cell_size / 2,
-                Tetris.list_of_colors[i]
+                x + i * paddingX,
+                y, this.cellSize * 3,
+                this.cellSize * 3,
+                this.cellSize / 2,
+                Tetris.LIST_OF_COLORS[i]
             );
         }
 
         for (let i = 0; i < 2; i++) {
             this.buttons[i + 2].setButton(
-                this.width - x - (i) * padding_x - this.cell_size * 3,
+                this.width - x - (i) * paddingX - this.cellSize * 3,
                 y,
-                this.cell_size * 3,
-                this.cell_size * 3,
-                this.cell_size / 2,
-                Tetris.list_of_colors[i + 2]
+                this.cellSize * 3,
+                this.cellSize * 3,
+                this.cellSize / 2,
+                Tetris.LIST_OF_COLORS[i + 2]
             );
         }
 
-        y = this.glass_pos.y + (Tetris.CELLS_COUNT + 5) * this.cell_size + this.width / 6;
+        y = this.glassPos.y + (Tetris.CELLS_COUNT + 5) * this.cellSize + this.width / 6;
 
         this.buttons[4].setButton(
-            x + padding_x - 2.5 * this.cell_size,
-            y, this.cell_size * 3,
-            this.cell_size * 3,
-            this.cell_size / 2,
-            Tetris.list_of_colors[4]
+            x + paddingX - 2.5 * this.cellSize,
+            y, this.cellSize * 3,
+            this.cellSize * 3,
+            this.cellSize / 2,
+            Tetris.LIST_OF_COLORS[4]
         );
         this.buttons[5].setButton(
-            this.width - x - padding_x - this.cell_size / 2,
+            this.width - x - paddingX - this.cellSize / 2,
             y,
-            this.cell_size * 3,
-            this.cell_size * 3,
-            this.cell_size / 2,
-            Tetris.list_of_colors[5]
+            this.cellSize * 3,
+            this.cellSize * 3,
+            this.cellSize / 2,
+            Tetris.LIST_OF_COLORS[5]
         );
     }
 
-    buttons_clicked(i){
+    buttonsClicked(i) {
         this.buttons[i].y -= 10;
         this.buttons[i].x -= 10;
         this.buttons[i].w += 20;
@@ -337,24 +319,24 @@ export default class Tetris {
             y = this.buttons[i].y;
             w = this.buttons[i].w;
             h = this.buttons[i].h;
-    
+
             if (x_pos > x && x_pos < x + w) {
                 if (y_pos > y && y_pos < y + h) {
-                    this.buttons_clicked(i);
+                    this.buttonsClicked(i);
                     setTimeout(() => {
-                        this.set_buttons();
+                        this.setButtons();
                     }, 25);
-    
+
                     return i;
                 }
             }
         }
         return -1;
     }
-    
 
-    draw_buttons() {
-        if (!this.is_touchable_device) {
+
+    drawButtons() {
+        if (!this.isTouchableDevice) {
             return;
         }
 
@@ -363,91 +345,91 @@ export default class Tetris {
             this.ctx.roundRect(this.buttons[i].x, this.buttons[i].y, this.buttons[i].w, this.buttons[i].h, this.buttons[i].r).fill();
         }
 
-        this.ctx.drawImage(Tetris.left_img, this.buttons[0].x, this.buttons[0].y, this.buttons[0].w, this.buttons[0].h);
-        this.ctx.drawImage(Tetris.right_img, this.buttons[1].x, this.buttons[1].y, this.buttons[1].w, this.buttons[1].h);
-        this.ctx.drawImage(Tetris.clock_wise_img, this.buttons[2].x, this.buttons[2].y, this.buttons[2].w, this.buttons[2].h);
-        this.ctx.drawImage(Tetris.counter_clock_wise_img, this.buttons[3].x, this.buttons[3].y, this.buttons[3].w, this.buttons[3].h);
-        this.ctx.drawImage(Tetris.down_img, this.buttons[4].x, this.buttons[4].y, this.buttons[4].w, this.buttons[4].h);
-        this.ctx.drawImage(Tetris.hard_drop_img, this.buttons[5].x, this.buttons[5].y, this.buttons[5].w, this.buttons[5].h);
+        this.ctx.drawImage(Tetris.leftImg, this.buttons[0].x, this.buttons[0].y, this.buttons[0].w, this.buttons[0].h);
+        this.ctx.drawImage(Tetris.rightImg, this.buttons[1].x, this.buttons[1].y, this.buttons[1].w, this.buttons[1].h);
+        this.ctx.drawImage(Tetris.clockWiseImg, this.buttons[2].x, this.buttons[2].y, this.buttons[2].w, this.buttons[2].h);
+        this.ctx.drawImage(Tetris.counterClockWiseImg, this.buttons[3].x, this.buttons[3].y, this.buttons[3].w, this.buttons[3].h);
+        this.ctx.drawImage(Tetris.downImg, this.buttons[4].x, this.buttons[4].y, this.buttons[4].w, this.buttons[4].h);
+        this.ctx.drawImage(Tetris.hardDropImg, this.buttons[5].x, this.buttons[5].y, this.buttons[5].w, this.buttons[5].h);
     }
 
-    draw_next_and_score() {
+    drawNextAndScore() {
         this.ctx.globalAlpha = 0.7;
         this.ctx.fillStyle = "black";
-        let next_field_x = this.cell_size * (Tetris.CELLS_COUNT / 2 + 2);
-        let next_field_y = this.cell_size + this.glass_pos.y;
-        let next_field_w = this.cell_size * Tetris.CELLS_COUNT / 3;
-        let next_field_h = this.cell_size * Tetris.CELLS_COUNT / 3;
-        let next_field_center_x = next_field_x + next_field_w/2;
-        let next_field_center_y = next_field_y + next_field_h/2;
+        let nextFieldX = this.cellSize * (Tetris.CELLS_COUNT / 2 + 2);
+        let nextFieldY = this.cellSize + this.glassPos.y;
+        let nextFieldW = this.cellSize * Tetris.CELLS_COUNT / 3;
+        let nextFieldH = this.cellSize * Tetris.CELLS_COUNT / 3;
+        let nextFieldCenterX = nextFieldX + nextFieldW / 2;
+        let nextFieldCenterY = nextFieldY + nextFieldH / 2;
 
-        this.ctx.roundRect(next_field_x, next_field_y, next_field_w, next_field_h, this.cell_size).fill();
+        this.ctx.roundRect(nextFieldX, nextFieldY, nextFieldW, nextFieldH, this.cellSize).fill();
         this.ctx.globalAlpha = 1;
-        let font_size = this.cell_size*2;
+        let font_size = this.cellSize * 2;
         this.ctx.font = `bold ${font_size}px Courier New`;
         this.ctx.textAlign = "center";
-        this.ctx.fillText("NEXT", next_field_center_x, next_field_y-font_size/10);
-        this.ctx.fillText("SCORE", next_field_center_x, next_field_y+next_field_h + font_size);
-        
-        if(this.score){
+        this.ctx.fillText("NEXT", nextFieldCenterX, nextFieldY - font_size / 10);
+        this.ctx.fillText("SCORE", nextFieldCenterX, nextFieldY + nextFieldH + font_size);
+
+        if (this.score) {
             this.ctx.fillStyle = "white";
-            this.ctx.fillText(`${this.score}`, next_field_center_x, next_field_y+next_field_h + font_size*2);
+            this.ctx.fillText(`${this.score}`, nextFieldCenterX, nextFieldY + nextFieldH + font_size * 2);
             this.ctx.strokeStyle = "black";
-            this.ctx.strokeText(`${this.score}`, next_field_center_x, next_field_y+next_field_h + font_size*2);
+            this.ctx.strokeText(`${this.score}`, nextFieldCenterX, nextFieldY + nextFieldH + font_size * 2);
         }
 
-        this.ctx.fillStyle = this.next_tetromino.color;
+        this.ctx.fillStyle = this.nextTetromino.color;
         this.ctx.strokeStyle = "black";
-        for (let i = 0; i < this.next_tetromino.tetromino.length; i++) {
-            for (let j = 0; j < this.next_tetromino.tetromino[0].length; j++) {
-                if (this.next_tetromino.tetromino[i][j]) {
-                    let x = (j - this.next_tetromino.tetromino[0].length/2) * this.cell_size + next_field_center_x;
-                    let y = (i - this.next_tetromino.tetromino.length/2) * this.cell_size+ next_field_center_y;
-                    this.ctx.roundRect(x, y, this.cell_size, this.cell_size, this.cell_size / 5).fill();
-                    this.ctx.roundRect(x, y, this.cell_size, this.cell_size, this.cell_size / 5).stroke();
+        for (let i = 0; i < this.nextTetromino.tetromino.length; i++) {
+            for (let j = 0; j < this.nextTetromino.tetromino[0].length; j++) {
+                if (this.nextTetromino.tetromino[i][j]) {
+                    let x = (j - this.nextTetromino.tetromino[0].length / 2) * this.cellSize + nextFieldCenterX;
+                    let y = (i - this.nextTetromino.tetromino.length / 2) * this.cellSize + nextFieldCenterY;
+                    this.ctx.roundRect(x, y, this.cellSize, this.cellSize, this.cellSize / 5).fill();
+                    this.ctx.roundRect(x, y, this.cellSize, this.cellSize, this.cellSize / 5).stroke();
                 }
             }
         }
     }
 
-    draw_current_tetromino() {
-        this.ctx.fillStyle = this.current_tetromino.color;
-        for (let i = 0; i < this.current_tetromino.tetromino.length; i++) {
-            for (let j = 0; j < this.current_tetromino.tetromino[0].length; j++) {
-                if (this.current_tetromino.tetromino[i][j]) {
-                    let x = (this.current_tetromino.x + j) * this.cell_size + Tetris.PADDING;
-                    let y = (this.current_tetromino.y + i) * this.cell_size + Tetris.PADDING;
-                    this.ctx.roundRect(x, y, this.cell_size, this.cell_size, this.cell_size / 5).fill();
-                    this.ctx.roundRect(x, y, this.cell_size, this.cell_size, this.cell_size / 5).stroke();
+    drawCurrentTetromino() {
+        this.ctx.fillStyle = this.currentTetromino.color;
+        for (let i = 0; i < this.currentTetromino.tetromino.length; i++) {
+            for (let j = 0; j < this.currentTetromino.tetromino[0].length; j++) {
+                if (this.currentTetromino.tetromino[i][j]) {
+                    let x = (this.currentTetromino.x + j) * this.cellSize + Tetris.PADDING;
+                    let y = (this.currentTetromino.y + i) * this.cellSize + Tetris.PADDING;
+                    this.ctx.roundRect(x, y, this.cellSize, this.cellSize, this.cellSize / 5).fill();
+                    this.ctx.roundRect(x, y, this.cellSize, this.cellSize, this.cellSize / 5).stroke();
 
                 }
             }
         }
     }
 
-    draw_glass() {
-        this.ctx.fillStyle ="black";
+    drawGlass() {
+        this.ctx.fillStyle = "black";
         this.ctx.globalAlpha = 0.7;
-        this.ctx.roundRect(this.glass_pos.x, this.glass_pos.y, this.cell_size * Tetris.CELLS_COUNT / 2, this.cell_size * Tetris.CELLS_COUNT, this.cell_size).fill();
-        this.draw_cells()
+        this.ctx.roundRect(this.glassPos.x, this.glassPos.y, this.cellSize * Tetris.CELLS_COUNT / 2, this.cellSize * Tetris.CELLS_COUNT, this.cellSize).fill();
+        this.drawCells()
         this.ctx.globalAlpha = 1.0;
     }
 
 
-    draw_cells(){
+    drawCells() {
         this.ctx.globalAlpha = 0.1;
         this.ctx.strokeStyle = 'white';
         for (let i = 0; i < Tetris.CELLS_COUNT; i++) {
             for (let j = 0; j < Tetris.CELLS_COUNT / 2; j++) {
                 this.ctx.beginPath();
-                this.ctx.moveTo(j * this.cell_size + Tetris.PADDING, i * this.cell_size + Tetris.PADDING);
-                this.ctx.lineTo((j + 1) * this.cell_size + Tetris.PADDING, i * this.cell_size + Tetris.PADDING);
+                this.ctx.moveTo(j * this.cellSize + Tetris.PADDING, i * this.cellSize + Tetris.PADDING);
+                this.ctx.lineTo((j + 1) * this.cellSize + Tetris.PADDING, i * this.cellSize + Tetris.PADDING);
                 this.ctx.stroke();
                 this.ctx.closePath();
 
                 this.ctx.beginPath();
-                this.ctx.moveTo(j * this.cell_size + Tetris.PADDING, i * this.cell_size + Tetris.PADDING);
-                this.ctx.lineTo((j) * this.cell_size + Tetris.PADDING, (i + 1) * this.cell_size + Tetris.PADDING);
+                this.ctx.moveTo(j * this.cellSize + Tetris.PADDING, i * this.cellSize + Tetris.PADDING);
+                this.ctx.lineTo((j) * this.cellSize + Tetris.PADDING, (i + 1) * this.cellSize + Tetris.PADDING);
                 this.ctx.stroke();
                 this.ctx.closePath();
             }
