@@ -121,7 +121,9 @@ function getTouches(evt) {
 function handleTouchStart(evt) {
     const firstTouch = getTouches(evt)[0];
     if (evt.touches.length == 3) {
-        document.location.reload();
+        // document.location.reload();
+        tetris2.changeActive();
+        setSize();
         console.log("multitouch");
     }
 
