@@ -120,7 +120,7 @@ function getTouches(evt) {
 
 function handleTouchStart(evt) {
     const firstTouch = getTouches(evt)[0];
-    if (evt.touches.length == 2) {
+    if (evt.touches.length == 3) {
         document.location.reload();
         console.log("multitouch");
     }
