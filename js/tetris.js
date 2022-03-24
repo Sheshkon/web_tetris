@@ -247,7 +247,7 @@ export default class Tetris {
         this.ctx.globalAlpha = 0.7;
         this.drawGlass();
         this.ctx.lineWidth = 1;
-        this.drawCells()
+        // this.drawCells()
         this.ctx.lineWidth = `${Math.floor(this.cellSize / 7)}`;
         this.ctx.globalAlpha = 1;
         this.drawNextAndLabels();
