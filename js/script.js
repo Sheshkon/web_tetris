@@ -77,6 +77,7 @@ window.addEventListener("keydown", (event) => {
     } else if (key == "Right" || key == "ArrowRight" || code == "KeyD") {
         tetris.move(1, 0);
     } else if (key == "Enter") {
+        const firstTouch = getTouches(evt)[0];
         tetris2.changeActive();
         setSize();
         // socket.emit("join", 966 );
@@ -119,10 +120,17 @@ function getTouches(evt) {
 
 function handleTouchStart(evt) {
     const firstTouch = getTouches(evt)[0];
+    if (evt.touches.length == 2) {
+        document.location.reload();
+        console.log("multitouch");
+    }
+
+
 
 
     xDown = firstTouch.clientX;
     yDown = firstTouch.clientY;
+
 
     let pushedButton = tetris.checkButtons(xDown, yDown);
     if (pushedButton !== -1) {
@@ -150,6 +158,7 @@ function handleTouchStart(evt) {
             tetris.hardDrop();
         }
 
+
         xDown = null;
         yDown = null;
         return;
@@ -175,6 +184,7 @@ function handleTouchMove(evt) {
     if (!xDown || !yDown) {
         return;
     }
+
 
 
     var xUp = evt.touches[0].clientX;
