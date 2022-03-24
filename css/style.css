@@ -1,16 +1,15 @@
-
-#game_field{
+#game_field {
     background-image: url(../img/gif.gif);
-    height: 100vh; 
-    width: 100vw;   
-    display: block;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-
+    height: 100vh;
+    width: 100vw;
 }
 
-html, body {
-    margin: 0; height: 100%; overflow: hidden;
+html,
+body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
 }
-
