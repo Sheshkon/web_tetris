@@ -3,8 +3,8 @@ import Position from '../js/position.js';
 
 
 CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
-    if (w < 2 * r) r = w / 2;
-    if (h < 2 * r) r = h / 2;
+    if (w < 2 * r) r = Math.floor(w / 2);
+    if (h < 2 * r) r = Math.floor(h / 2);
     this.beginPath();
     this.moveTo(x + r, y);
     this.arcTo(x + w, y, x + w, y + h, r);
@@ -91,15 +91,15 @@ export default class Tetris {
     createMatrixOfColors() {
         this.matrixOfColors = []
         for (let i = 0; i < Tetris.CELLS_COUNT; i++)
-            this.matrixOfColors.push(new Array(Tetris.CELLS_COUNT / 2).fill(-1));
+            this.matrixOfColors.push(new Array(Math.floor(Tetris.CELLS_COUNT / 2)).fill(-1));
     }
 
     createFieldMatrix() {
         let fieldMatrix = [];
         for (let i = 0; i < Tetris.CELLS_COUNT + 1; i++) {
             let row = [2];
-            for (let j = 0; j < Tetris.CELLS_COUNT / 2 + 1; j++) {
-                if (i == Tetris.CELLS_COUNT || j == Tetris.CELLS_COUNT / 2)
+            for (let j = 0; j < Math.floor(Tetris.CELLS_COUNT / 2) + 1; j++) {
+                if (i == Tetris.CELLS_COUNT || j == Math.floor(Tetris.CELLS_COUNT / 2))
                     row.push(2)
                 else
                     row.push(0);
@@ -117,8 +117,8 @@ export default class Tetris {
             for (let j = 1; j < this.boardMatrix[0].length - 1; j++) {
                 if (this.boardMatrix[i][j] == 2) {
                     this.ctx.fillStyle = Tetris.LIST_OF_COLORS[this.matrixOfColors[i][j - 1]];
-                    this.ctx.roundRect((j - 1) * this.cellSize + this.glassPos.x, (i) * this.cellSize + this.glassPos.y, this.cellSize, this.cellSize, this.cellSize / 4).fill();
-                    this.ctx.roundRect((j - 1) * this.cellSize + this.glassPos.x, (i) * this.cellSize + this.glassPos.y, this.cellSize, this.cellSize, this.cellSize / 4).stroke();
+                    this.ctx.roundRect((j - 1) * this.cellSize + this.glassPos.x, (i) * this.cellSize + this.glassPos.y, this.cellSize, this.cellSize, Math.floor(this.cellSize / 4)).fill();
+                    this.ctx.roundRect((j - 1) * this.cellSize + this.glassPos.x, (i) * this.cellSize + this.glassPos.y, this.cellSize, this.cellSize, Math.floor(this.cellSize / 4)).stroke();
                 }
             }
         }
@@ -220,21 +220,21 @@ export default class Tetris {
         this.width = width;
         this.height = height;
         let delta = Math.abs(width - height);
-        this.cellSize = width > height ? (width - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT : (height - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT;
+        this.cellSize = width > height ? Math.floor((width - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT) : Math.floor((height - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT);
         if (this.isTouchableDevice) {
             if (this.isOpponent) {
-                this.cellSize = width > height ? (width - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT / 2 : (height - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT / 2;
+                this.cellSize = width > height ? Math.floor((width - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT / 2) : Math.floor((height - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT / 2);
                 this.glassPos = new Position(Tetris.PADDING * 2, Tetris.PADDING)
 
             } else {
-                this.glassPos = this.isTouchableDevice ? new Position(Tetris.PADDING * 2, Tetris.PADDING) : new Position(Tetris.PADDING / 2, Tetris.PADDING);
+                this.glassPos = this.isTouchableDevice ? new Position(Tetris.PADDING * 2, Tetris.PADDING) : new Position(Math.floor(Tetris.PADDING / 2), Tetris.PADDING);
             }
 
         } else if (Tetris.activeCounter == 1) {
-            this.glassPos = new Position(width / 2 - this.cellSize * 9, Tetris.PADDING);
+            this.glassPos = new Position(Math.floor(width / 2) - this.cellSize * 9, Tetris.PADDING);
         } else {
-            this.cellSize = width > height ? (width / 50) : (height / 50);
-            this.glassPos = this.isOpponent ? new Position(Tetris.PADDING * 2 + width / 2, Tetris.PADDING * 2) : new Position(this.cellSize * 5, Tetris.PADDING * 2);
+            this.cellSize = width > height ? (Math.floor(width / 50)) : (Math.floor(height / 50));
+            this.glassPos = this.isOpponent ? new Position(Tetris.PADDING * 2 + Math.floor(width / 2), Tetris.PADDING * 2) : new Position(this.cellSize * 5, Tetris.PADDING * 2);
         }
     }
 
@@ -248,7 +248,7 @@ export default class Tetris {
         this.drawGlass();
         this.ctx.lineWidth = 1;
         this.drawCells()
-        this.ctx.lineWidth = `${this.cellSize / 7}`;
+        this.ctx.lineWidth = `${Math.floor(this.cellSize / 7)}`;
         this.ctx.globalAlpha = 1;
         this.drawNextAndLabels();
         this.drawButtons();
@@ -268,12 +268,12 @@ export default class Tetris {
 
     drawTextOnGlass(text) {
         let centerGlass = new Position(
-            this.glassPos.x + Tetris.CELLS_COUNT * this.cellSize / 4,
-            this.glassPos.y + Tetris.CELLS_COUNT * this.cellSize / 2,
+            this.glassPos.x + Tetris.CELLS_COUNT * Math.floor(this.cellSize / 4),
+            this.glassPos.y + Tetris.CELLS_COUNT * Math.floor(this.cellSize / 2),
         )
         this.ctx.fillStyle = 'black';
         this.ctx.strokeStyle = 'white';
-        this.ctx.lineWidth = `${this.cellSize / 20}`;
+        this.ctx.lineWidth = `${Math.floor(this.cellSize / 20)}`;
         this.ctx.textAlign = "center";
         this.ctx.fillText(text, centerGlass.x, centerGlass.y);
         this.ctx.strokeText(text, centerGlass.x, centerGlass.y);
@@ -282,8 +282,8 @@ export default class Tetris {
 
     drawGameOverScreen() {
         let centerGlass = new Position(
-            this.glassPos.x + Tetris.CELLS_COUNT * this.cellSize / 4,
-            this.glassPos.y + Tetris.CELLS_COUNT * this.cellSize / 2,
+            this.glassPos.x + Tetris.CELLS_COUNT * Math.floor(this.cellSize / 4),
+            this.glassPos.y + Tetris.CELLS_COUNT * Math.floor(this.cellSize / 2),
         )
         this.ctx.fillStyle = 'black';
         this.ctx.strokeStyle = 'white';
@@ -309,16 +309,16 @@ export default class Tetris {
             for (let j = 1; j < this.boardMatrix[0].length - 1; j++) {
                 sum += this.boardMatrix[i][j];
             }
-            if (sum == Tetris.CELLS_COUNT / 2 * 2) {
+            if (sum == Math.floor(Tetris.CELLS_COUNT)) {
                 for (let k = i; k > 1; k--) {
                     this.boardMatrix[k] = Array.from(this.boardMatrix[k - 1]);
                     this.matrixOfColors[k] = Array.from(this.matrixOfColors[k - 1]);
                 }
 
-                this.boardMatrix[0] = new Array(Tetris.CELLS_COUNT / 2 + 2).fill(0);
+                this.boardMatrix[0] = new Array(Math.floor(Tetris.CELLS_COUNT / 2) + 2).fill(0);
                 this.boardMatrix[0][0] = 2;
-                this.boardMatrix[0][Tetris.CELLS_COUNT / 2 + 1] = 2;
-                this.matrixOfColors[0] = new Array(Tetris.CELLS_COUNT / 2).fill(-1);
+                this.boardMatrix[0][Math.floor(Tetris.CELLS_COUNT / 2) + 1] = 2;
+                this.matrixOfColors[0] = new Array(Math.floor(Tetris.CELLS_COUNT / 2)).fill(-1);
                 counter++;
             }
         }
@@ -326,8 +326,8 @@ export default class Tetris {
     }
 
     setButtons() {
-        let paddingX = (this.width - Tetris.PADDING * 2) / 4;
-        let y = this.glassPos.y + Tetris.CELLS_COUNT * this.cellSize + this.width / 6;
+        let paddingX = Math.floor((this.width - Tetris.PADDING * 2) / 4);
+        let y = Math.floor(this.glassPos.y + Tetris.CELLS_COUNT * this.cellSize + this.width / 6);
         let x = this.glassPos.x;
 
         for (let i = 0; i < 2; i++) {
@@ -335,7 +335,7 @@ export default class Tetris {
                 x + i * paddingX,
                 y, this.cellSize * 3,
                 this.cellSize * 3,
-                this.cellSize / 2,
+                Math.floor(this.cellSize / 2),
                 Tetris.LIST_OF_COLORS[i]
             );
         }
@@ -346,7 +346,7 @@ export default class Tetris {
                 y,
                 this.cellSize * 3,
                 this.cellSize * 3,
-                this.cellSize / 2,
+                Math.floor(this.cellSize / 2),
                 Tetris.LIST_OF_COLORS[i + 2]
             );
         }
@@ -357,7 +357,7 @@ export default class Tetris {
             x + paddingX - 2.5 * this.cellSize,
             y, this.cellSize * 3,
             this.cellSize * 3,
-            this.cellSize / 2,
+            Math.floor(this.cellSize / 2),
             Tetris.LIST_OF_COLORS[4]
         );
         this.buttons[5].setButton(
@@ -365,7 +365,7 @@ export default class Tetris {
             y,
             this.cellSize * 3,
             this.cellSize * 3,
-            this.cellSize / 2,
+            Math.floor(this.cellSize / 2),
             Tetris.LIST_OF_COLORS[5]
         );
     }
@@ -428,10 +428,10 @@ export default class Tetris {
 
         let nextFieldX = this.glassPos.x + this.cellSize * 11;
         let nextFieldY = this.cellSize + this.glassPos.y;
-        let nextFieldW = this.cellSize * Tetris.CELLS_COUNT / 3;
-        let nextFieldH = this.cellSize * Tetris.CELLS_COUNT / 3;
-        let nextFieldCenterX = nextFieldX + nextFieldW / 2;
-        let nextFieldCenterY = nextFieldY + nextFieldH / 2;
+        let nextFieldW = this.cellSize * Math.floor(Tetris.CELLS_COUNT / 3);
+        let nextFieldH = this.cellSize * Math.floor(Tetris.CELLS_COUNT / 3);
+        let nextFieldCenterX = nextFieldX + Math.floor(nextFieldW / 2);
+        let nextFieldCenterY = nextFieldY + Math.floor(nextFieldH / 2);
 
         this.ctx.globalAlpha = 0.7;
         this.ctx.roundRect(nextFieldX, nextFieldY, nextFieldW, nextFieldH, this.cellSize).fill();
@@ -443,8 +443,8 @@ export default class Tetris {
                 if (this.nextTetromino.tetromino[i][j]) {
                     let x = (j - this.nextTetromino.tetromino[0].length / 2) * this.cellSize + nextFieldCenterX;
                     let y = (i - this.nextTetromino.tetromino.length / 2) * this.cellSize + nextFieldCenterY;
-                    this.ctx.roundRect(x, y, this.cellSize, this.cellSize, this.cellSize / 4).fill();
-                    this.ctx.roundRect(x, y, this.cellSize, this.cellSize, this.cellSize / 4).stroke();
+                    this.ctx.roundRect(x, y, this.cellSize, this.cellSize, Math.floor(this.cellSize / 4)).fill();
+                    this.ctx.roundRect(x, y, this.cellSize, this.cellSize, Math.floor(this.cellSize / 4)).stroke();
                 }
             }
         }
@@ -452,7 +452,7 @@ export default class Tetris {
 
     drawLabels(nextFieldCenterX, nextFieldY, nextFieldH, font_size) {
         this.ctx.globalAlpha = 1;
-        this.ctx.fillText("NEXT", nextFieldCenterX, nextFieldY - font_size / 10);
+        this.ctx.fillText("NEXT", nextFieldCenterX, nextFieldY - Math.floor(font_size / 10));
         // this.ctx.fillText("LINES", nextFieldCenterX, nextFieldY + nextFieldH + font_size*3);
         // this.ctx.fillText("LEVEL", nextFieldCenterX, nextFieldY + nextFieldH + font_size*5);
         this.ctx.fillText("SCORE", nextFieldCenterX, nextFieldY + nextFieldH + font_size);
@@ -471,8 +471,8 @@ export default class Tetris {
                 if (this.currentTetromino.tetromino[i][j]) {
                     let x = (this.currentTetromino.x + j) * this.cellSize + this.glassPos.x;
                     let y = (this.currentTetromino.y + i) * this.cellSize + this.glassPos.y;
-                    this.ctx.roundRect(x, y, this.cellSize, this.cellSize, this.cellSize / 4).fill();
-                    this.ctx.roundRect(x, y, this.cellSize, this.cellSize, this.cellSize / 4).stroke();
+                    this.ctx.roundRect(x, y, this.cellSize, this.cellSize, Math.floor(this.cellSize / 4)).fill();
+                    this.ctx.roundRect(x, y, this.cellSize, this.cellSize, Math.floor(this.cellSize / 4)).stroke();
                 }
             }
         }
@@ -507,8 +507,8 @@ export default class Tetris {
                 for (let i = 0; i < shadowedTetromino.tetromino.length; i++) {
                     for (let j = 0; j < shadowedTetromino.tetromino[0].length; j++) {
                         if (shadowedTetromino.tetromino[i][j] == 1) {
-                            this.ctx.roundRect((shadowedTetromino.x + j) * this.cellSize + this.glassPos.x, (shadowedTetromino.y + i) * this.cellSize + this.glassPos.y, this.cellSize, this.cellSize, this.cellSize / 4).fill();
-                            // this.ctx.roundRect((shadowedTetromino.x + j) * this.cellSize + this.glassPos.x, (shadowedTetromino.y + i) * this.cellSize + this.glassPos.y, this.cellSize, this.cellSize, this.cellSize / 4).stroke();
+                            this.ctx.roundRect((shadowedTetromino.x + j) * this.cellSize + this.glassPos.x, (shadowedTetromino.y + i) * this.cellSize + this.glassPos.y, this.cellSize, this.cellSize, Math.floor(this.cellSize / 4)).fill();
+                            // this.ctx.roundRect((shadowedTetromino.x + j) * this.cellSize + this.glassPos.x, (shadowedTetromino.y + i) * this.cellSize + this.glassPos.y, this.cellSize, this.cellSize, Math.floor(this.cellSize / 4)).stroke();
                         }
                     }
                 }
@@ -526,18 +526,18 @@ export default class Tetris {
     drawGlass() {
         this.ctx.fillStyle = "black";
         if (this.isTouchableDevice && this.isOpponent)
-            this.ctx.fillRect(this.glassPos.x, this.glassPos.y, this.cellSize * Tetris.CELLS_COUNT / 2, this.cellSize * Tetris.CELLS_COUNT);
+            this.ctx.fillRect(this.glassPos.x, this.glassPos.y, this.cellSize * Math.floor(Tetris.CELLS_COUNT / 2), this.cellSize * Tetris.CELLS_COUNT);
 
         else
-            this.ctx.roundRect(this.glassPos.x, this.glassPos.y, this.cellSize * Tetris.CELLS_COUNT / 2, this.cellSize * Tetris.CELLS_COUNT, this.cellSize).fill();
+            this.ctx.roundRect(this.glassPos.x, this.glassPos.y, this.cellSize * Math.floor(Tetris.CELLS_COUNT / 2), this.cellSize * Tetris.CELLS_COUNT, this.cellSize).fill();
     }
 
 
     drawCells() {
         this.ctx.globalAlpha = 0.1;
         this.ctx.strokeStyle = 'white';
-        for (let i = 0; i < Tetris.CELLS_COUNT; i++) {
-            for (let j = 0; j < Tetris.CELLS_COUNT / 2; j++) {
+        for (let i = 0; i < Math.floor(Tetris.CELLS_COUNT); i++) {
+            for (let j = 0; j < Math.floor(Tetris.CELLS_COUNT / 2); j++) {
                 this.ctx.beginPath();
                 this.ctx.moveTo(j * this.cellSize + this.glassPos.x, i * this.cellSize + this.glassPos.y);
                 this.ctx.lineTo((j + 1) * this.cellSize + this.glassPos.x, i * this.cellSize + this.glassPos.y);
@@ -558,16 +558,16 @@ export default class Tetris {
             this.ctx.clearRect(0, 0, this.width, this.height);
         } else if (this.isTouchableDevice) {
             if (this.isOpponent) {
-                this.ctx.clearRect(this.glassPos.x, this.glassPos.y, this.cellSize * Tetris.CELLS_COUNT / 2, this.cellSize * Tetris.CELLS_COUNT);
+                this.ctx.clearRect(this.glassPos.x, this.glassPos.y, this.cellSize * Math.floor(Tetris.CELLS_COUNT / 2), this.cellSize * Tetris.CELLS_COUNT);
             } else {
                 this.ctx.clearRect(0, 0, this.width, this.height);
             }
 
 
         } else if (!this.isOpponent) {
-            this.ctx.clearRect(0, 0, this.width / 2, this.height);
+            this.ctx.clearRect(0, 0, Math.floor(this.width / 2), this.height);
         } else {
-            this.ctx.clearRect(this.width / 2, 0, this.width, this.height);
+            this.ctx.clearRect(Math.floor(this.width / 2), 0, this.width, this.height);
         }
     }
 
