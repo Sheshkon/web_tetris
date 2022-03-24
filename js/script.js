@@ -1,22 +1,40 @@
 import Tetris from "../js/tetris.js";
+// const socket = io('https://salty-fjord-01783.herokuapp.com', {
+//     rejectUnauthorized: false,
+// });
+
+// socket.on('connect', function () {
+//     console.log("connected");
+
+//     socket.on("connect_error", (err) => {
+//         console.log(`connect_error due to ${err}`);
+//     });
+// });
+
 let canvas = document.getElementById('game_field');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 let tetris = new Tetris(canvas.getContext('2d'), canvas.width, canvas.height);
-
+let tetris2 = new Tetris(canvas.getContext('2d'), canvas.width, canvas.height, true);
+let isTouchableDevice = false;
 
 function start() {
     console.log('start');
-    let isTouchableDevice = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
+    isTouchableDevice = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
     tetris.isTouchableDevice = isTouchableDevice;
+    tetris2.isTouchableDevice = isTouchableDevice;
     console.log(isTouchableDevice);
+    tetris.changeActive();
+    setSize();
 
     let gameTimer = setInterval(() => {
         tetris.move(0, 1);
+        if (tetris2.isActive) tetris2.move(0,1);
     }, Tetris.TIC);
 
     let repaintTimer = setInterval(() => {
         tetris.paint();
+        if (tetris2.isActive) tetris2.paint();
     }, 33);
 }
 
@@ -27,12 +45,18 @@ window.addEventListener('load', () => {
 
 
 window.addEventListener('resize', (event) => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    tetris.setBoardPos(canvas.width, canvas.height);
-    tetris.setButtons();
+   setSize();
 }, true);
 
+
+function setSize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    tetris.setSize(canvas.width, canvas.height);
+    tetris.setButtons();
+    tetris2.setSize(canvas.width, canvas.height);
+    tetris2.setButtons();
+}
 
 
 window.addEventListener("keydown", (event) => {
@@ -62,8 +86,22 @@ window.addEventListener("keydown", (event) => {
     }
 
     else if (key == "Enter") {
-        tetris.rotate(true);
+            tetris2.changeActive();
+            setSize();
+        // socket.emit("join", 966 );
+    
+        // socket.on("success join", objects => {
+        //     console.log("successfully join to the room " + "[" + objects + "]");
+        //     socket.emit("nickname", 966, "Lesha");
+        // });
+
+        // socket.on("nickname", objects => {
+        //     console.log(objects);
+            
+        // });
+        
     }
+
 
     else if (key == "Esc" || key == "Escape") {
         tetris.changePausedStatus();

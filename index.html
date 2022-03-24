@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,14 +8,20 @@
     <title>Tetris</title>
     <link rel="stylesheet" href="./css/style.css">
 </head>
+
 <body>
     <canvas id="game_field">
-
+        <source src="./img/video.mp4" type="video/webm">
     </canvas>
 
+    <!-- Socket io-->
+    <script src="https://cdn.socket.io/3.1.3/socket.io.min.js"
+        integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh"
+        crossorigin="anonymous"></script>
 
-<script type="module" src="./js/script.js"></script>
+    <script type="module" src="./js/script.js"></script>
 
 
 </body>
+
 </html>
