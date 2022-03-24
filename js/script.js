@@ -77,7 +77,6 @@ window.addEventListener("keydown", (event) => {
     } else if (key == "Right" || key == "ArrowRight" || code == "KeyD") {
         tetris.move(1, 0);
     } else if (key == "Enter") {
-        const firstTouch = getTouches(evt)[0];
         tetris2.changeActive();
         setSize();
         // socket.emit("join", 966 );

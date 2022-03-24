@@ -2,7 +2,7 @@ import Tetromino from '../js/tetromino.js';
 import Position from '../js/position.js';
 
 
-CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
     if (w < 2 * r) r = w / 2;
     if (h < 2 * r) r = h / 2;
     this.beginPath();
@@ -16,8 +16,7 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
 }
 
 class MyButton {
-    constructor() {
-    }
+    constructor() {}
 
     setButton(x, y, w, h, r, c) {
         this.x = x;
@@ -82,8 +81,7 @@ export default class Tetris {
         if (this.isActive) {
             this.isActive = false;
             Tetris.activeCounter--;
-        }
-        else {
+        } else {
             this.isActive = true;
             Tetris.activeCounter++;
         }
@@ -105,7 +103,8 @@ export default class Tetris {
                     row.push(2)
                 else
                     row.push(0);
-            } Tetris.PADDING
+            }
+            Tetris.PADDING
             fieldMatrix.push(row);
         }
 
@@ -137,8 +136,7 @@ export default class Tetris {
                     }
                 }
             }
-        }
-        catch {
+        } catch {
             console.log("collision exception")
 
         }
@@ -225,20 +223,16 @@ export default class Tetris {
         this.cellSize = width > height ? (width - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT : (height - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT;
         if (this.isTouchableDevice) {
             if (this.isOpponent) {
-                this.cellSize = width > height ? (width - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT / 3.5 : (height - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT / 3.5;
+                this.cellSize = width > height ? (width - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT / 2 : (height - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT / 2;
                 this.glassPos = new Position(Tetris.PADDING, Tetris.PADDING)
 
-            }
-            else {
+            } else {
                 this.glassPos = this.isTouchableDevice ? new Position(Tetris.PADDING, Tetris.PADDING) : new Position(Tetris.PADDING / 2, Tetris.PADDING);
             }
 
-        }
-        else if (Tetris.activeCounter == 1) {
+        } else if (Tetris.activeCounter == 1) {
             this.glassPos = new Position(Tetris.PADDING + width / 3, Tetris.PADDING);
-        }
-
-        else {
+        } else {
             this.cellSize = width > height ? (width / 50) : (height / 50);
             this.glassPos = this.isOpponent ? new Position(Tetris.PADDING + width / 2, Tetris.PADDING) : new Position(Tetris.PADDING, Tetris.PADDING);
         }
@@ -266,9 +260,7 @@ export default class Tetris {
             // document.location.reload();
             this.drawTextOnGlass("GAME OVER");
             // return;
-        }
-
-        else if (this.isPaused) {
+        } else if (this.isPaused) {
             this.drawTextOnGlass("PAUSED");
         }
     }
@@ -533,11 +525,11 @@ export default class Tetris {
 
     drawGlass() {
         this.ctx.fillStyle = "black";
-        if(this.isTouchableDevice && this.isOpponent)
-        this.ctx.fillRect(this.glassPos.x, this.glassPos.y, this.cellSize * Tetris.CELLS_COUNT / 2, this.cellSize * Tetris.CELLS_COUNT);
+        if (this.isTouchableDevice && this.isOpponent)
+            this.ctx.fillRect(this.glassPos.x, this.glassPos.y, this.cellSize * Tetris.CELLS_COUNT / 2, this.cellSize * Tetris.CELLS_COUNT);
 
         else
-        this.ctx.roundRect(this.glassPos.x, this.glassPos.y, this.cellSize * Tetris.CELLS_COUNT / 2, this.cellSize * Tetris.CELLS_COUNT, this.cellSize).fill();
+            this.ctx.roundRect(this.glassPos.x, this.glassPos.y, this.cellSize * Tetris.CELLS_COUNT / 2, this.cellSize * Tetris.CELLS_COUNT, this.cellSize).fill();
     }
 
 
@@ -564,21 +556,17 @@ export default class Tetris {
 
         if (Tetris.activeCounter === 1 && !this.isOpponent) {
             this.ctx.clearRect(0, 0, this.width, this.height);
-        }
-        else if (this.isTouchableDevice) {
+        } else if (this.isTouchableDevice) {
             if (this.isOpponent) {
                 this.ctx.clearRect(this.glassPos.x, this.glassPos.y, this.cellSize * Tetris.CELLS_COUNT / 2, this.cellSize * Tetris.CELLS_COUNT);
-            }
-            else {
+            } else {
                 this.ctx.clearRect(0, 0, this.width, this.height);
             }
 
 
-        }
-        else if (!this.isOpponent) {
+        } else if (!this.isOpponent) {
             this.ctx.clearRect(0, 0, this.width / 2, this.height);
-        }
-        else {
+        } else {
             this.ctx.clearRect(this.width / 2, 0, this.width, this.height);
         }
     }
