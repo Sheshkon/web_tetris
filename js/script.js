@@ -29,7 +29,7 @@ function start() {
 
     let gameTimer = setInterval(() => {
         tetris.move(0, 1);
-        if (tetris2.isActive) tetris2.move(0,1);
+        if (tetris2.isActive) tetris2.move(0, 1);
     }, Tetris.TIC);
 
     let repaintTimer = setInterval(() => {
@@ -45,11 +45,11 @@ window.addEventListener('load', () => {
 
 
 window.addEventListener('resize', (event) => {
-   setSize();
+    setSize();
 }, true);
 
 
-function setSize(){
+function setSize() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     tetris.setSize(canvas.width, canvas.height);
@@ -68,28 +68,19 @@ window.addEventListener("keydown", (event) => {
 
     if (key == "DOWN" || key == "ArrowDown" || code == "KeyS") {
         tetris.move(0, 1);
-    }
-
-    else if (key == "Up" || key == "ArrowUp" || code == "KeyW" || code == "KeyE") {
+    } else if (key == "Up" || key == "ArrowUp" || code == "KeyW" || code == "KeyE") {
         tetris.rotate(true);
-    }
-
-    else if (code == "KeyQ") {
+    } else if (code == "KeyQ") {
         tetris.rotate(false);
-    }
-
-    else if (key == "Left" || key == "ArrowLeft" || code == "KeyA") {
+    } else if (key == "Left" || key == "ArrowLeft" || code == "KeyA") {
         tetris.move(-1, 0);
-    }
-    else if (key == "Right" || key == "ArrowRight" || code == "KeyD") {
+    } else if (key == "Right" || key == "ArrowRight" || code == "KeyD") {
         tetris.move(1, 0);
-    }
-
-    else if (key == "Enter") {
-            tetris2.changeActive();
-            setSize();
+    } else if (key == "Enter") {
+        tetris2.changeActive();
+        setSize();
         // socket.emit("join", 966 );
-    
+
         // socket.on("success join", objects => {
         //     console.log("successfully join to the room " + "[" + objects + "]");
         //     socket.emit("nickname", 966, "Lesha");
@@ -97,17 +88,12 @@ window.addEventListener("keydown", (event) => {
 
         // socket.on("nickname", objects => {
         //     console.log(objects);
-            
+
         // });
-        
-    }
 
-
-    else if (key == "Esc" || key == "Escape") {
+    } else if (key == "Esc" || key == "Escape") {
         tetris.changePausedStatus();
-    }
-
-    else if (event.code === 'Space') {
+    } else if (event.code === 'Space') {
         // console.log("space");
         tetris.hardDrop();
     }
@@ -127,7 +113,7 @@ let yDown = null;
 
 
 function getTouches(evt) {
-    return evt.touches ||             // browser API
+    return evt.touches || // browser API
         evt.originalEvent.touches; // jQuery
 }
 
@@ -143,24 +129,24 @@ function handleTouchStart(evt) {
         if (pushedButton === 0) {
             tetris.move(-1, 0);
         }
-        else if (pushedButton === 1) {
+        if (pushedButton === 1) {
             tetris.move(1, 0);
 
         }
-        else if (pushedButton === 2) {
+        if (pushedButton === 2) {
             tetris.rotate(true);
             //clockwise
         }
-        else if (pushedButton === 3) {
+        if (pushedButton === 3) {
             tetris.rotate(false);
             //counterclockwise
         }
 
-        else if (pushedButton === 4) {
+        if (pushedButton === 4) {
             tetris.move(0, 1);
         }
 
-        else if (pushedButton === 5) {
+        if (pushedButton === 5) {
             tetris.hardDrop();
         }
 
@@ -197,7 +183,7 @@ function handleTouchMove(evt) {
     var xDiff = xDown - xUp;
     var yDiff = yDown - yUp;
 
-    if (Math.abs(xDiff) > Math.abs(yDiff)) {/*most significant*/
+    if (Math.abs(xDiff) > Math.abs(yDiff)) { /*most significant*/
         if (xDiff > 0) {
             tetris.move(-1, 0);
         } else {
