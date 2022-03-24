@@ -117,8 +117,8 @@ export default class Tetris {
             for (let j = 1; j < this.boardMatrix[0].length - 1; j++) {
                 if (this.boardMatrix[i][j] == 2) {
                     this.ctx.fillStyle = Tetris.LIST_OF_COLORS[this.matrixOfColors[i][j - 1]];
-                    this.ctx.roundRect((j - 1) * this.cellSize + this.glassPos.x, (i) * this.cellSize + Tetris.PADDING, this.cellSize, this.cellSize, this.cellSize / 4).fill();
-                    this.ctx.roundRect((j - 1) * this.cellSize + this.glassPos.x, (i) * this.cellSize + Tetris.PADDING, this.cellSize, this.cellSize, this.cellSize / 4).stroke();
+                    this.ctx.roundRect((j - 1) * this.cellSize + this.glassPos.x, (i) * this.cellSize + this.glassPos.y, this.cellSize, this.cellSize, this.cellSize / 4).fill();
+                    this.ctx.roundRect((j - 1) * this.cellSize + this.glassPos.x, (i) * this.cellSize + this.glassPos.y, this.cellSize, this.cellSize, this.cellSize / 4).stroke();
                 }
             }
         }
@@ -224,17 +224,17 @@ export default class Tetris {
         if (this.isTouchableDevice) {
             if (this.isOpponent) {
                 this.cellSize = width > height ? (width - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT / 2 : (height - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT / 2;
-                this.glassPos = new Position(Tetris.PADDING, Tetris.PADDING)
+                this.glassPos = new Position(Tetris.PADDING * 2, Tetris.PADDING)
 
             } else {
-                this.glassPos = this.isTouchableDevice ? new Position(Tetris.PADDING, Tetris.PADDING) : new Position(Tetris.PADDING / 2, Tetris.PADDING);
+                this.glassPos = this.isTouchableDevice ? new Position(Tetris.PADDING * 2, Tetris.PADDING) : new Position(Tetris.PADDING / 2, Tetris.PADDING);
             }
 
         } else if (Tetris.activeCounter == 1) {
-            this.glassPos = new Position(Tetris.PADDING + width / 3, Tetris.PADDING);
+            this.glassPos = new Position(width / 2 - this.cellSize * 9, Tetris.PADDING);
         } else {
             this.cellSize = width > height ? (width / 50) : (height / 50);
-            this.glassPos = this.isOpponent ? new Position(Tetris.PADDING + width / 2, Tetris.PADDING) : new Position(Tetris.PADDING, Tetris.PADDING);
+            this.glassPos = this.isOpponent ? new Position(Tetris.PADDING * 2 + width / 2, Tetris.PADDING * 2) : new Position(this.cellSize * 5, Tetris.PADDING * 2);
         }
     }
 
@@ -507,8 +507,8 @@ export default class Tetris {
                 for (let i = 0; i < shadowedTetromino.tetromino.length; i++) {
                     for (let j = 0; j < shadowedTetromino.tetromino[0].length; j++) {
                         if (shadowedTetromino.tetromino[i][j] == 1) {
-                            this.ctx.roundRect((shadowedTetromino.x + j) * this.cellSize + this.glassPos.x, (shadowedTetromino.y + i) * this.cellSize + Tetris.PADDING, this.cellSize, this.cellSize, this.cellSize / 4).fill();
-                            // this.ctx.roundRect((shadowedTetromino.x + j) * this.cellSize + this.glassPos.x, (shadowedTetromino.y + i) * this.cellSize + Tetris.PADDING, this.cellSize, this.cellSize, this.cellSize / 4).stroke();
+                            this.ctx.roundRect((shadowedTetromino.x + j) * this.cellSize + this.glassPos.x, (shadowedTetromino.y + i) * this.cellSize + this.glassPos.y, this.cellSize, this.cellSize, this.cellSize / 4).fill();
+                            // this.ctx.roundRect((shadowedTetromino.x + j) * this.cellSize + this.glassPos.x, (shadowedTetromino.y + i) * this.cellSize + this.glassPos.y, this.cellSize, this.cellSize, this.cellSize / 4).stroke();
                         }
                     }
                 }
@@ -539,13 +539,13 @@ export default class Tetris {
         for (let i = 0; i < Tetris.CELLS_COUNT; i++) {
             for (let j = 0; j < Tetris.CELLS_COUNT / 2; j++) {
                 this.ctx.beginPath();
-                this.ctx.moveTo(j * this.cellSize + this.glassPos.x, i * this.cellSize + Tetris.PADDING);
-                this.ctx.lineTo((j + 1) * this.cellSize + this.glassPos.x, i * this.cellSize + Tetris.PADDING);
+                this.ctx.moveTo(j * this.cellSize + this.glassPos.x, i * this.cellSize + this.glassPos.y);
+                this.ctx.lineTo((j + 1) * this.cellSize + this.glassPos.x, i * this.cellSize + this.glassPos.y);
                 this.ctx.stroke();
                 this.ctx.closePath();
                 this.ctx.beginPath();
-                this.ctx.moveTo(j * this.cellSize + this.glassPos.x, i * this.cellSize + Tetris.PADDING);
-                this.ctx.lineTo((j) * this.cellSize + this.glassPos.x, (i + 1) * this.cellSize + Tetris.PADDING);
+                this.ctx.moveTo(j * this.cellSize + this.glassPos.x, i * this.cellSize + this.glassPos.y);
+                this.ctx.lineTo((j) * this.cellSize + this.glassPos.x, (i + 1) * this.cellSize + this.glassPos.y);
                 this.ctx.stroke();
                 this.ctx.closePath();
             }
