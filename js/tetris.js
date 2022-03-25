@@ -88,7 +88,6 @@ export default class Tetris {
             this.isActive = true;
             Tetris.activeCounter++;
         }
-
     }
 
     createMatrixOfColors() {
@@ -140,7 +139,6 @@ export default class Tetris {
             }
         } catch {
             console.log("collision exception")
-
         }
         return false;
     }
@@ -227,7 +225,6 @@ export default class Tetris {
             if (this.isOpponent) {
                 this.cellSize = width > height ? Math.floor((width - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT / 2) : Math.floor((height - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT / 2);
                 this.glassPos = new Position(Tetris.PADDING * 2, Tetris.PADDING)
-
             } else {
                 this.glassPos = this.isTouchableDevice ? new Position(Tetris.PADDING * 2, Tetris.PADDING) : new Position(Math.floor(Tetris.PADDING / 2), Tetris.PADDING);
             }
@@ -241,8 +238,6 @@ export default class Tetris {
         this.borderWidth = Math.floor(this.cellSize / 7);
         this.fontSize = this.isTouchableDevice ? this.cellSize * 2 : this.cellSize;
         this.ctx.font = `${this.fontSize}px Minecrafter Alt`;
-
-
     }
 
 
@@ -472,8 +467,8 @@ export default class Tetris {
     }
 
     drawShadow() {
-        this.ctx.globalAlpha = 0.5;
-        this.ctx.fillStyle = "black";
+        this.ctx.globalAlpha = 0.2;
+        this.ctx.fillStyle = Tetris.LIST_OF_COLORS[this.currentTetromino.colorID];
         let shadowedTetromino = this.currentTetromino.clone();
         let isCollided = false;
         let prev = null;
@@ -483,7 +478,6 @@ export default class Tetris {
             isCollided = this.isCollided(shadowedTetromino);
             if (isCollided)
                 break;
-
         }
 
         if (isCollided) {
@@ -495,8 +489,6 @@ export default class Tetris {
             }
 
             if (shadowedTetromino.y === prev.y) {
-                this.ctx.fillStyle = "gray";
-
                 for (let i = 0; i < shadowedTetromino.tetromino.length; i++) {
                     for (let j = 0; j < shadowedTetromino.tetromino[0].length; j++) {
                         if (shadowedTetromino.tetromino[i][j] == 1) {
@@ -510,10 +502,6 @@ export default class Tetris {
             shadowedTetromino.move(0, -1);
         }
         this.ctx.globalAlpha = 1;
-
-
-
-
     }
 
     drawGlass() {
