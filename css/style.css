@@ -1,5 +1,4 @@
-@import url(../font/Minecraft.ttf);
-@import url('http://fonts.cdnfonts.com/css/minecrafter-alt');
+@import url('https://fonts.cdnfonts.com/css/minecrafter-alt');
 #game_field {
     background-image: url(../img/bg.gif);
     background-size: 400px;
