@@ -43,7 +43,7 @@ export default class Tetris {
     static CELLS_COUNT = 20;
     static PADDING = 20;
     static DOWN = -2;
-    static STEP_SPEED = 50;
+    static STEP_SPEED = 75;
     static LEFT = -1;
     static RIGHT = 1;
     static UP = 2;
