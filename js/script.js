@@ -27,15 +27,18 @@ function start() {
     tetris.changeActive();
     setSize();
 
-    let gameTimer = setInterval(() => {
-        tetris.move(0, 1);
-        if (tetris2.isActive) tetris2.move(0, 1);
-    }, Tetris.TIC);
+    setTimeout(restartTimer, tetris.currentSpeed)
 
     let repaintTimer = setInterval(() => {
         tetris.paint();
         if (tetris2.isActive) tetris2.paint();
     }, 33);
+}
+
+function restartTimer() {
+    tetris.move(0, 1);
+    if (tetris2.isActive) tetris2.move(0, 1);
+    setTimeout(restartTimer, tetris.currentSpeed)
 }
 
 window.addEventListener('load', () => {

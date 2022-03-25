@@ -29,9 +29,11 @@ class MyButton {
 }
 
 export default class Tetris {
+    static START_SPEED = 1500;
     static instanceCounter = 0;
     static LIST_OF_COLORS = ["rgb(255,127,0)", "rgb(0, 0, 255)", "rgb(0, 255, 0)", "rgb(203, 40, 40)", "rgb(114,188,212)", "rgb(237, 226, 21)", "rgb(161, 13, 143)"];
     static LIST_OF_TETROMINOES = ["L", "J", "S", "Z", "I", "O", "T"];
+    static LIST_OF_SCORES = [40, 100, 300, 1200];
     static counterClockWiseImg = new Image(150, 150);
     static clockWiseImg = new Image(150, 150);
     static hardDropImg = new Image(150, 150);
@@ -40,9 +42,8 @@ export default class Tetris {
     static downImg = new Image(150, 150);
     static CELLS_COUNT = 20;
     static PADDING = 20;
-    static SCORE = 560;
     static DOWN = -2;
-    static TIC = 500;
+    static STEP_SPEED = 50;
     static LEFT = -1;
     static RIGHT = 1;
     static UP = 2;
@@ -78,6 +79,7 @@ export default class Tetris {
         Tetris.downImg.src = 'img/down.png';
         this.createMatrixOfColors();
         Tetris.instanceCounter++;
+        this.currentSpeed = Tetris.START_SPEED;
     }
 
     changeActive() {
@@ -309,10 +311,17 @@ export default class Tetris {
                 counter++;
             }
         }
+
+        let prevLVL = this.lvl;
         if (counter) {
-            this.score += Tetris.SCORE * counter;
+            this.score += Tetris.LIST_OF_SCORES[counter - 1] * this.lvl;
             this.line += counter;
             this.lvl = Math.floor(this.line / 10) + 1;
+            if (this.lvl > prevLVL) {
+                this.currentSpeed -= Tetris.STEP_SPEED;
+                console.log(this.currentSpeed);
+            }
+
         }
     }
 
