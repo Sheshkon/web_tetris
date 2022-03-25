@@ -1,15 +1,17 @@
-    #game_field {
-        background-image: url(../img/bg.gif);
-        background-size: 300px;
-        height: 100%;
-        background-position: center;
-        background-repeat: repeat;
-    }
-    
-    html,
-    body {
-        margin: 0;
-        height: 100%;
-        overflow: hidden;
-        touch-action: none;
-    }
+@import url(../font/Minecraft.ttf);
+@import url('http://fonts.cdnfonts.com/css/minecrafter-alt');
+#game_field {
+    background-image: url(../img/bg.gif);
+    background-size: 400px;
+    height: 100%;
+    background-position: center;
+    background-repeat: repeat;
+}
+
+html,
+body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    touch-action: none;
+}
