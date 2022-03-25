@@ -272,8 +272,8 @@ export default class Tetris {
 
     drawTextOnGlass(text) {
         let centerGlass = new Position(
-            this.glassPos.x + Tetris.CELLS_COUNT * Math.floor(this.cellSize / 4),
-            this.glassPos.y + Tetris.CELLS_COUNT * Math.floor(this.cellSize / 2),
+            Math.floor(this.glassPos.x + Tetris.CELLS_COUNT * this.cellSize / 4),
+            Math.floor(this.glassPos.y + Tetris.CELLS_COUNT * this.cellSize / 2),
         )
         this.ctx.fillStyle = 'red';
         this.ctx.fillText(text, centerGlass.x, centerGlass.y);
