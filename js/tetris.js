@@ -456,7 +456,7 @@ export default class Tetris {
                 x + i * paddingX,
                 y, this.cellSize * 3,
                 this.cellSize * 3,
-                Math.floor(this.cellSize / 2),
+                Math.floor(this.cellSize * 3 / 2),
                 Tetris.LIST_OF_COLORS[i]
             );
         }
@@ -467,7 +467,7 @@ export default class Tetris {
                 y,
                 this.cellSize * 3,
                 this.cellSize * 3,
-                Math.floor(this.cellSize / 2),
+                Math.floor(this.cellSize * 3 / 2),
                 Tetris.LIST_OF_COLORS[i + 2]
             );
         }
@@ -478,7 +478,7 @@ export default class Tetris {
             x + paddingX - 2.5 * this.cellSize,
             y, this.cellSize * 3,
             this.cellSize * 3,
-            Math.floor(this.cellSize / 2),
+            Math.floor(this.cellSize * 3 / 2),
             Tetris.LIST_OF_COLORS[4]
         );
         this.buttons[5].setButton(
@@ -486,7 +486,7 @@ export default class Tetris {
             y,
             this.cellSize * 3,
             this.cellSize * 3,
-            Math.floor(this.cellSize / 2),
+            Math.floor(this.cellSize * 3 / 2),
             Tetris.LIST_OF_COLORS[5]
         );
     }
@@ -496,6 +496,7 @@ export default class Tetris {
         this.buttons[i].x -= 10;
         this.buttons[i].w += 20;
         this.buttons[i].h += 20;
+        this.buttons[i].r = Math.floor(this.buttons[i].w / 2);
     }
 
     checkButtons(x_pos, y_pos) {
