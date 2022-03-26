@@ -94,6 +94,13 @@ export default class Tetris {
         this.ctx.clearRect(0, 0, this.width, this.height);
         this.stopTimer();
         clearInterval(this.repaintTimer);
+        this.score = 0;
+        this.lvl = 1;
+        this.line = 0;
+        this.isGameOver = false;
+        this.isPaused = false;
+        this.currentTimerID = null;
+        this.isAnimation = false;
         this.currentTetromino = this.createNewTetromino();
         this.nextTetromino = this.createNewTetromino();
         this.boardMatrix = this.createFieldMatrix();
