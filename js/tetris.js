@@ -31,7 +31,7 @@ class MyButton {
 export default class Tetris {
     static START_SPEED = 1500;
     static instanceCounter = 0;
-    static LIST_OF_COLORS = ["rgb(255,127,0)", "rgb(0, 0, 255)", "rgb(0, 255, 0)", "rgb(203, 40, 40)", "rgb(114,188,212)", "rgb(237, 226, 21)", "rgb(161, 13, 143)"];
+    static LIST_OF_COLORS = ["rgb(255,127,0)", "rgb(0, 0, 255)", "rgb(0, 255, 0)", "rgb(203, 40, 40)", "rgb(114,188,212)", "rgb(237, 226, 21)", "rgb(161, 13, 143)", "gray"];
     static LIST_OF_TETROMINOES = ["L", "J", "S", "Z", "I", "O", "T"];
     static LIST_OF_SCORES = [40, 100, 300, 1200];
     static counterClockWiseImg = new Image(150, 150);
@@ -48,6 +48,8 @@ export default class Tetris {
     static RIGHT = 1;
     static UP = 2;
     static activeCounter = 0;
+    static AnimationTime = 300;
+    clearedLines = [];
 
     buttons = [];
     board = [];
@@ -58,6 +60,8 @@ export default class Tetris {
     isGameOver = false;
     isPaused = false;
     isActive = false;
+    currentTimerID = null;
+    isAnimation = false;
 
 
 
@@ -80,6 +84,48 @@ export default class Tetris {
         this.createMatrixOfColors();
         Tetris.instanceCounter++;
         this.currentSpeed = Tetris.START_SPEED;
+    }
+    start() {
+        this.repaintTimer = setInterval(this.paint.bind(this), 33);
+        this.currentTimerID = setTimeout(this.restartTimer.bind(this), this.currentSpeed)
+    }
+
+    restart() {
+        this.ctx.clearRect(0, 0, this.width, this.height);
+        this.stopTimer();
+        clearInterval(this.repaintTimer);
+        this.currentTetromino = this.createNewTetromino();
+        this.nextTetromino = this.createNewTetromino();
+        this.boardMatrix = this.createFieldMatrix();
+        this.createMatrixOfColors();
+        this.start();
+    }
+
+    changePausedStatus() {
+        this.isPaused = this.isPaused ? false : true;
+        this.changeTimerStatus();
+    }
+
+    stopTimer() {
+        clearInterval(this.currentTimerID);
+        this.currentTimerID = null;
+    }
+
+    restartTimer(time = null) {
+        this.move(0, 1);
+        console.log(this.currentSpeed);
+        if (!this.isGameOver)
+            this.currentTimerID = setTimeout(this.restartTimer.bind(this), time ? this.currentSpeed + time : this.currentSpeed);
+    }
+
+    changeTimerStatus() {
+        if (this.currentTimerID) {
+            this.stopTimer();
+        } else {
+            clearInterval(this.currentTimerID);
+            this.currentTetromino.move(0, -1);
+            this.restartTimer();
+        }
     }
 
     changeActive() {
@@ -133,6 +179,8 @@ export default class Tetris {
             for (let i = 0; i < currentFigure.tetromino.length; i++) {
                 for (let j = 0; j < currentFigure.tetromino[0].length; j++) {
                     if (currentFigure.tetromino[i][j] == 1) {
+                        if (currentFigure.y < 0)
+                            return false;
                         if (this.boardMatrix[currentFigure.y + i][currentFigure.x + j + 1] + 1 >= 3) {
                             return true;
                         }
@@ -141,6 +189,7 @@ export default class Tetris {
             }
         } catch {
             console.log("collision exception")
+            return false;
         }
         return false;
     }
@@ -157,7 +206,8 @@ export default class Tetris {
     }
 
     move(x, y) {
-        if (this.isGameOver || this.isPaused) {
+        this.checkGameOver();
+        if (this.isGameOver || this.isPaused || this.isAnimation) {
             return false;
         }
 
@@ -174,15 +224,27 @@ export default class Tetris {
             }
 
             if (this.currentTetromino.y === prev.y) {
+                this.changeTimerStatus();
                 let tmp = this.currentTetromino.clone();
+
                 this.currentTetromino = this.nextTetromino.clone();
+                this.changeTimerStatus();
+
                 this.nextTetromino = this.createNewTetromino();
-                this.addToBoard(tmp);
+                this.checkGameOver();
+                try {
+                    this.addToBoard(tmp);
+                } catch {
+                    this.isGameOver = true;
+                }
+
                 return false;
             }
             this.currentTetromino.move(0, -1);
         }
+
         return true;
+
     }
 
     addToBoard(tmp) {
@@ -197,11 +259,9 @@ export default class Tetris {
         }
     }
 
-    changePausedStatus() {
-        this.isPaused = this.isPaused ? false : true;
-    }
-
     hardDrop() {
+        if (this.isGameOver)
+            return;
         while (true)
             if (!this.move(0, 1)) {
                 return;
@@ -209,7 +269,7 @@ export default class Tetris {
     }
 
     rotate(isClockWise) {
-        if (this.isGameOver || this.isPaused)
+        if (this.isGameOver || this.isPaused || this.isAnimation)
             return;
 
         let prev = this.currentTetromino.clone();
@@ -244,7 +304,15 @@ export default class Tetris {
 
 
     paint() {
+        if (!this.isActive) {
+            return;
+        }
+        this.drawFieldDetails();
+
         this.ctx.textAlign = "center";
+        this.checkGameOver();
+
+
         // if(this.isTouchableDevice &&  this.isOpponent || !this.isActive)
         //     return;
 
@@ -258,17 +326,24 @@ export default class Tetris {
         this.ctx.globalAlpha = 1;
         this.drawNextAndLabels();
         this.drawButtons();
+        this.drawFieldDetails();
+        if (this.isAnimation) {
+            return;
+        }
         this.drawCurrentTetromino();
         this.drawShadow();
-        this.drawFieldDetails();
-        this.checkGameOver();
         if (this.isGameOver) {
             // document.location.reload();
             this.drawTextOnGlass("game over");
-            // return;
+            // clearInterval(this.repaintTimer);
+            this.stopTimer();
+            return;
+
         } else if (this.isPaused) {
             this.drawTextOnGlass("paused");
+            return;
         }
+
     }
 
 
@@ -291,7 +366,19 @@ export default class Tetris {
         }
     }
 
+    copyMatrix(m) {
+        let copy = [];
+        for (let i = 0; i < m.length; i++) {
+            copy.push(Array.from(m[i]));
+        }
+        return copy;
+    }
+
     clearLines() {
+        if (this.isAnimation)
+            return
+        let copyBoardMatrix = this.copyMatrix(this.boardMatrix);
+        let copyColorsMatrix = this.copyMatrix(this.matrixOfColors)
         let counter = 0;
         for (let i = 0; i < this.boardMatrix.length - 1; i++) {
             let sum = 0;
@@ -299,15 +386,17 @@ export default class Tetris {
                 sum += this.boardMatrix[i][j];
             }
             if (sum == Math.floor(Tetris.CELLS_COUNT)) {
+                this.clearedLines.push(i);
+                copyBoardMatrix[i] = Array.from(copyBoardMatrix[0]);
                 for (let k = i; k > 1; k--) {
-                    this.boardMatrix[k] = Array.from(this.boardMatrix[k - 1]);
-                    this.matrixOfColors[k] = Array.from(this.matrixOfColors[k - 1]);
+                    copyBoardMatrix[k] = Array.from(copyBoardMatrix[k - 1]);
+                    copyColorsMatrix[k] = Array.from(copyColorsMatrix[k - 1]);
                 }
 
-                this.boardMatrix[0] = new Array(Math.floor(Tetris.CELLS_COUNT / 2) + 2).fill(0);
-                this.boardMatrix[0][0] = 2;
-                this.boardMatrix[0][Math.floor(Tetris.CELLS_COUNT / 2) + 1] = 2;
-                this.matrixOfColors[0] = new Array(Math.floor(Tetris.CELLS_COUNT / 2)).fill(-1);
+                copyBoardMatrix[0] = new Array(Math.floor(Tetris.CELLS_COUNT / 2) + 2).fill(0);
+                copyBoardMatrix[0][0] = 2;
+                copyBoardMatrix[0][Math.floor(Tetris.CELLS_COUNT / 2) + 1] = 2;
+                copyColorsMatrix[0] = new Array(Math.floor(Tetris.CELLS_COUNT / 2)).fill(-1);
                 counter++;
             }
         }
@@ -319,10 +408,35 @@ export default class Tetris {
             this.lvl = Math.floor(this.line / 10) + 1;
             if (this.lvl > prevLVL) {
                 this.currentSpeed -= Tetris.STEP_SPEED;
-                console.log(this.currentSpeed);
             }
-
+            this.animation(copyBoardMatrix, copyColorsMatrix);
         }
+    }
+
+    animation(copyBoardMatrix, copyColorsMatrix) {
+        this.isAnimation = true;
+        this.changeTimerStatus();
+
+        console.log(this.clearedLines);
+        let id = setInterval(() => {
+            for (let i = 0; i < this.clearedLines.length; i++) {
+                for (let j = 0; j < this.matrixOfColors[i].length; j++) {
+                    this.matrixOfColors[this.clearedLines[i]][j] = this.getRandomInt(7);
+                }
+            }
+            // this.ctx.strokeStyle = Tetris.LIST_OF_COLORS[this.getRandomInt(7)];
+        }, Tetris.AnimationTime / 10);
+
+        setTimeout(() => {
+            this.ctx.strokeStyle = "black";
+            this.isAnimation = false;
+            this.clearedLines = [];
+            clearInterval(id);
+            this.matrixOfColors = copyColorsMatrix;
+            this.boardMatrix = copyBoardMatrix;
+            this.currentTetromino.move(0, -1);
+            this.restartTimer(Tetris.AnimationTime);
+        }, Tetris.AnimationTime);
     }
 
     setButtons() {

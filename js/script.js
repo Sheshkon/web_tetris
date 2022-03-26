@@ -18,28 +18,19 @@ let tetris = new Tetris(canvas.getContext('2d'), canvas.width, canvas.height);
 let tetris2 = new Tetris(canvas.getContext('2d'), canvas.width, canvas.height, true);
 let isTouchableDevice = false;
 
+
 function start() {
     console.log('start');
     isTouchableDevice = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
+    console.log(isTouchableDevice);
     tetris.isTouchableDevice = isTouchableDevice;
     tetris2.isTouchableDevice = isTouchableDevice;
-    console.log(isTouchableDevice);
     tetris.changeActive();
     setSize();
-
-    setTimeout(restartTimer, tetris.currentSpeed)
-
-    let repaintTimer = setInterval(() => {
-        tetris.paint();
-        if (tetris2.isActive) tetris2.paint();
-    }, 33);
+    tetris.start();
+    // tetris2.start();
 }
 
-function restartTimer() {
-    tetris.move(0, 1);
-    if (tetris2.isActive) tetris2.move(0, 1);
-    setTimeout(restartTimer, tetris.currentSpeed)
-}
 
 window.addEventListener('load', () => {
     console.log('All assets are loaded');
@@ -80,8 +71,10 @@ window.addEventListener("keydown", (event) => {
     } else if (key == "Right" || key == "ArrowRight" || code == "KeyD") {
         tetris.move(1, 0);
     } else if (key == "Enter") {
-        tetris2.changeActive();
-        setSize();
+        // tetris2.changeActive();
+        tetris.restart();
+
+
         // socket.emit("join", 966 );
 
         // socket.on("success join", objects => {
@@ -124,8 +117,7 @@ function handleTouchStart(evt) {
     const firstTouch = getTouches(evt)[0];
     if (evt.touches.length == 3) {
         // document.location.reload();
-        tetris2.changeActive();
-        setSize();
+        tetris.restart();
         console.log("multitouch");
     }
 
