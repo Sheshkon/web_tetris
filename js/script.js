@@ -52,25 +52,61 @@ function setSize() {
     tetris2.setButtons();
 }
 
+let keydownId = [null, null, null];
+let isFired = [false, false, false];
+
 
 window.addEventListener("keydown", (event) => {
-    if (event.defaultPrevented) {
-        return; // Do nothing if the event was already processed
-    }
+    // if (event.defaultPrevented) {
+    //     return; // Do nothing if the event was already processed
+    // }
+
     let key = event.key;
-    let code = event.code
+    let code = event.code;
 
     if (key == "DOWN" || key == "ArrowDown" || code == "KeyS") {
+        if (isFired[0])
+            return;
         tetris.move(0, 1);
-    } else if (key == "Up" || key == "ArrowUp" || code == "KeyW" || code == "KeyE") {
+        keydownId[0] = setInterval(() => {
+            tetris.move(0, 1);
+        }, 125);
+        isFired[0] = true;
+
+    }
+    if (key == "Up" || key == "ArrowUp" || code == "KeyW" || code == "KeyE") {
         tetris.rotate(true);
-    } else if (code == "KeyQ") {
+        // keydownId = setInterval(() => {
+        //     tetris.rotate(true);
+        // }, 100);
+    }
+    if (code == "KeyQ") {
         tetris.rotate(false);
-    } else if (key == "Left" || key == "ArrowLeft" || code == "KeyA") {
+        // keydownId = setInterval(() => {
+        //     tetris.rotate(false);
+        // }, 100);
+    }
+    if (key == "Left" || key == "ArrowLeft" || code == "KeyA") {
+        if (isFired[1])
+            return;
         tetris.move(-1, 0);
-    } else if (key == "Right" || key == "ArrowRight" || code == "KeyD") {
+        keydownId[1] = setInterval(() => {
+            tetris.move(-1, 0);
+        }, 125);
+        isFired[1] = true;
+
+    }
+    if (key == "Right" || key == "ArrowRight" || code == "KeyD") {
+        if (isFired[2])
+            return;
         tetris.move(1, 0);
-    } else if (key == "Enter") {
+        keydownId[2] = setInterval(() => {
+            tetris.move(1, 0);
+        }, 125);
+        isFired[2] = true;
+
+    }
+    if (key == "Enter") {
         // tetris2.changeActive();
         tetris.restart();
 
@@ -87,9 +123,11 @@ window.addEventListener("keydown", (event) => {
 
         // });
 
-    } else if (key == "Esc" || key == "Escape") {
+    }
+    if (key == "Esc" || key == "Escape") {
         tetris.changePausedStatus();
-    } else if (event.code === 'Space') {
+    }
+    if (event.code === 'Space') {
         // console.log("space");
         tetris.hardDrop();
     }
@@ -97,6 +135,27 @@ window.addEventListener("keydown", (event) => {
     // Cancel the default action to avoid it being handled twice
     event.preventDefault();
 }, true);
+
+
+document.addEventListener('keyup', (event) => {
+    let key = event.key;
+    let code = event.code;
+    if (key == "Right" || key == "ArrowRight" || code == "KeyD") {
+        isFired[2] = false;
+        clearInterval(keydownId[2]);
+    }
+
+    if (key == "Left" || key == "ArrowLeft" || code == "KeyA") {
+        isFired[1] = false;
+        clearInterval(keydownId[1]);
+    }
+
+    if (key == "DOWN" || key == "ArrowDown" || code == "KeyS") {
+        isFired[0] = false;
+        clearInterval(keydownId[0])
+    }
+
+});
 
 
 document.addEventListener('touchstart', handleTouchStart, false);

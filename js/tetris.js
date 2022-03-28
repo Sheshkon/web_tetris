@@ -87,6 +87,7 @@ export default class Tetris {
     }
     start() {
         this.repaintTimer = setInterval(this.paint.bind(this), 33);
+        // requestAnimationFrame(this.paint.bind(this))
         this.currentTimerID = setTimeout(this.restartTimer.bind(this), this.currentSpeed)
     }
 
@@ -97,6 +98,7 @@ export default class Tetris {
         this.score = 0;
         this.lvl = 1;
         this.line = 0;
+        this.currentSpeed = Tetris.START_SPEED;
         this.isGameOver = false;
         this.isPaused = false;
         this.currentTimerID = null;
@@ -120,6 +122,7 @@ export default class Tetris {
 
     restartTimer(time = null) {
         this.move(0, 1);
+        this.stopTimer();
         console.log(this.currentSpeed);
         if (!this.isGameOver)
             this.currentTimerID = setTimeout(this.restartTimer.bind(this), time ? this.currentSpeed + time : this.currentSpeed);
@@ -529,6 +532,8 @@ export default class Tetris {
         for (let i = 0; i < this.buttons.length; i++) {
             this.ctx.fillStyle = this.buttons[i].c;
             this.ctx.roundRect(this.buttons[i].x, this.buttons[i].y, this.buttons[i].w, this.buttons[i].h, this.buttons[i].r).fill();
+            this.ctx.fillStyle = 'black';
+            this.ctx.roundRect(this.buttons[i].x, this.buttons[i].y, this.buttons[i].w, this.buttons[i].h, this.buttons[i].r).stroke();
         }
 
         this.ctx.drawImage(Tetris.leftImg, this.buttons[0].x, this.buttons[0].y, this.buttons[0].w, this.buttons[0].h);
@@ -571,7 +576,7 @@ export default class Tetris {
 
     drawLabels(nextFieldCenterX, nextFieldY, nextFieldH) {
         this.ctx.globalAlpha = 1;
-        this.ctx.fillStyle = "white";
+        this.ctx.fillStyle = "black";
         this.ctx.fillText("next", nextFieldCenterX, nextFieldY + Math.floor(this.fontSize / 2));
         this.ctx.fillText("score", nextFieldCenterX, nextFieldY + nextFieldH + this.cellSize);
         this.ctx.fillText("lines", nextFieldCenterX, nextFieldY + nextFieldH + this.cellSize * 4);
