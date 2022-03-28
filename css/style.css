@@ -1,6 +1,6 @@
 @import url('https://fonts.cdnfonts.com/css/minecrafter-alt');
 #game_field {
-    background-image: url('https://blog.1a23.com/wp-content/uploads/sites/2/2020/02/pattern-23.svg');
+    /* background-image: url('https://blog.1a23.com/wp-content/uploads/sites/2/2020/02/pattern-23.svg'); */
     background-size: 400px;
     height: 100%;
     background-color: rgb(245, 214, 148);
