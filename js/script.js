@@ -160,9 +160,10 @@ document.addEventListener('keyup', (event) => {
 
 document.addEventListener('touchstart', handleTouchStart, false);
 document.addEventListener('touchmove', handleTouchMove, false);
+document.addEventListener('touchend', handleTouchEnd, false);
 
 
-let tapedTwice = false;
+
 let xDown = null;
 let yDown = null;
 
@@ -172,25 +173,30 @@ function getTouches(evt) {
         evt.originalEvent.touches; // jQuery
 }
 
+
+let touchId = [null, null, null];
+
 function handleTouchStart(evt) {
     const firstTouch = getTouches(evt)[0];
     if (evt.touches.length == 3) {
         // document.location.reload();
-        tetris.restart();
-        console.log("multitouch");
+        tetris.changePausedStatus();
+
     }
-
-
-
+    if (evt.touches.length == 4) {
+        tetris.restart();
+    }
 
     xDown = firstTouch.clientX;
     yDown = firstTouch.clientY;
 
 
     let pushedButton = tetris.checkButtons(xDown, yDown);
+
     if (pushedButton !== -1) {
         if (pushedButton === 0) {
             tetris.move(-1, 0);
+
         }
         if (pushedButton === 1) {
             tetris.move(1, 0);
@@ -218,18 +224,21 @@ function handleTouchStart(evt) {
         yDown = null;
         return;
     }
-    // evt.preventDefault();
-    if (!tapedTwice) {
-        tapedTwice = true;
-        setTimeout(() => { tapedTwice = false; }, 300);
-        return false;
-    }
+    evt.preventDefault();
+    // if (!tapedTwice) {
+    //     tapedTwice = true;
+    //     setTimeout(() => { tapedTwice = false; }, 300);
+    //     return false;
+    // }
 
 
     //action on double tap goes below
     // tetris.hardDrop();
 };
 
+function handleTouchEnd(evt) {
+
+}
 
 
 
@@ -241,7 +250,6 @@ function handleTouchMove(evt) {
     }
 
 
-
     var xUp = evt.touches[0].clientX;
     var yUp = evt.touches[0].clientY;
 
@@ -251,6 +259,7 @@ function handleTouchMove(evt) {
     if (Math.abs(xDiff) > Math.abs(yDiff)) { /*most significant*/
         if (xDiff > 0) {
             tetris.move(-1, 0);
+
         } else {
             tetris.move(1, 0);
         }
