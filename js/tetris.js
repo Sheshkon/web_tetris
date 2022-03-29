@@ -512,11 +512,6 @@ export default class Tetris {
 
             if (x_pos > x && x_pos < x + w) {
                 if (y_pos > y && y_pos < y + h) {
-                    this.buttonsClicked(i);
-                    setTimeout(() => {
-                        this.setButtons();
-                    }, 25);
-
                     return i;
                 }
             }

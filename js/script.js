@@ -175,6 +175,7 @@ function getTouches(evt) {
 
 
 let touchId = [null, null, null];
+let isTouched = [false, false, false];
 
 function handleTouchStart(evt) {
     const firstTouch = getTouches(evt)[0];
@@ -194,19 +195,26 @@ function handleTouchStart(evt) {
     let pushedButton = tetris.checkButtons(xDown, yDown);
 
     if (pushedButton !== -1) {
+
         if (pushedButton === 0) {
-            keydownId[0] = setInterval(() => {
+            if (isTouched[0])
+                return;
+            // tetris.move(-1, 0);
+            touchId[0] = setInterval(() => {
                 tetris.move(-1, 0);
+                isTouched[0] = true;
             }, 125);
             tetris.move(-1, 0);
 
         }
         if (pushedButton === 1) {
-            keydownId[1] = setInterval(() => {
-                tetris.move(11, 0);
+            if (isTouched[1])
+                return;
+            // tetris.move(1, 0);
+            touchId[1] = setInterval(() => {
+                tetris.move(1, 0);
+                isTouched[1] = true;
             }, 125);
-            tetris.move(-1, 0);
-            tetris.move(1, 0);
 
         }
         if (pushedButton === 2) {
@@ -245,7 +253,10 @@ function handleTouchStart(evt) {
 
 function handleTouchEnd(evt) {
     for (let i = 0; i < touchId.length; i++) {
-        clearInterval(touchId[i]);
+        if (touchId[i]) {
+            clearInterval(touchId[i]);
+            isTouched[i] = false;
+        }
     }
 }
 
