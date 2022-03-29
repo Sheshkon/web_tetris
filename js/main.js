@@ -7,7 +7,8 @@ let xDown = null;
 let yDown = null;
 let touchID = [null, null, null];
 let isTouched = [false, false, false];
-// let tetris2 = new Tetris(canvas.getContext('2d'), canvas.width, canvas.height, true); // maybe bot in the future
+// let bot = new Tetris(canvas.getContext('2d'), canvas.width, canvas.height, true); // maybe bot in the future
+// let botIsStarted = false;
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -25,11 +26,11 @@ function start() {
     isTouchableDevice = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
     console.log(isTouchableDevice);
     tetris.isTouchableDevice = isTouchableDevice;
-    // tetris2.isTouchableDevice = isTouchableDevice;
+    // bot.isTouchableDevice = isTouchableDevice;
     tetris.changeActive();
     setSize();
     tetris.start();
-    // tetris2.start();
+    // bot.start();
 }
 
 
@@ -49,8 +50,9 @@ function setSize() {
     canvas.height = window.innerHeight;
     tetris.setSize(canvas.width, canvas.height);
     tetris.setButtons();
-    // tetris2.setSize(canvas.width, canvas.height);
-    // tetris2.setButtons();
+
+    // bot.setSize(canvas.width, canvas.height);
+    // bot.setButtons();
 }
 
 function handleKeyDown(event) {
@@ -98,8 +100,8 @@ function handleKeyDown(event) {
 
     }
     if (key == "Enter") {
-        // tetris2.changeActive();
         tetris.restart();
+        setSize();
     }
     if (key == "Esc" || key == "Escape") {
         tetris.changePausedStatus();
@@ -107,6 +109,12 @@ function handleKeyDown(event) {
     if (event.code === 'Space') {
         tetris.hardDrop();
     }
+
+    // if (code == "KeyB") {
+    //     bot.changeActive();
+    //     setSize();
+    // }
+
 
     // Cancel the default action to avoid it being handled twice
     event.preventDefault();

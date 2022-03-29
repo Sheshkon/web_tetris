@@ -1,5 +1,7 @@
 import Tetromino from '../js/tetromino.js';
 import Position from '../js/position.js';
+import mbotMove from '../js/bot.js';
+import botMove from '../js/bot.js';
 
 
 CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
@@ -62,10 +64,12 @@ export default class Tetris {
     isActive = false;
     currentTimerID = null;
     isAnimation = false;
+    botTimer = null;
 
     constructor(ctx, width, height, isOpponent = false) {
         this.ctx = ctx;
         this.isOpponent = isOpponent;
+        console.log("isOpponent", isOpponent);
         this.setSize(width, height);
         this.currentTetromino = this.createNewTetromino();
         this.nextTetromino = this.createNewTetromino();
@@ -87,6 +91,12 @@ export default class Tetris {
         this.repaintTimer = setInterval(this.paint.bind(this), 33);
         // requestAnimationFrame(this.paint.bind(this))
         this.currentTimerID = setTimeout(this.restartTimer.bind(this), this.currentSpeed)
+        if (this.isOpponent)
+            this.botTimer = setInterval(() => {
+                let m = botMove();
+                eval(m);
+                // this.move(m.x, m.y);
+            }, 500);
     }
 
     restart() {
@@ -294,12 +304,7 @@ export default class Tetris {
         let delta = Math.abs(width - height);
         this.cellSize = width > height ? Math.floor((width - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT) : Math.floor((height - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT);
         if (this.isTouchableDevice) {
-            if (this.isOpponent) {
-                this.cellSize = width > height ? Math.floor((width - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT / 2) : Math.floor((height - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT / 2);
-                this.glassPos = new Position(Tetris.PADDING * 2, Tetris.PADDING)
-            } else {
-                this.glassPos = this.isTouchableDevice ? new Position(Tetris.PADDING * 2, Tetris.PADDING) : new Position(Math.floor(Tetris.PADDING / 2), Tetris.PADDING);
-            }
+            this.glassPos = this.isTouchableDevice ? new Position(Tetris.PADDING * 2, Tetris.PADDING) : new Position(Math.floor(Tetris.PADDING / 2), Tetris.PADDING);
 
         } else if (Tetris.activeCounter == 1) {
             this.glassPos = new Position(Math.floor(width / 2) - this.cellSize * 9, Tetris.PADDING);
@@ -647,13 +652,7 @@ export default class Tetris {
         if (Tetris.activeCounter === 1 && !this.isOpponent) {
             this.ctx.clearRect(0, 0, this.width, this.height);
         } else if (this.isTouchableDevice) {
-            if (this.isOpponent) {
-                this.ctx.clearRect(this.glassPos.x, this.glassPos.y, this.cellSize * Math.floor(Tetris.CELLS_COUNT / 2), this.cellSize * Tetris.CELLS_COUNT);
-            } else {
-                this.ctx.clearRect(0, 0, this.width, this.height);
-            }
-
-
+            this.ctx.clearRect(0, 0, this.width, this.height);
         } else if (!this.isOpponent) {
             this.ctx.clearRect(0, 0, Math.floor(this.width / 2), this.height);
         } else {
