@@ -5,7 +5,7 @@ let keyDownTimerID = [null, null, null];
 let isFired = [false, false, false];
 let xDown = null;
 let yDown = null;
-let touchTimerID = [null, null, null];
+let touchID = [null, null, null];
 let isTouched = [false, false, false];
 // let tetris2 = new Tetris(canvas.getContext('2d'), canvas.width, canvas.height, true); // maybe bot in the future
 
@@ -163,8 +163,8 @@ function handleTouchStart(event) {
                 return;
 
             tetris.move(-1, 0);
-            clearInterval(touchTimerID[0]);
-            touchTimerID[0] = setInterval(() => {
+            clearInterval(touchID[0]);
+            touchID[0] = setInterval(() => {
                 tetris.move(-1, 0);
                 isTouched[0] = true;
             }, 125);
@@ -175,8 +175,8 @@ function handleTouchStart(event) {
                 return;
 
             tetris.move(1, 0);
-            clearInterval(touchTimerID[1]);
-            touchTimerID[1] = setInterval(() => {
+            clearInterval(touchID[1]);
+            touchID[1] = setInterval(() => {
                 tetris.move(1, 0);
                 isTouched[1] = true;
             }, 125);
@@ -196,8 +196,8 @@ function handleTouchStart(event) {
                 return;
 
             tetris.move(0, 1);
-            clearInterval(touchTimerID[2]);
-            touchTimerID[2] = setInterval(() => {
+            clearInterval(touchID[2]);
+            touchID[2] = setInterval(() => {
                 tetris.move(0, 1);
                 isTouched[2] = true;
             }, 125);
@@ -215,9 +215,9 @@ function handleTouchStart(event) {
 };
 
 function handleTouchEnd(event) {
-    for (let i = 0; i < touchTimerID.length; i++) {
-        if (touchTimerID[i]) {
-            clearInterval(touchTimerID[i]);
+    for (let i = 0; i < touchID.length; i++) {
+        if (touchID[i]) {
+            clearInterval(touchID[i]);
             setTimeout(() => {
                 tetris.setButtons();
             }, 50);

@@ -306,7 +306,7 @@ export default class Tetris {
             this.glassPos = this.isOpponent ? new Position(Tetris.PADDING * 2 + Math.floor(width / 2), Tetris.PADDING * 2) : new Position(this.cellSize * 5, Tetris.PADDING * 2);
         }
         this.borderWidth = Math.floor(this.cellSize / 7);
-        this.fontSize = this.isTouchableDevice ? this.cellSize * 2 : this.cellSize;
+        this.fontSize = this.isTouchableDevice ? Math.floor(this.cellSize * 1.2) : this.cellSize;
         this.ctx.font = `${this.fontSize}px Minecrafter Alt`;
     }
 
