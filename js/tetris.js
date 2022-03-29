@@ -96,6 +96,7 @@ export default class Tetris {
         this.score = 0;
         this.lvl = 1;
         this.line = 0;
+        this.clearedLines = [];
         this.currentSpeed = Tetris.START_SPEED;
         this.isGameOver = false;
         this.isPaused = false;
@@ -131,7 +132,8 @@ export default class Tetris {
             this.stopTimer();
         } else {
             clearInterval(this.currentTimerID);
-            this.currentTetromino.move(0, -1);
+            if (!this.isGameOver)
+                this.currentTetromino.move(0, -1);
             this.restartTimer();
         }
     }
@@ -322,8 +324,6 @@ export default class Tetris {
         this.update();
         this.ctx.globalAlpha = 0.7;
         this.drawGlass();
-        // this.ctx.lineWidth = 1;
-        // this.drawCells()
         this.ctx.lineWidth = this.borderWidth;
         this.ctx.globalAlpha = 1;
         this.drawNextAndLabels();
@@ -640,26 +640,6 @@ export default class Tetris {
 
         else
             this.ctx.roundRect(this.glassPos.x, this.glassPos.y, this.cellSize * Math.floor(Tetris.CELLS_COUNT / 2), this.cellSize * Tetris.CELLS_COUNT, this.cellSize).fill();
-    }
-
-
-    drawCells() {
-        this.ctx.globalAlpha = 0.1;
-        this.ctx.strokeStyle = 'white';
-        for (let i = 0; i < Math.floor(Tetris.CELLS_COUNT); i++) {
-            for (let j = 0; j < Math.floor(Tetris.CELLS_COUNT / 2); j++) {
-                this.ctx.beginPath();
-                this.ctx.moveTo(j * this.cellSize + this.glassPos.x, i * this.cellSize + this.glassPos.y);
-                this.ctx.lineTo((j + 1) * this.cellSize + this.glassPos.x, i * this.cellSize + this.glassPos.y);
-                this.ctx.stroke();
-                this.ctx.closePath();
-                this.ctx.beginPath();
-                this.ctx.moveTo(j * this.cellSize + this.glassPos.x, i * this.cellSize + this.glassPos.y);
-                this.ctx.lineTo((j) * this.cellSize + this.glassPos.x, (i + 1) * this.cellSize + this.glassPos.y);
-                this.ctx.stroke();
-                this.ctx.closePath();
-            }
-        }
     }
 
     update() {
