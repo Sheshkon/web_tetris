@@ -49,8 +49,8 @@ export default class Tetris {
     static UP = 2;
     static activeCounter = 0;
     static AnimationTime = 300;
-    clearedLines = [];
 
+    clearedLines = [];
     buttons = [];
     board = [];
     score = 0;
@@ -62,8 +62,6 @@ export default class Tetris {
     isActive = false;
     currentTimerID = null;
     isAnimation = false;
-
-
 
     constructor(ctx, width, height, isOpponent = false) {
         this.ctx = ctx;
@@ -123,7 +121,7 @@ export default class Tetris {
     restartTimer(time = null) {
         this.move(0, 1);
         this.stopTimer();
-        console.log(this.currentSpeed);
+        console.log("current moved delay:", this.currentSpeed);
         if (!this.isGameOver)
             this.currentTimerID = setTimeout(this.restartTimer.bind(this), time ? this.currentSpeed + time : this.currentSpeed);
     }
@@ -318,14 +316,8 @@ export default class Tetris {
             return;
         }
         this.drawFieldDetails();
-
         this.ctx.textAlign = "center";
         this.checkGameOver();
-
-
-        // if(this.isTouchableDevice &&  this.isOpponent || !this.isActive)
-        //     return;
-
         this.clearLines();
         this.update();
         this.ctx.globalAlpha = 0.7;
@@ -345,7 +337,6 @@ export default class Tetris {
         if (this.isGameOver) {
             // document.location.reload();
             this.drawTextOnGlass("game over");
-            // clearInterval(this.repaintTimer);
             this.stopTimer();
             return;
 
@@ -434,7 +425,6 @@ export default class Tetris {
                     this.matrixOfColors[this.clearedLines[i]][j] = this.getRandomInt(7);
                 }
             }
-            // this.ctx.strokeStyle = Tetris.LIST_OF_COLORS[this.getRandomInt(7)];
         }, Tetris.AnimationTime / 10);
 
         setTimeout(() => {
@@ -550,8 +540,6 @@ export default class Tetris {
     }
 
     drawNextAndLabels() {
-        // this.ctx.fillStyle = "black";
-        // this.ctx.strokeStyle = "black";
         if (this.isTouchableDevice && this.isOpponent)
             return;
 
