@@ -195,10 +195,17 @@ function handleTouchStart(evt) {
 
     if (pushedButton !== -1) {
         if (pushedButton === 0) {
+            keydownId[0] = setInterval(() => {
+                tetris.move(-1, 0);
+            }, 125);
             tetris.move(-1, 0);
 
         }
         if (pushedButton === 1) {
+            keydownId[1] = setInterval(() => {
+                tetris.move(11, 0);
+            }, 125);
+            tetris.move(-1, 0);
             tetris.move(1, 0);
 
         }
@@ -237,7 +244,9 @@ function handleTouchStart(evt) {
 };
 
 function handleTouchEnd(evt) {
-
+    for (let i = 0; i < touchId.length; i++) {
+        clearInterval(touchId[i]);
+    }
 }
 
 
