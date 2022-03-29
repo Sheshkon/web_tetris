@@ -503,13 +503,15 @@ export default class Tetris {
     }
 
     checkButtons(x_pos, y_pos) {
-        let x, y, w, h;
+        let x = null;
+        let y = null;
+        let w = null;
+        let h = null;
         for (let i = 0; i < this.buttons.length; i++) {
             x = this.buttons[i].x;
             y = this.buttons[i].y;
             w = this.buttons[i].w;
             h = this.buttons[i].h;
-
             if (x_pos > x && x_pos < x + w) {
                 if (y_pos > y && y_pos < y + h) {
                     return i;
@@ -517,6 +519,14 @@ export default class Tetris {
             }
         }
         return -1;
+    }
+
+    changeButtonForm(i) {
+        this.buttons[i].x -= 10;
+        this.buttons[i].y -= 10;
+        this.buttons[i].w += 20;
+        this.buttons[i].h += 20;
+        this.buttons[i].r += 10;
     }
 
 
