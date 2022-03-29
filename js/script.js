@@ -196,6 +196,7 @@ function handleTouchStart(evt) {
     let pushedButton = tetris.checkButtons(xDown, yDown);
 
     if (pushedButton !== -1) {
+        tetris.changeButtonForm(pushedButton);
 
         if (pushedButton === 0) {
             if (isTouched[0])
@@ -242,8 +243,6 @@ function handleTouchStart(evt) {
         if (pushedButton === 5) {
             tetris.hardDrop();
         }
-
-        tetris.changeButtonForm(pushedButton);
 
         xDown = null;
         yDown = null;
