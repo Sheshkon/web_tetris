@@ -203,6 +203,7 @@ function handleTouchStart(evt) {
                 return;
 
             tetris.move(-1, 0);
+            clearInterval(touchId[0]);
             touchId[0] = setInterval(() => {
                 tetris.move(-1, 0);
                 isTouched[0] = true;
@@ -214,6 +215,7 @@ function handleTouchStart(evt) {
                 return;
 
             tetris.move(1, 0);
+            clearInterval(touchId[1]);
             touchId[1] = setInterval(() => {
                 tetris.move(1, 0);
                 isTouched[1] = true;
@@ -234,6 +236,7 @@ function handleTouchStart(evt) {
                 return;
 
             tetris.move(0, 1);
+            clearInterval(touchId[2]);
             touchId[2] = setInterval(() => {
                 tetris.move(0, 1);
                 isTouched[2] = true;
@@ -264,7 +267,10 @@ function handleTouchEnd(evt) {
     for (let i = 0; i < touchId.length; i++) {
         if (touchId[i]) {
             clearInterval(touchId[i]);
-            tetris.setButtons();
+            setTimeout(() => {
+                tetris.setButtons();
+            }, 50);
+
             isTouched[i] = false;
 
         }
