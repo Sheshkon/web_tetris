@@ -29,7 +29,7 @@ Enter - restart </br>
 Space - hard drop </br>
 
 
-# Mobile - use buttons or swipes for playing
+# Mobile
 ![image](https://user-images.githubusercontent.com/55100820/160844634-00d81a59-58af-4b46-abf5-b27793299f7d.png)
 
 ## Controls
