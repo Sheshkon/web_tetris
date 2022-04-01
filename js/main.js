@@ -53,7 +53,8 @@ function setSize() {
     canvas.height = window.innerHeight * ratio;
     canvas.style.width = `${window.innerWidth}px`;
     canvas.style.height = `${window.innerHeight}px`;
-    // canvas.getContext('2d').setTransform(ratio, 0, 0, ratio, 0, 0);
+
+
     tetris.setSize(canvas.width, canvas.height);
     tetris.setButtons();
 
@@ -166,8 +167,7 @@ function handleTouchStart(event) {
     xDown = firstTouch.clientX;
     yDown = firstTouch.clientY;
 
-
-    let pushedButton = tetris.checkButtons(xDown, yDown / 2);
+    let pushedButton = tetris.checkButtons(xDown, yDown);
 
     if (pushedButton !== -1) {
         // tetris.changeButtonForm(pushedButton);

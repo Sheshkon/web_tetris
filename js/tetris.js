@@ -498,12 +498,12 @@ export default class Tetris {
         );
     }
 
+
     checkButtons(x_pos, y_pos) {
-        console.log('glassPoss:', this.glassPos.x, this.glassPos.y)
-        console.log("first button pos x", this.buttons[0].x, this.buttons[0].y);
-        console.log("params:", x_pos, y_pos);
-        console.log("dpi", this.dpi);
-        console.log(x_pos, y_pos);
+        let rect = this.canvas.getBoundingClientRect();
+        x_pos = (x_pos - rect.left) / (rect.right - rect.left) * this.width;
+        y_pos = (y_pos - rect.top) / (rect.bottom - rect.top) * this.height;
+
         let x = null;
         let y = null;
         let w = null;
