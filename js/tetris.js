@@ -1,6 +1,5 @@
 import Tetromino from '../js/tetromino.js';
 import Position from '../js/position.js';
-import mbotMove from '../js/bot.js';
 import botMove from '../js/bot.js';
 
 
@@ -69,7 +68,6 @@ export default class Tetris {
     constructor(ctx, width, height, isOpponent = false) {
         this.ctx = ctx;
         this.isOpponent = isOpponent;
-        console.log("isOpponent", isOpponent);
         this.setSize(width, height);
         this.currentTetromino = this.createNewTetromino();
         this.nextTetromino = this.createNewTetromino();
@@ -252,6 +250,7 @@ export default class Tetris {
 
                 this.nextTetromino = this.createNewTetromino();
                 this.checkGameOver();
+
                 try {
                     this.addToBoard(tmp);
                 } catch {
@@ -363,11 +362,9 @@ export default class Tetris {
     }
 
     checkGameOver() {
-        for (let i = 0; i < 1; i++) {
-            for (let j = 1; j < this.boardMatrix[0].length - 1; j++) {
-                if (this.boardMatrix[i][j] == 2) {
-                    this.isGameOver = true;
-                }
+        for (let j = 1; j < this.boardMatrix[0].length - 1; j++) {
+            if (this.boardMatrix[0][j] == 2) {
+                this.isGameOver = true;
             }
         }
     }
@@ -383,9 +380,11 @@ export default class Tetris {
     clearLines() {
         if (this.isAnimation)
             return
+
         let copyBoardMatrix = this.copyMatrix(this.boardMatrix);
         let copyColorsMatrix = this.copyMatrix(this.matrixOfColors)
         let counter = 0;
+        ///
         for (let i = 0; i < this.boardMatrix.length - 1; i++) {
             let sum = 0;
             for (let j = 1; j < this.boardMatrix[0].length - 1; j++) {
@@ -394,7 +393,7 @@ export default class Tetris {
             if (sum == Math.floor(Tetris.CELLS_COUNT)) {
                 this.clearedLines.push(i);
                 copyBoardMatrix[i] = Array.from(copyBoardMatrix[0]);
-                for (let k = i; k > 1; k--) {
+                for (let k = i; k > 0; k--) {
                     copyBoardMatrix[k] = Array.from(copyBoardMatrix[k - 1]);
                     copyColorsMatrix[k] = Array.from(copyColorsMatrix[k - 1]);
                 }
@@ -422,8 +421,6 @@ export default class Tetris {
     animation(copyBoardMatrix, copyColorsMatrix) {
         this.isAnimation = true;
         this.changeTimerStatus();
-
-        console.log(this.clearedLines);
         let id = setInterval(() => {
             for (let i = 0; i < this.clearedLines.length; i++) {
                 for (let j = 0; j < this.matrixOfColors[i].length; j++) {
