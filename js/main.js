@@ -5,8 +5,6 @@ let keyDownTimerID = [null, null, null];
 let isFired = [false, false, false];
 let xDown = null;
 let yDown = null;
-let touchID = [null, null, null];
-let isTouched = [false, false, false];
 // let bot = new Tetris(canvas.getContext('2d'), canvas.width, canvas.height, true); // maybe bot in the future
 // let botIsStarted = false;
 
@@ -237,6 +235,7 @@ function handleTouchStart(event) {
         if (pushedButton == 6) {
             tetris.buttons[pushedButton].isClicked = true;
             if (confirm("redirect to about page?")) {
+                tetris.changePausedStatus();
                 window.open("https://github.com/Sheshkon/web_tetris#web-tetris-game", '_blank');
             }
 
