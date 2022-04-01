@@ -24,7 +24,7 @@ function start() {
     console.log('start');
     let isTouchableDevice = false;
     isTouchableDevice = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
-    console.log(isTouchableDevice);
+    console.log("is touchable device:", isTouchableDevice);
     tetris.isTouchableDevice = isTouchableDevice;
     // bot.isTouchableDevice = isTouchableDevice;
     tetris.changeActive();
@@ -164,55 +164,91 @@ function handleTouchStart(event) {
     let pushedButton = tetris.checkButtons(xDown, yDown);
 
     if (pushedButton !== -1) {
-        tetris.changeButtonForm(pushedButton);
+        // tetris.changeButtonForm(pushedButton);
+
 
         if (pushedButton === 0) {
-            if (isTouched[0])
+            if (tetris.buttons[pushedButton].isClicked)
                 return;
-
+            tetris.buttons[pushedButton].isClicked = true;
             tetris.move(-1, 0);
-            clearInterval(touchID[0]);
-            touchID[0] = setInterval(() => {
+            clearInterval(tetris.buttons[pushedButton].timerID);
+            tetris.buttons[pushedButton].timerID = setInterval(() => {
                 tetris.move(-1, 0);
-                isTouched[0] = true;
+
             }, 125);
 
         }
         if (pushedButton === 1) {
-            if (isTouched[1])
+            if (tetris.buttons[pushedButton].isClicked)
                 return;
 
+            tetris.buttons[pushedButton].isClicked = true;
             tetris.move(1, 0);
-            clearInterval(touchID[1]);
-            touchID[1] = setInterval(() => {
+            clearInterval(tetris.buttons[pushedButton].timerID);
+            tetris.buttons[pushedButton].timerID = setInterval(() => {
                 tetris.move(1, 0);
-                isTouched[1] = true;
+
             }, 125);
 
         }
         if (pushedButton === 2) {
             tetris.rotate(true);
+            tetris.buttons[pushedButton].isClicked = true;
+            setTimeout(() => {
+                // tetris.setButtons();
+                tetris.buttons[pushedButton].isClicked = false;
+            }, 125);
+
             //clockwise
         }
         if (pushedButton === 3) {
             tetris.rotate(false);
+            tetris.buttons[pushedButton].isClicked = true;
+            setTimeout(() => {
+                // tetris.setButtons();
+                tetris.buttons[pushedButton].isClicked = false;
+            }, 125);
             //counterclockwise
         }
 
         if (pushedButton === 4) {
-            if (isTouched[2])
+            if (tetris.buttons[pushedButton].isClicked)
                 return;
 
+            tetris.buttons[pushedButton].isClicked = true;
             tetris.move(0, 1);
-            clearInterval(touchID[2]);
-            touchID[2] = setInterval(() => {
+            clearInterval(tetris.buttons[pushedButton].timerID);
+            tetris.buttons[pushedButton].timerID = setInterval(() => {
                 tetris.move(0, 1);
-                isTouched[2] = true;
+
             }, 125);
         }
 
         if (pushedButton === 5) {
             tetris.hardDrop();
+            tetris.buttons[pushedButton].isClicked = true;
+            setTimeout(() => {
+                // tetris.setButtons();
+                tetris.buttons[pushedButton].isClicked = false;
+            }, 125);
+        }
+
+        if (pushedButton == 6) {
+            tetris.buttons[pushedButton].isClicked = true;
+            if (confirm("redirect to about page?")) {
+                window.open("https://github.com/Sheshkon/web_tetris#web-tetris-game", '_blank');
+                // window.location.href = "https://github.com/Sheshkon/web_tetris#web-tetris-game";
+                // window.prompt('fdsafads', "a");
+            } else {
+                alert("cancel");
+                window.prompt('fdsafads', "a");
+            }
+
+            setTimeout(() => {
+                // tetris.setButtons();
+                tetris.buttons[pushedButton].isClicked = false;
+            }, 500);
         }
 
         xDown = null;
@@ -223,15 +259,10 @@ function handleTouchStart(event) {
 };
 
 function handleTouchEnd(event) {
-    for (let i = 0; i < touchID.length; i++) {
-        if (touchID[i]) {
-            clearInterval(touchID[i]);
-            setTimeout(() => {
-                tetris.setButtons();
-            }, 50);
-
-            isTouched[i] = false;
-
+    for (let i = 0; i < tetris.buttons.length; i++) {
+        if (tetris.buttons[i].isClicked) {
+            clearInterval(tetris.buttons[i].timerID);
+            tetris.buttons[i].isClicked = false;
         }
     }
 }
