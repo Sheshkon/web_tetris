@@ -1,6 +1,6 @@
 import Tetris from "../js/tetris.js";
 let canvas = document.getElementById('game_field');
-let tetris = new Tetris(canvas.getContext('2d'), canvas.width, canvas.height);
+let tetris = null;
 let keyDownTimerID = [null, null, null];
 let isFired = [false, false, false];
 let xDown = null;
@@ -8,8 +8,6 @@ let yDown = null;
 // let bot = new Tetris(canvas.getContext('2d'), canvas.width, canvas.height, true); // maybe bot in the future
 // let botIsStarted = false;
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
 document.addEventListener('keydown', handleKeyDown, true);
 document.addEventListener('keyup', handleKeyUP, false);
 document.addEventListener('touchstart', handleTouchStart, false);
@@ -17,10 +15,13 @@ document.addEventListener('touchmove', handleTouchMove, false);
 document.addEventListener('touchend', handleTouchEnd, false);
 
 
-
 function start() {
     console.log('start');
     let isTouchableDevice = false;
+    window.load
+
+    tetris = new Tetris(canvas, canvas.width, canvas.height);
+
     isTouchableDevice = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
     console.log("is touchable device:", isTouchableDevice);
     tetris.isTouchableDevice = isTouchableDevice;
@@ -46,6 +47,13 @@ window.addEventListener('resize', (event) => {
 function setSize() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+
+    const ratio = Math.ceil(window.devicePixelRatio);
+    canvas.width = window.innerWidth * ratio;
+    canvas.height = window.innerHeight * ratio;
+    canvas.style.width = `${window.innerWidth}px`;
+    canvas.style.height = `${window.innerHeight}px`;
+    // canvas.getContext('2d').setTransform(ratio, 0, 0, ratio, 0, 0);
     tetris.setSize(canvas.width, canvas.height);
     tetris.setButtons();
 
@@ -159,7 +167,7 @@ function handleTouchStart(event) {
     yDown = firstTouch.clientY;
 
 
-    let pushedButton = tetris.checkButtons(xDown, yDown);
+    let pushedButton = tetris.checkButtons(xDown, yDown / 2);
 
     if (pushedButton !== -1) {
         // tetris.changeButtonForm(pushedButton);

@@ -1,6 +1,7 @@
 import Tetromino from '../js/tetromino.js';
 import Position from '../js/position.js';
 import botMove from '../js/bot.js';
+import MyButton from '../js/myButton.js';
 
 
 CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
@@ -16,45 +17,7 @@ CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
     return this;
 }
 
-class MyButton {
-    static imagePaths = ['img/left.png', 'img/right.png', 'img/clockwise.png', 'img/counterclockwise.png', 'img/down.png', 'img/harddrop.png', 'img/q.png'];
-    static images = new Array(7);
-    isClicked = false;
-    timerID = null;
-    img = null;
 
-    static isSettedButtons = false;
-    constructor() {}
-
-    static setButtons() {
-        if (MyButton.isSettedButtons)
-            return;
-        for (let i = 0; i < MyButton.images.length; i++) {
-            MyButton.images[i] = new Image();
-            MyButton.images[i].src = MyButton.imagePaths[i];
-        }
-        MyButton.isSettedButtons = true;
-    }
-
-
-    setButton(x, y, w, h, r, c) {
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
-        this.r = r;
-        this.c = c;
-        this.x_clicked = x -= 10;
-        this.y_clicked = y -= 10;
-        this.w_clicked = w += 20;
-        this.h_clicked = h += 20;
-        this.r_clicked = Math.floor(this.w_clicked / 2);
-    }
-
-    changeActive() {
-        this.isClicked = this.isClicked ? false : true;
-    }
-}
 
 export default class Tetris {
     static START_SPEED = 1500;
@@ -86,8 +49,9 @@ export default class Tetris {
     isAnimation = false;
     botTimer = null;
 
-    constructor(ctx, width, height, isOpponent = false) {
-        this.ctx = ctx;
+    constructor(canvas, width, height, isOpponent = false) {
+        this.canvas = canvas;
+        this.ctx = canvas.getContext('2d')
         this.isOpponent = isOpponent;
         this.setSize(width, height);
         this.currentTetromino = this.createNewTetromino();
@@ -100,6 +64,24 @@ export default class Tetris {
         this.createMatrixOfColors();
         Tetris.instanceCounter++;
         this.currentSpeed = Tetris.START_SPEED;
+        this.dpi = window.devicePixelRatio;
+    }
+
+    fix_dpi() {
+        //create a style object that returns width and height
+        let style = {
+                height() {
+                    return +getComputedStyle(document.getElementById("game_field")).getPropertyValue('height').slice(0, -2);
+                },
+                width() {
+                    return +getComputedStyle(document.getElementById("game_field")).getPropertyValue('width').slice(0, -2);
+                }
+            }
+            //set the correct attributes for a crystal clear image!
+        this.canvas.setAttribute('width', style.width() * this.dpi);
+        this.canvas.setAttribute('height', style.height() * this.dpi);
+        this.width = style.width();
+        this.height = style.height();
     }
 
 
@@ -331,10 +313,12 @@ export default class Tetris {
         this.borderWidth = Math.floor(this.cellSize / 7);
         this.fontSize = this.isTouchableDevice ? Math.floor(this.cellSize * 1.2) : this.cellSize;
         this.ctx.font = `${this.fontSize}px Minecrafter Alt`;
+
     }
 
 
     paint() {
+        // this.fix_dpi();
         if (!this.isActive) {
             return;
         }
@@ -514,15 +498,12 @@ export default class Tetris {
         );
     }
 
-    // buttonsClicked(i) {
-    //     this.buttons[i].y -= 10;
-    //     this.buttons[i].x -= 10;
-    //     this.buttons[i].w += 20;
-    //     this.buttons[i].h += 20;
-    //     this.buttons[i].r = Math.floor(this.buttons[i].w / 2);
-    // }
-
     checkButtons(x_pos, y_pos) {
+        console.log('glassPoss:', this.glassPos.x, this.glassPos.y)
+        console.log("first button pos x", this.buttons[0].x, this.buttons[0].y);
+        console.log("params:", x_pos, y_pos);
+        console.log("dpi", this.dpi);
+        console.log(x_pos, y_pos);
         let x = null;
         let y = null;
         let w = null;
@@ -540,15 +521,6 @@ export default class Tetris {
         }
         return -1;
     }
-
-    // changeButtonForm(i) {
-    //     this.buttons[i].x -= 10;
-    //     this.buttons[i].y -= 10;
-    //     this.buttons[i].w += 20;
-    //     this.buttons[i].h += 20;
-    //     this.buttons[i].r += 10;
-    // }
-
 
     drawButtons() {
         if (!this.isTouchableDevice || this.isOpponent)
@@ -580,14 +552,6 @@ export default class Tetris {
             this.ctx.roundRect(x, y, w, h, r).stroke();
 
         }
-
-        // this.ctx.drawImage(Tetris.leftImg, this.buttons[0].x, this.buttons[0].y, this.buttons[0].w, this.buttons[0].h);
-        // this.ctx.drawImage(Tetris.rightImg, this.buttons[1].x, this.buttons[1].y, this.buttons[1].w, this.buttons[1].h);
-        // this.ctx.drawImage(Tetris.clockWiseImg, this.buttons[2].x, this.buttons[2].y, this.buttons[2].w, this.buttons[2].h);
-        // this.ctx.drawImage(Tetris.counterClockWiseImg, this.buttons[3].x, this.buttons[3].y, this.buttons[3].w, this.buttons[3].h);
-        // this.ctx.drawImage(Tetris.downImg, this.buttons[4].x, this.buttons[4].y, this.buttons[4].w, this.buttons[4].h);
-        // this.ctx.drawImage(Tetris.hardDropImg, this.buttons[5].x, this.buttons[5].y, this.buttons[5].w, this.buttons[5].h);
-
     }
 
     drawNextAndLabels() {
@@ -702,6 +666,7 @@ export default class Tetris {
 
     }
     update() {
+
 
         if (Tetris.activeCounter === 1 && !this.isOpponent) {
             this.ctx.clearRect(0, 0, this.width, this.height);

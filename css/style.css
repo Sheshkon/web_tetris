@@ -2,10 +2,11 @@
 #game_field {
     background-image: url('https://blog.1a23.com/wp-content/uploads/sites/2/2020/02/pattern-23.svg'), linear-gradient( #d899f5, rgb(245, 214, 148));
     background-size: 400px;
-    height: 100%;
     background-color: rgb(245, 214, 148);
     background-position: center;
     background-repeat: repeat;
+    width: 100%;
+    height: 100%;
 }
 
 html,
