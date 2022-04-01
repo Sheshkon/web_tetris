@@ -238,11 +238,6 @@ function handleTouchStart(event) {
             tetris.buttons[pushedButton].isClicked = true;
             if (confirm("redirect to about page?")) {
                 window.open("https://github.com/Sheshkon/web_tetris#web-tetris-game", '_blank');
-                // window.location.href = "https://github.com/Sheshkon/web_tetris#web-tetris-game";
-                // window.prompt('fdsafads', "a");
-            } else {
-                alert("cancel");
-                window.prompt('fdsafads', "a");
             }
 
             setTimeout(() => {
@@ -262,7 +257,9 @@ function handleTouchEnd(event) {
     for (let i = 0; i < tetris.buttons.length; i++) {
         if (tetris.buttons[i].isClicked) {
             clearInterval(tetris.buttons[i].timerID);
-            tetris.buttons[i].isClicked = false;
+            setTimeout(() => {
+                tetris.buttons[i].isClicked = false;
+            }, 50);
         }
     }
 }
