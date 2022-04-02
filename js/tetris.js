@@ -427,46 +427,58 @@ export default class Tetris {
 
 
     setButtons() {
-        let paddingX = this.width < this.height ? Math.floor((this.width - Tetris.PADDING * 2) / 4) : Math.floor((this.height - Tetris.PADDING * 2) / 4);
-        let y = this.width > this.height ? this.height / 2 : Math.floor(this.glassPos.y + Tetris.CELLS_COUNT * this.cellSize + this.width / 6);
+
+        let paddingX = Math.floor((this.height - Tetris.PADDING * 2) / 4);
+        let y = this.height / 2;
         let x = Tetris.PADDING;
+        let w = this.cellSize * 5;
+        let h = w;
+        let r = this.cellSize * 3;
+        if (this.width < this.height) {
+            paddingX = Math.floor((this.width - Tetris.PADDING * 2) / 4);
+            // y = Math.floor(this.glassPos.y + Tetris.CELLS_COUNT * this.cellSize + this.width / 6)
+            // w = this.cellSize * 3;
+            // h = w;
+            // r = Math.floor(r / 2);
+        }
+
+
 
         for (let i = 0; i < 2; i++) {
             this.buttons[i].setButton(
                 x + i * paddingX,
-                y, this.cellSize * 3,
-                this.cellSize * 3,
-                Math.floor(this.cellSize * 3 / 2),
+                y, w,
+                h,
+                r,
                 Tetris.LIST_OF_COLORS[i]
             );
-        }
 
-        for (let i = 0; i < 2; i++) {
             this.buttons[i + 2].setButton(
-                this.width - x - (i) * paddingX - this.cellSize * 3,
+                this.width - x - (i) * paddingX - w,
                 y,
-                this.cellSize * 3,
-                this.cellSize * 3,
-                Math.floor(this.cellSize * 3 / 2),
+                w,
+                h,
+                r,
                 Tetris.LIST_OF_COLORS[i + 2]
             );
         }
+
 
         y += Math.floor(paddingX * Math.sqrt(3) / 2);
 
         this.buttons[4].setButton(
             x + Math.floor(paddingX / 2),
-            y, this.cellSize * 3,
-            this.cellSize * 3,
-            Math.floor(this.cellSize * 3 / 2),
+            y, w,
+            h,
+            r,
             Tetris.LIST_OF_COLORS[4]
         );
         this.buttons[5].setButton(
-            this.width - x - paddingX / 2 - this.cellSize * 3,
+            this.width - x - paddingX / 2 - w,
             y,
-            this.cellSize * 3,
-            this.cellSize * 3,
-            Math.floor(this.cellSize * 3 / 2),
+            w,
+            h,
+            r,
             Tetris.LIST_OF_COLORS[5]
         );
 
