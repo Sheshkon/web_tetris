@@ -1,12 +1,13 @@
 @import url('https://fonts.cdnfonts.com/css/minecrafter-alt');
 #game_field {
-    background-image: url('https://blog.1a23.com/wp-content/uploads/sites/2/2020/02/pattern-23.svg'), linear-gradient( #d899f5, rgb(245, 214, 148));
+    background-image: url('https://blog.1a23.com/wp-content/uploads/sites/2/2020/02/pattern-23.svg'), linear-gradient( #7106a2, #d7eb83);
     background-size: 400px;
-    background-color: rgb(245, 214, 148);
+    background-color: #7106a2;
     background-position: center;
     background-repeat: repeat;
     width: 100%;
     height: 100%;
+    /* filter: invert(); */
 }
 
 html,

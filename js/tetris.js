@@ -67,24 +67,6 @@ export default class Tetris {
         this.dpi = window.devicePixelRatio;
     }
 
-    fix_dpi() {
-        //create a style object that returns width and height
-        let style = {
-                height() {
-                    return +getComputedStyle(document.getElementById("game_field")).getPropertyValue('height').slice(0, -2);
-                },
-                width() {
-                    return +getComputedStyle(document.getElementById("game_field")).getPropertyValue('width').slice(0, -2);
-                }
-            }
-            //set the correct attributes for a crystal clear image!
-        this.canvas.setAttribute('width', style.width() * this.dpi);
-        this.canvas.setAttribute('height', style.height() * this.dpi);
-        this.width = style.width();
-        this.height = style.height();
-    }
-
-
     start() {
         this.repaintTimer = setInterval(this.paint.bind(this), 33);
         // requestAnimationFrame(this.paint.bind(this))
@@ -300,25 +282,25 @@ export default class Tetris {
         this.width = width;
         this.height = height;
         let delta = Math.abs(width - height);
-        this.cellSize = width > height ? Math.floor((width - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT) : Math.floor((height - delta - Tetris.PADDING * 2) / Tetris.CELLS_COUNT);
+        this.cellSize = width > height ? Math.floor((width - delta - Tetris.PADDING * 6) / Tetris.CELLS_COUNT) : Math.floor((height - delta - Tetris.PADDING * 6) / Tetris.CELLS_COUNT);
+
         if (this.isTouchableDevice) {
-            this.glassPos = this.isTouchableDevice ? new Position(Tetris.PADDING * 2, Tetris.PADDING) : new Position(Math.floor(Tetris.PADDING / 2), Tetris.PADDING);
+            this.glassPos = new Position((this.width - this.cellSize) / 2 - ((this.cellSize * 11 + this.cellSize * Math.floor(Tetris.CELLS_COUNT / 3)) / 2), Tetris.PADDING * 3);
 
         } else if (Tetris.activeCounter == 1) {
-            this.glassPos = new Position(Math.floor(width / 2) - this.cellSize * 9, Tetris.PADDING);
+            this.glassPos = new Position(Math.floor(width / 2) - this.cellSize * 9, Tetris.PADDING * 3);
         } else {
             this.cellSize = width > height ? (Math.floor(width / 50)) : (Math.floor(height / 50));
-            this.glassPos = this.isOpponent ? new Position(Tetris.PADDING * 2 + Math.floor(width / 2), Tetris.PADDING * 2) : new Position(this.cellSize * 5, Tetris.PADDING * 2);
+            this.glassPos = this.isOpponent ? new Position(Tetris.PADDING * 2 + Math.floor(width / 2), Tetris.PADDING * 6) : new Position(this.cellSize * 5, Tetris.PADDING * 3);
         }
         this.borderWidth = Math.floor(this.cellSize / 7);
-        this.fontSize = this.isTouchableDevice ? Math.floor(this.cellSize * 1.2) : this.cellSize;
+        this.fontSize = this.cellSize;
         this.ctx.font = `${this.fontSize}px Minecrafter Alt`;
 
     }
 
 
     paint() {
-        // this.fix_dpi();
         if (!this.isActive) {
             return;
         }
@@ -558,6 +540,7 @@ export default class Tetris {
         if (this.isTouchableDevice && this.isOpponent)
             return;
 
+
         let nextFieldX = this.glassPos.x + this.cellSize * 11;
         let nextFieldY = this.cellSize + this.glassPos.y;
         let nextFieldW = this.cellSize * Math.floor(Tetris.CELLS_COUNT / 3);
@@ -566,9 +549,10 @@ export default class Tetris {
         let nextFieldCenterY = nextFieldY + Math.floor(nextFieldH / 2);
 
         this.ctx.globalAlpha = 0.7;
+
         this.ctx.roundRect(nextFieldX, nextFieldY, nextFieldW, nextFieldH, this.cellSize).fill();
+
         this.drawLabels(nextFieldCenterX, nextFieldY, nextFieldH);
-        // this.drawHelp(nextFieldX, nextFieldW);
         this.ctx.fillStyle = this.nextTetromino.color;
 
         for (let i = 0; i < this.nextTetromino.tetromino.length; i++) {
@@ -585,7 +569,7 @@ export default class Tetris {
 
     drawLabels(centerX, y, h) {
         this.ctx.globalAlpha = 1;
-        this.ctx.fillStyle = "black";
+        this.ctx.fillStyle = "white";
         this.ctx.fillText("next", centerX, y + Math.floor(this.fontSize / 2));
         this.ctx.fillText("score", centerX, y + h + this.cellSize);
         this.ctx.fillText("lines", centerX, y + h + this.cellSize * 4);
