@@ -462,7 +462,7 @@ export default class Tetris {
             Tetris.LIST_OF_COLORS[4]
         );
         this.buttons[5].setButton(
-            this.width - x - paddingX - Tetris.PADDING,
+            this.width - x - paddingX / 2 - this.cellSize * 3,
             y,
             this.cellSize * 3,
             this.cellSize * 3,
