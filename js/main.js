@@ -167,6 +167,9 @@ function handleTouchStart(event) {
     xDown = firstTouch.clientX;
     yDown = firstTouch.clientY;
 
+    if (tetris.isAnimation)
+        return;
+
     let pushedButton = tetris.checkButtons(xDown, yDown);
 
     if (pushedButton !== -1) {
