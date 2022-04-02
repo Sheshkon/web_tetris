@@ -429,18 +429,19 @@ export default class Tetris {
     setButtons() {
 
         let paddingX = Math.floor((this.height - Tetris.PADDING * 2) / 4);
-        let y = this.height / 2;
+        let y = Math.floor(this.height / 2);
         let x = Tetris.PADDING;
         let w = this.cellSize * 5;
         let h = w;
-        let r = this.cellSize * 3;
+        let r = null;
         if (this.width < this.height) {
             paddingX = Math.floor((this.width - Tetris.PADDING * 2) / 4);
-            // y = Math.floor(this.glassPos.y + Tetris.CELLS_COUNT * this.cellSize + this.width / 6)
-            // w = this.cellSize * 3;
+            y = this.height - (this.height - (this.glassPos.y + Tetris.CELLS_COUNT * this.cellSize)) / 2 - h;
+            // w = this.cellSize * 4;
             // h = w;
-            // r = Math.floor(r / 2);
+
         }
+        r = Math.floor(w / 2);
 
 
 
