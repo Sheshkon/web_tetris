@@ -19,18 +19,20 @@ export default class MyButton {
     }
 
 
-    setButton(x, y, w, h, r, c) {
+    setButton(x, y, w, h, r, c, d_c) {
         this.x = x;
         this.y = y;
         this.w = w;
         this.h = h;
         this.r = r;
         this.c = c;
-        this.x_clicked = x -= 10;
-        this.y_clicked = y -= 10;
-        this.w_clicked = w += 20;
-        this.h_clicked = h += 20;
+        this.d_c = d_c
+        this.x_clicked = x += 10;
+        this.y_clicked = y += 20;
+        this.w_clicked = w;
+        this.h_clicked = h;
         this.r_clicked = Math.floor(this.w_clicked / 2);
+
     }
 
     changeActive() {

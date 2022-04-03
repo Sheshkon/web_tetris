@@ -23,6 +23,7 @@ export default class Tetris {
     static START_SPEED = 1500;
     static instanceCounter = 0;
     static LIST_OF_COLORS = ["rgb(255,127,0)", "rgb(0, 0, 255)", "rgb(0, 255, 0)", "rgb(203, 40, 40)", "rgb(114,188,212)", "rgb(237, 226, 21)", "rgb(161, 13, 143)", "gray"];
+    static LIST_OF_DARKER_COLORS = ["rgb(120,60,0)", "rgb(0, 0, 120)", "rgb(0, 120, 0)", "rgb(100, 20, 20)", "rgb(57,99,106)", "rgb(115, 112, 10)", "rgb(80, 6, 71)", "gray"];
     static LIST_OF_TETROMINOES = ["L", "J", "S", "Z", "I", "O", "T"];
     static LIST_OF_SCORES = [40, 100, 300, 1200];
     static CELLS_COUNT = 20;
@@ -451,7 +452,8 @@ export default class Tetris {
                 y, w,
                 h,
                 r,
-                Tetris.LIST_OF_COLORS[i]
+                Tetris.LIST_OF_COLORS[i],
+                Tetris.LIST_OF_DARKER_COLORS[i]
             );
 
             this.buttons[i + 2].setButton(
@@ -460,7 +462,8 @@ export default class Tetris {
                 w,
                 h,
                 r,
-                Tetris.LIST_OF_COLORS[i + 2]
+                Tetris.LIST_OF_COLORS[i + 2],
+                Tetris.LIST_OF_DARKER_COLORS[i + 2]
             );
         }
 
@@ -472,7 +475,8 @@ export default class Tetris {
             y, w,
             h,
             r,
-            Tetris.LIST_OF_COLORS[4]
+            Tetris.LIST_OF_COLORS[4],
+            Tetris.LIST_OF_DARKER_COLORS[4]
         );
         this.buttons[5].setButton(
             this.width - x - paddingX / 2 - w,
@@ -480,7 +484,8 @@ export default class Tetris {
             w,
             h,
             r,
-            Tetris.LIST_OF_COLORS[5]
+            Tetris.LIST_OF_COLORS[5],
+            Tetris.LIST_OF_DARKER_COLORS[5]
         );
 
         this.buttons[6].setButton(
@@ -489,6 +494,7 @@ export default class Tetris {
             this.cellSize * 2,
             this.cellSize * 2,
             0,
+            null,
             null
         );
     }
@@ -520,7 +526,7 @@ export default class Tetris {
     drawButtons() {
         if (!this.isTouchableDevice || this.isOpponent)
             return;
-        let x, y, w, h, r;
+        let x, y, w, h, r, isShadow;
 
         for (let i = 0; i < this.buttons.length; i++) {
             if (this.buttons[i].isClicked) {
@@ -529,22 +535,33 @@ export default class Tetris {
                 w = this.buttons[i].w_clicked;
                 h = this.buttons[i].h_clicked;
                 r = this.buttons[i].r_clicked;
+                isShadow = false;
             } else {
                 x = this.buttons[i].x;
                 y = this.buttons[i].y;
                 w = this.buttons[i].w;
                 h = this.buttons[i].h;
                 r = this.buttons[i].r;
+                isShadow = true;
             }
             if (this.buttons[i].c == null) {
                 this.ctx.drawImage(MyButton.images[i], x, y, w, h);
                 continue;
             }
+
+            this.ctx.fillStyle = this.buttons[i].d_c;
+            this.ctx.strokeStyle = "black";
+            if (isShadow) {
+                this.ctx.roundRect(x + 10, y + 20, w, h, r).fill();
+                this.ctx.roundRect(x + 10, y + 20, w, h, r).stroke();
+            }
+
+
             this.ctx.fillStyle = this.buttons[i].c;
             this.ctx.roundRect(x, y, w, h, r).fill();
+            if (!isShadow)
+                this.ctx.roundRect(x, y, w, h, r).stroke();
             this.ctx.drawImage(MyButton.images[i], x, y, w, h);
-            this.ctx.fillStyle = 'black';
-            this.ctx.roundRect(x, y, w, h, r).stroke();
 
         }
     }
