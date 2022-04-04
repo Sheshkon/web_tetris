@@ -74,6 +74,7 @@ function handleKeyDown(event) {
         if (isFired[0])
             return;
         tetris.move(0, 1);
+        clearButtonsIntervals(keyDownTimerID, true);
         keyDownTimerID[0] = setInterval(() => {
             tetris.move(0, 1);
         }, 125);
@@ -90,6 +91,7 @@ function handleKeyDown(event) {
         if (isFired[1])
             return;
         tetris.move(-1, 0);
+        clearButtonsIntervals(keyDownTimerID, true);
         keyDownTimerID[1] = setInterval(() => {
             tetris.move(-1, 0);
         }, 125);
@@ -100,6 +102,7 @@ function handleKeyDown(event) {
         if (isFired[2])
             return;
         tetris.move(1, 0);
+        clearButtonsIntervals(keyDownTimerID, true);
         keyDownTimerID[2] = setInterval(() => {
             tetris.move(1, 0);
         }, 125);
@@ -131,6 +134,7 @@ function handleKeyDown(event) {
 function handleKeyUP(event) {
     let key = event.key;
     let code = event.code;
+
     if (key == "Right" || key == "ArrowRight" || code == "KeyD") {
         isFired[2] = false;
         clearInterval(keyDownTimerID[2]);
@@ -143,7 +147,7 @@ function handleKeyUP(event) {
 
     if (key == "DOWN" || key == "ArrowDown" || code == "KeyS") {
         isFired[0] = false;
-        clearInterval(keyDownTimerID[0])
+        clearInterval(keyDownTimerID[0]);
     }
 }
 
@@ -181,7 +185,8 @@ function handleTouchStart(event) {
                 return;
             tetris.buttons[pushedButton].isClicked = true;
             tetris.move(-1, 0);
-            clearInterval(tetris.buttons[pushedButton].timerID);
+            clearButtonsIntervals(tetris.buttons);
+            // clearInterval(tetris.buttons[pushedButton].timerID);
             tetris.buttons[pushedButton].timerID = setInterval(() => {
                 tetris.move(-1, 0);
 
@@ -194,7 +199,8 @@ function handleTouchStart(event) {
 
             tetris.buttons[pushedButton].isClicked = true;
             tetris.move(1, 0);
-            clearInterval(tetris.buttons[pushedButton].timerID);
+            clearButtonsIntervals(tetris.buttons);
+            // clearInterval(tetris.buttons[pushedButton].timerID);
             tetris.buttons[pushedButton].timerID = setInterval(() => {
                 tetris.move(1, 0);
 
@@ -227,7 +233,8 @@ function handleTouchStart(event) {
 
             tetris.buttons[pushedButton].isClicked = true;
             tetris.move(0, 1);
-            clearInterval(tetris.buttons[pushedButton].timerID);
+            clearButtonsIntervals(tetris.buttons);
+            // clearInterval(tetris.buttons[pushedButton].timerID);
             tetris.buttons[pushedButton].timerID = setInterval(() => {
                 tetris.move(0, 1);
 
@@ -263,7 +270,20 @@ function handleTouchStart(event) {
     event.preventDefault();
 };
 
+function clearButtonsIntervals(container, keys = false) {
+    if (keys) {
+        for (let i = 0; i < container.length; i++) {
+            clearInterval(container[i]);
+        }
+        return;
+    }
+    for (let i = 0; i < container.length; i++) {
+        clearInterval(container[i].timerID);
+    }
+}
+
 function handleTouchEnd(event) {
+
     for (let i = 0; i < tetris.buttons.length; i++) {
         if (tetris.buttons[i].isClicked) {
             clearInterval(tetris.buttons[i].timerID);
