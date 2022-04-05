@@ -261,6 +261,7 @@ export default class Tetris {
                 }
             }
         }
+        this.clearLines();
     }
 
     hardDrop() {
@@ -311,7 +312,6 @@ export default class Tetris {
         this.drawFieldDetails();
         this.ctx.textAlign = "center";
         this.checkGameOver();
-        this.clearLines();
         this.update();
         this.ctx.globalAlpha = 0.7;
         this.drawGlass();
@@ -371,13 +371,17 @@ export default class Tetris {
         let copyBoardMatrix = this.copyMatrix(this.boardMatrix);
         let copyColorsMatrix = this.copyMatrix(this.matrixOfColors)
         let counter = 0;
-        ///
+        let isFullLine = true;
+
         for (let i = 0; i < this.boardMatrix.length - 1; i++) {
-            let sum = 0;
+            isFullLine = true;
             for (let j = 1; j < this.boardMatrix[0].length - 1; j++) {
-                sum += this.boardMatrix[i][j];
+                if (this.boardMatrix[i][j] != 2) {
+                    isFullLine = false;
+                    break;
+                }
             }
-            if (sum == Math.floor(Tetris.CELLS_COUNT)) {
+            if (isFullLine) {
                 this.clearedLines.push(i);
                 copyBoardMatrix[i] = Array.from(copyBoardMatrix[0]);
                 for (let k = i; k > 0; k--) {
