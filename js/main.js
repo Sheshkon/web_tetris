@@ -13,6 +13,18 @@ document.addEventListener('keyup', handleKeyUP, false);
 document.addEventListener('touchstart', handleTouchStart, false);
 document.addEventListener('touchmove', handleTouchMove, false);
 document.addEventListener('touchend', handleTouchEnd, false);
+document.addEventListener('mousedown', handleMouseDown, false);
+canvas.addEventListener("mousemove", handleMouseEnter, false);
+
+window.addEventListener('load', () => {
+    console.log('All assets are loaded');
+    start();
+})
+
+window.addEventListener('resize', (event) => {
+    setSize();
+}, true);
+
 
 
 function start() {
@@ -24,7 +36,11 @@ function start() {
 
     isTouchableDevice = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
     console.log("is touchable device:", isTouchableDevice);
-    tetris.isTouchableDevice = isTouchableDevice;
+    if (isTouchableDevice) {
+        tetris.isTouchableDevice = true;
+        tetris.helpText = Tetris.MOBILE_HELP_TEXT;
+    }
+
     // bot.isTouchableDevice = isTouchableDevice;
     tetris.changeActive();
     setSize();
@@ -33,33 +49,47 @@ function start() {
 }
 
 
-window.addEventListener('load', () => {
-    console.log('All assets are loaded');
-    start();
-})
-
-
-window.addEventListener('resize', (event) => {
-    setSize();
-}, true);
-
-
 function setSize() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-
     const ratio = Math.ceil(window.devicePixelRatio);
     canvas.width = window.innerWidth * ratio;
     canvas.height = window.innerHeight * ratio;
     canvas.style.width = `${window.innerWidth}px`;
     canvas.style.height = `${window.innerHeight}px`;
-
-
     tetris.setSize(canvas.width, canvas.height);
     tetris.setButtons();
 
     // bot.setSize(canvas.width, canvas.height);
     // bot.setButtons();
+}
+
+function handleMouseEnter(event) {
+    let x = event.clientX;
+    let y = event.clientY;
+    let index = tetris.checkButtons(x, y, tetris.buttons.length - 1);
+    if (index == -1) {
+        tetris.buttons[tetris.buttons.length - 1].isHovered = false;
+        return;
+    }
+
+    tetris.buttons[tetris.buttons.length - 1].isHovered = true;
+}
+
+function handleMouseDown(event) {
+    let x = event.clientX;
+    let y = event.clientY;
+    let index = tetris.checkButtons(x, y, tetris.buttons.length - 1);
+    if (index == -1) return;
+    tetris.changePausedStatus();
+    setTimeout(() => {
+        if (confirm(tetris.helpText)) {
+            tetris.changePausedStatus();
+        }
+        tetris.buttons[tetris.buttons.length - 1].isHovered = false;
+    }, 100);
+
+
 }
 
 function handleKeyDown(event) {
@@ -250,18 +280,21 @@ function handleTouchStart(event) {
             }, 125);
         }
 
-        if (pushedButton == 6) {
-            // tetris.buttons[pushedButton].isClicked = true;
-            if (confirm("CONTROLS:\n  use screen buttons or swipes\n  - LEFT/RIGHT/DOWN swipe - left/right/down move\n  - UP swipe - rotation\n  - multitouch x3 - pause\n  - multitouch x4 - restart")) {
-                tetris.changePausedStatus();
-                // window.open("https://github.com/Sheshkon/web_tetris#web-tetris-game", '_blank');
-            }
+        // if (pushedButton == 6) {
+        //     // tetris.buttons[pushedButton].isClicked = true;
+        //     tetris.changePausedStatus();
+        //     setTimeout(() => {
+        //         if (confirm("CONTROLS:\n  use screen buttons or swipes\n  - LEFT/RIGHT/DOWN swipe - left/right/down move\n  - UP swipe - rotation\n  - multitouch x3 - pause\n  - multitouch x4 - restart")) {
+        //             tetris.changePausedStatus();
+        //             // window.open("https://github.com/Sheshkon/web_tetris#web-tetris-game", '_blank');
+        //         }
+        //     }, 1000);
 
-            setTimeout(() => {
-                // tetris.setButtons();
-                tetris.buttons[pushedButton].isClicked = false;
-            }, 500);
-        }
+        //     setTimeout(() => {
+        //         // tetris.setButtons();
+        //         tetris.buttons[pushedButton].isClicked = false;
+        //     }, 500);
+        // }
 
         xDown = null;
         yDown = null;

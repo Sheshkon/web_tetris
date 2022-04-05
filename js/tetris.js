@@ -22,6 +22,8 @@ CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
 export default class Tetris {
     static START_SPEED = 1500;
     static instanceCounter = 0;
+    static MOBILE_HELP_TEXT = "CONTROLS:\n  use screen buttons or swipes\n  - LEFT/RIGHT/DOWN swipe - left/right/down move\n  - UP swipe - rotation\n  - multitouch x3 - pause\n  - multitouch x4 - restart"
+    static PC_HELP_TEXT = "CONTROLS:\n  ⬅️ ➡️ ⬇️ or A, D, S - left/right/down move\n  ⬆️ or W - rotation\n  Q, E - counterclockwise and clockwise rotation\n  Esc - pause\n  Enter - restart\n  Space - hard drop\n"
     static LIST_OF_COLORS = ["rgb(255,127,0)", "rgb(0, 0, 255)", "rgb(0, 255, 0)", "rgb(203, 40, 40)", "rgb(114,188,212)", "rgb(237, 226, 21)", "rgb(161, 13, 143)", "gray"];
     static LIST_OF_DARKER_COLORS = ["rgb(120,60,0)", "rgb(0, 0, 120)", "rgb(0, 120, 0)", "rgb(100, 20, 20)", "rgb(57,99,106)", "rgb(115, 112, 10)", "rgb(80, 6, 71)", "gray"];
     static LIST_OF_TETROMINOES = ["L", "J", "S", "Z", "I", "O", "T"];
@@ -43,6 +45,7 @@ export default class Tetris {
     lvl = 1;
     line = 0;
     isTouchableDevice = false;
+    helpText = Tetris.PC_HELP_TEXT;
     isGameOver = false;
     isPaused = false;
     isActive = false;
@@ -428,7 +431,6 @@ export default class Tetris {
 
 
     setButtons() {
-
         let paddingX = Math.floor((this.height - Tetris.PADDING * 2) / 4);
         let y = Math.floor(this.height / 2);
         let x = Tetris.PADDING;
@@ -500,7 +502,7 @@ export default class Tetris {
     }
 
 
-    checkButtons(x_pos, y_pos) {
+    checkButtons(x_pos, y_pos, index = null) {
         let rect = this.canvas.getBoundingClientRect();
         x_pos = (x_pos - rect.left) / (rect.right - rect.left) * this.width;
         y_pos = (y_pos - rect.top) / (rect.bottom - rect.top) * this.height;
@@ -509,6 +511,19 @@ export default class Tetris {
         let y = null;
         let w = null;
         let h = null;
+        if (index) {
+            x = this.buttons[index].x;
+            y = this.buttons[index].y;
+            w = this.buttons[index].w;
+            h = this.buttons[index].h;
+            if (x_pos > x && x_pos < x + w) {
+                if (y_pos > y && y_pos < y + h) {
+                    return index;
+                }
+            }
+            return -1
+        }
+
         for (let i = 0; i < this.buttons.length; i++) {
             x = this.buttons[i].x;
             y = this.buttons[i].y;
@@ -524,11 +539,28 @@ export default class Tetris {
     }
 
     drawButtons() {
+        let helpBtnIndex = this.buttons.length - 1;
+        let x, y, w, h, r, isShadow;
+        x = this.buttons[helpBtnIndex].x;
+        y = this.buttons[helpBtnIndex].y;
+        w = this.buttons[helpBtnIndex].w;
+        h = this.buttons[helpBtnIndex].h;
+        r = this.buttons[helpBtnIndex].r;
+        if (this.buttons[this.buttons.length - 1].isHovered) {
+            w += 20;
+            h += 20;
+            x -= 10;
+            y -= 10;
+        }
+        this.ctx.drawImage(MyButton.images[helpBtnIndex], x, y, w, h);
+
+
+
         if (!this.isTouchableDevice || this.isOpponent)
             return;
-        let x, y, w, h, r, isShadow;
 
-        for (let i = 0; i < this.buttons.length; i++) {
+
+        for (let i = 0; i < this.buttons.length - 1; i++) {
             if (this.buttons[i].isClicked) {
                 x = this.buttons[i].x_clicked;
                 y = this.buttons[i].y_clicked;
@@ -543,10 +575,6 @@ export default class Tetris {
                 h = this.buttons[i].h;
                 r = this.buttons[i].r;
                 isShadow = true;
-            }
-            if (this.buttons[i].c == null) {
-                this.ctx.drawImage(MyButton.images[i], x, y, w, h);
-                continue;
             }
 
             this.ctx.fillStyle = this.buttons[i].d_c;

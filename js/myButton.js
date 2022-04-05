@@ -4,6 +4,7 @@ export default class MyButton {
     isClicked = false;
     timerID = null;
     img = null;
+    isHovered = false;
 
     static isSettedButtons = false;
     constructor() {}
