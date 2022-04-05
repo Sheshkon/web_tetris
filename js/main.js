@@ -251,7 +251,7 @@ function handleTouchStart(event) {
         }
 
         if (pushedButton == 6) {
-            tetris.buttons[pushedButton].isClicked = true;
+            // tetris.buttons[pushedButton].isClicked = true;
             if (confirm("CONTROLS:\n  use screen buttons or swipes\n  - LEFT/RIGHT/DOWN swipe - left/right/down move\n  - UP swipe - rotation\n  - multitouch x3 - pause\n  - multitouch x4 - restart")) {
                 tetris.changePausedStatus();
                 // window.open("https://github.com/Sheshkon/web_tetris#web-tetris-game", '_blank');
