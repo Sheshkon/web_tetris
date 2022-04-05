@@ -220,7 +220,7 @@ function handleTouchStart(event) {
             tetris.buttons[pushedButton].timerID = setInterval(() => {
                 tetris.move(-1, 0);
 
-            }, 125);
+            }, 100);
 
         }
         if (pushedButton === 1) {
@@ -234,7 +234,7 @@ function handleTouchStart(event) {
             tetris.buttons[pushedButton].timerID = setInterval(() => {
                 tetris.move(1, 0);
 
-            }, 125);
+            }, 100);
 
         }
         if (pushedButton === 2) {
@@ -268,7 +268,7 @@ function handleTouchStart(event) {
             tetris.buttons[pushedButton].timerID = setInterval(() => {
                 tetris.move(0, 1);
 
-            }, 125);
+            }, 100);
         }
 
         if (pushedButton === 5) {
