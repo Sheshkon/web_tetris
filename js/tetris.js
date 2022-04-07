@@ -37,6 +37,13 @@ export default class Tetris {
     static UP = 2;
     static activeCounter = 0;
     static AnimationTime = 300;
+    static CLEARED_LINES_AUDIO = new Audio('../audio/cleared_lines.mp3');
+    static LVL_UP_AUDIO = new Audio('../audio/level_up.mp3');
+    static PAUSED_AUDIO = new Audio('../audio/paused.mp3');
+    static REPAUSED_AUDIO = new Audio('../audio/repaused.mp3');
+    static HARD_DROP_AUDIO = new Audio('../audio/hard_drop.wav');
+    static GAME_OVER_SOUND = new Audio('../audio/game_over.wav');
+    static RESTART_GAME_AUDIO = new Audio('../audio/restart_game.wav');
 
     clearedLines = [];
     buttons = [];
@@ -84,6 +91,9 @@ export default class Tetris {
     }
 
     restart() {
+        Tetris.RESTART_GAME_AUDIO.pause();
+        Tetris.RESTART_GAME_AUDIO.currentTime = 0;
+        Tetris.RESTART_GAME_AUDIO.play();
         this.ctx.clearRect(0, 0, this.width, this.height);
         this.stopTimer();
         clearInterval(this.repaintTimer);
@@ -104,7 +114,16 @@ export default class Tetris {
     }
 
     changePausedStatus() {
-        this.isPaused = this.isPaused ? false : true;
+        if (this.isGameOver)
+            return;
+
+        if (this.isPaused) {
+            Tetris.REPAUSED_AUDIO.play();
+            this.isPaused = false;
+        } else {
+            Tetris.PAUSED_AUDIO.play();
+            this.isPaused = true;
+        }
         this.changeTimerStatus();
     }
 
@@ -240,6 +259,7 @@ export default class Tetris {
                     this.addToBoard(tmp);
                 } catch {
                     this.isGameOver = true;
+                    Tetris.GAME_OVER_SOUND.play();
                 }
 
                 return false;
@@ -269,6 +289,10 @@ export default class Tetris {
             return;
         while (true)
             if (!this.move(0, 1)) {
+                Tetris.HARD_DROP_AUDIO.pause();
+                Tetris.HARD_DROP_AUDIO.currentTime = 0;
+
+                Tetris.HARD_DROP_AUDIO.play();
                 return;
             }
     }
@@ -349,9 +373,14 @@ export default class Tetris {
     }
 
     checkGameOver() {
+        if (this.isGameOver) {
+            return true;
+        }
+
         for (let j = 1; j < this.boardMatrix[0].length - 1; j++) {
             if (this.boardMatrix[0][j] == 2) {
                 this.isGameOver = true;
+                Tetris.GAME_OVER_SOUND.play();
             }
         }
     }
@@ -403,6 +432,7 @@ export default class Tetris {
             this.line += counter;
             this.lvl = Math.floor(this.line / 10) + 1;
             if (this.lvl > prevLVL) {
+                Tetris.LVL_UP_AUDIO.play();
                 this.currentSpeed -= this.currentSpeed > 75 ? Tetris.STEP_SPEED : 0;
                 console.log("current moved delay:", this.currentSpeed, "ms");
             }
@@ -412,6 +442,9 @@ export default class Tetris {
 
     animation(copyBoardMatrix, copyColorsMatrix) {
         this.isAnimation = true;
+
+        console.log("animation");
+        Tetris.CLEARED_LINES_AUDIO.play();
         this.changeTimerStatus();
         let id = setInterval(() => {
             for (let i = 0; i < this.clearedLines.length; i++) {
@@ -419,7 +452,9 @@ export default class Tetris {
                     this.matrixOfColors[this.clearedLines[i]][j] = this.getRandomInt(7);
                 }
             }
-        }, Tetris.AnimationTime / 10);
+        }, Tetris.AnimationTime / 100);
+
+
 
         setTimeout(() => {
             this.ctx.strokeStyle = "black";
@@ -430,6 +465,8 @@ export default class Tetris {
             this.boardMatrix = copyBoardMatrix;
             this.currentTetromino.move(0, -1);
             this.restartTimer(Tetris.AnimationTime);
+            Tetris.CLEARED_LINES_AUDIO.pause();
+            Tetris.CLEARED_LINES_AUDIO.currentTime = 0;
         }, Tetris.AnimationTime);
     }
 

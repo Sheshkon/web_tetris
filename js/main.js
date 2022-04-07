@@ -209,7 +209,6 @@ function handleTouchStart(event) {
     if (pushedButton !== -1) {
         // tetris.changeButtonForm(pushedButton);
 
-
         if (pushedButton === 0) {
             if (tetris.buttons[pushedButton].isClicked)
                 return;
