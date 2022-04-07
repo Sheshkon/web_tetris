@@ -208,6 +208,9 @@ function handleTouchStart(event) {
 
     if (pushedButton !== -1) {
         // tetris.changeButtonForm(pushedButton);
+        Tetris.TAP_SOUND.pause();
+        Tetris.TAP_SOUND.currentTime = 0;
+        Tetris.TAP_SOUND.play();
 
         if (pushedButton === 0) {
             if (tetris.buttons[pushedButton].isClicked)

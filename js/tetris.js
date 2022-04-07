@@ -44,6 +44,7 @@ export default class Tetris {
     static HARD_DROP_AUDIO = new Audio('./audio/hard_drop.wav');
     static GAME_OVER_SOUND = new Audio('./audio/game_over.wav');
     static RESTART_GAME_AUDIO = new Audio('./audio/restart_game.wav');
+    static TAP_SOUND = new Audio('./audio/tap_sound.wav');
 
     clearedLines = [];
     buttons = [];
