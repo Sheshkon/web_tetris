@@ -37,13 +37,13 @@ export default class Tetris {
     static UP = 2;
     static activeCounter = 0;
     static AnimationTime = 300;
-    static CLEARED_LINES_AUDIO = new Audio('../audio/cleared_lines.mp3');
-    static LVL_UP_AUDIO = new Audio('../audio/level_up.mp3');
-    static PAUSED_AUDIO = new Audio('../audio/paused.mp3');
-    static REPAUSED_AUDIO = new Audio('../audio/repaused.mp3');
-    static HARD_DROP_AUDIO = new Audio('../audio/hard_drop.wav');
-    static GAME_OVER_SOUND = new Audio('../audio/game_over.wav');
-    static RESTART_GAME_AUDIO = new Audio('../audio/restart_game.wav');
+    static CLEARED_LINES_AUDIO = new Audio('./audio/cleared_lines.mp3');
+    static LVL_UP_AUDIO = new Audio('./audio/level_up.mp3');
+    static PAUSED_AUDIO = new Audio('./audio/paused.mp3');
+    static REPAUSED_AUDIO = new Audio('./audio/repaused.mp3');
+    static HARD_DROP_AUDIO = new Audio('./audio/hard_drop.wav');
+    static GAME_OVER_SOUND = new Audio('./audio/game_over.wav');
+    static RESTART_GAME_AUDIO = new Audio('./audio/restart_game.wav');
 
     clearedLines = [];
     buttons = [];
