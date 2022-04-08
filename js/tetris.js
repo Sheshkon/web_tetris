@@ -45,6 +45,7 @@ export default class Tetris {
     static GAME_OVER_SOUND = new Audio('./audio/game_over.wav');
     static RESTART_GAME_AUDIO = new Audio('./audio/restart_game.wav');
     static TAP_SOUND = new Audio('./audio/tap_sound.wav');
+    static BACKGROUND_AUDIO_LIST = [new Audio('./audio/background/1.wav')];
 
     clearedLines = [];
     buttons = [];
@@ -77,9 +78,17 @@ export default class Tetris {
         Tetris.instanceCounter++;
         this.currentSpeed = Tetris.START_SPEED;
         this.dpi = window.devicePixelRatio;
+
     }
 
     start() {
+
+        Tetris.BACKGROUND_AUDIO_LIST[0].play();
+        setTimeout(() => {
+            document.dispatchEvent(new KeyboardEvent("Enter"));
+        }, 1000);
+
+
         this.repaintTimer = setInterval(this.paint.bind(this), 33);
         // requestAnimationFrame(this.paint.bind(this))
         this.currentTimerID = setTimeout(this.restartTimer.bind(this), this.currentSpeed)
