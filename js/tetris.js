@@ -83,10 +83,10 @@ export default class Tetris {
 
     start() {
 
-        Tetris.BACKGROUND_AUDIO_LIST[0].play();
-        setTimeout(() => {
-            document.dispatchEvent(new KeyboardEvent("Enter"));
-        }, 1000);
+        // Tetris.BACKGROUND_AUDIO_LIST[0].play();
+        // setTimeout(() => {
+        //     document.dispatchEvent(new KeyboardEvent("Enter"));
+        // }, 1000);
 
 
         this.repaintTimer = setInterval(this.paint.bind(this), 33);
