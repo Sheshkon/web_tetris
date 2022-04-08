@@ -15,6 +15,7 @@ document.addEventListener('touchmove', handleTouchMove, false);
 document.addEventListener('touchend', handleTouchEnd, false);
 document.addEventListener('mousedown', handleMouseDown, false);
 canvas.addEventListener("mousemove", handleMouseEnter, false);
+canvas.onselectstart = () => { return false; }
 
 window.addEventListener('load', () => {
     console.log('All assets are loaded');
@@ -30,7 +31,6 @@ window.addEventListener('resize', (event) => {
 function start() {
     console.log('start');
     let isTouchableDevice = false;
-    window.load
 
     tetris = new Tetris(canvas, canvas.width, canvas.height);
 
@@ -96,6 +96,9 @@ function handleKeyDown(event) {
     // if (event.defaultPrevented) {
     //     return; // Do nothing if the event was already processed
     // }
+    if (!tetris.isBackgroundAudio) {
+        tetris.playBackgroundAudio();
+    }
 
     let key = event.key;
     let code = event.code;
@@ -162,6 +165,7 @@ function handleKeyDown(event) {
 
 
 function handleKeyUP(event) {
+
     let key = event.key;
     let code = event.code;
 
@@ -188,6 +192,10 @@ function getTouches(evt) {
 }
 
 function handleTouchStart(event) {
+    if (!tetris.isBackgroundAudio) {
+        tetris.playBackgroundAudio();
+    }
+
     const firstTouch = getTouches(event)[0];
     if (event.touches.length == 3) {
         // document.location.reload();
@@ -208,9 +216,6 @@ function handleTouchStart(event) {
 
     if (pushedButton !== -1) {
         // tetris.changeButtonForm(pushedButton);
-        Tetris.TAP_SOUND.pause();
-        Tetris.TAP_SOUND.currentTime = 0;
-        Tetris.TAP_SOUND.play();
 
         if (pushedButton === 0) {
             if (tetris.buttons[pushedButton].isClicked)
@@ -276,11 +281,17 @@ function handleTouchStart(event) {
         if (pushedButton === 5) {
             tetris.hardDrop();
             tetris.buttons[pushedButton].isClicked = true;
+
             setTimeout(() => {
                 // tetris.setButtons();
                 tetris.buttons[pushedButton].isClicked = false;
             }, 125);
+
         }
+
+        Tetris.TAP_SOUND.pause();
+        Tetris.TAP_SOUND.currentTime = 0;
+        Tetris.TAP_SOUND.play();
 
         // if (pushedButton == 6) {
         //     // tetris.buttons[pushedButton].isClicked = true;
@@ -321,12 +332,14 @@ function handleTouchEnd(event) {
 
     for (let i = 0; i < tetris.buttons.length; i++) {
         if (tetris.buttons[i].isClicked) {
+
             clearInterval(tetris.buttons[i].timerID);
             setTimeout(() => {
                 tetris.buttons[i].isClicked = false;
             }, 50);
         }
     }
+
 }
 
 

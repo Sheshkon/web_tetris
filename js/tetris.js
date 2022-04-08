@@ -61,6 +61,7 @@ export default class Tetris {
     currentTimerID = null;
     isAnimation = false;
     botTimer = null;
+    isBackgroundAudio = false;
 
     constructor(canvas, width, height, isOpponent = false) {
         this.canvas = canvas;
@@ -78,26 +79,29 @@ export default class Tetris {
         Tetris.instanceCounter++;
         this.currentSpeed = Tetris.START_SPEED;
         this.dpi = window.devicePixelRatio;
+        Tetris.BACKGROUND_AUDIO_LIST[0].loop = true;
+    }
 
+    playBackgroundAudio() {
+        if (this.isBackgroundAudio) return;
+
+        Tetris.BACKGROUND_AUDIO_LIST[0].play().then(() => {
+            this.isBackgroundAudio = true
+        }).catch(() => {
+            return;
+        });
     }
 
     start() {
-
-        // Tetris.BACKGROUND_AUDIO_LIST[0].play();
-        // setTimeout(() => {
-        //     document.dispatchEvent(new KeyboardEvent("Enter"));
-        // }, 1000);
-
-
         this.repaintTimer = setInterval(this.paint.bind(this), 33);
         // requestAnimationFrame(this.paint.bind(this))
         this.currentTimerID = setTimeout(this.restartTimer.bind(this), this.currentSpeed)
-        if (this.isOpponent)
-            this.botTimer = setInterval(() => {
-                let m = botMove();
-                eval(m);
-                // this.move(m.x, m.y);
-            }, 500);
+            // if (this.isOpponent)
+            //     this.botTimer = setInterval(() => {
+            //         let m = botMove();
+            //         eval(m);
+            //         // this.move(m.x, m.y);
+            //     }, 500);
     }
 
     restart() {
