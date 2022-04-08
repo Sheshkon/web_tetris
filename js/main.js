@@ -96,9 +96,9 @@ function handleKeyDown(event) {
     // if (event.defaultPrevented) {
     //     return; // Do nothing if the event was already processed
     // }
-    // if (!tetris.isBackgroundAudio) {
-    //     tetris.playBackgroundAudio();
-    // }
+    if (!tetris.isBackgroundAudio) {
+        tetris.playBackgroundAudio();
+    }
 
     let key = event.key;
     let code = event.code;
@@ -192,9 +192,9 @@ function getTouches(evt) {
 }
 
 function handleTouchStart(event) {
-    // if (!tetris.isBackgroundAudio) {
-    //     tetris.playBackgroundAudio();
-    // }
+    if (!tetris.isBackgroundAudio) {
+        tetris.playBackgroundAudio();
+    }
 
     const firstTouch = getTouches(event)[0];
     if (event.touches.length == 3) {
