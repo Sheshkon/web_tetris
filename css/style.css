@@ -1,5 +1,14 @@
 @import url('https://fonts.cdnfonts.com/css/minecrafter-alt');
 #game_field {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    /* mobile webkit */
     /* background-color: #7106a2; */
     background-position: center;
     background-repeat: repeat;
