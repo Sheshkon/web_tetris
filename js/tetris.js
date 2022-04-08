@@ -37,15 +37,15 @@ export default class Tetris {
     static UP = 2;
     static activeCounter = 0;
     static AnimationTime = 300;
-    static CLEARED_LINES_AUDIO = new Audio('./audio/cleared_lines.mp3');
-    static LVL_UP_AUDIO = new Audio('./audio/level_up.mp3');
-    static PAUSED_AUDIO = new Audio('./audio/paused.mp3');
-    static REPAUSED_AUDIO = new Audio('./audio/repaused.mp3');
-    static HARD_DROP_AUDIO = new Audio('./audio/hard_drop.wav');
-    static GAME_OVER_SOUND = new Audio('./audio/game_over.wav');
-    static RESTART_GAME_AUDIO = new Audio('./audio/restart_game.wav');
-    static TAP_SOUND = new Audio('./audio/tap_sound.wav');
-    static BACKGROUND_AUDIO_LIST = [new Audio('./audio/background/1.wav')];
+    // static CLEARED_LINES_AUDIO = new Audio('./audio/cleared_lines.mp3');
+    // static LVL_UP_AUDIO = new Audio('./audio/level_up.mp3');
+    // static PAUSED_AUDIO = new Audio('./audio/paused.mp3');
+    // static REPAUSED_AUDIO = new Audio('./audio/repaused.mp3');
+    // static HARD_DROP_AUDIO = new Audio('./audio/hard_drop.wav');
+    // static GAME_OVER_SOUND = new Audio('./audio/game_over.wav');
+    // static RESTART_GAME_AUDIO = new Audio('./audio/restart_game.wav');
+    // static TAP_SOUND = new Audio('./audio/tap_sound.wav');
+    // static BACKGROUND_AUDIO_LIST = [new Audio('./audio/background/1.wav')];
 
     clearedLines = [];
     buttons = [];
@@ -61,7 +61,7 @@ export default class Tetris {
     currentTimerID = null;
     isAnimation = false;
     botTimer = null;
-    isBackgroundAudio = false;
+    // isBackgroundAudio = false;
 
     constructor(canvas, width, height, isOpponent = false) {
         this.canvas = canvas;
@@ -79,18 +79,18 @@ export default class Tetris {
         Tetris.instanceCounter++;
         this.currentSpeed = Tetris.START_SPEED;
         this.dpi = window.devicePixelRatio;
-        Tetris.BACKGROUND_AUDIO_LIST[0].loop = true;
+        // Tetris.BACKGROUND_AUDIO_LIST[0].loop = true;
     }
 
-    playBackgroundAudio() {
-        if (this.isBackgroundAudio) return;
+    // playBackgroundAudio() {
+    //     if (this.isBackgroundAudio) return;
 
-        Tetris.BACKGROUND_AUDIO_LIST[0].play().then(() => {
-            this.isBackgroundAudio = true
-        }).catch(() => {
-            return;
-        });
-    }
+    //     Tetris.BACKGROUND_AUDIO_LIST[0].play().then(() => {
+    //         this.isBackgroundAudio = true
+    //     }).catch(() => {
+    //         return;
+    //     });
+    // }
 
     start() {
         this.repaintTimer = setInterval(this.paint.bind(this), 33);
@@ -105,9 +105,9 @@ export default class Tetris {
     }
 
     restart() {
-        Tetris.RESTART_GAME_AUDIO.pause();
-        Tetris.RESTART_GAME_AUDIO.currentTime = 0;
-        Tetris.RESTART_GAME_AUDIO.play();
+        // Tetris.RESTART_GAME_AUDIO.pause();
+        // Tetris.RESTART_GAME_AUDIO.currentTime = 0;
+        // Tetris.RESTART_GAME_AUDIO.play();
         this.ctx.clearRect(0, 0, this.width, this.height);
         this.stopTimer();
         clearInterval(this.repaintTimer);
@@ -132,10 +132,10 @@ export default class Tetris {
             return;
 
         if (this.isPaused) {
-            Tetris.REPAUSED_AUDIO.play();
+            // Tetris.REPAUSED_AUDIO.play();
             this.isPaused = false;
         } else {
-            Tetris.PAUSED_AUDIO.play();
+            // Tetris.PAUSED_AUDIO.play();
             this.isPaused = true;
         }
         this.changeTimerStatus();
@@ -273,7 +273,7 @@ export default class Tetris {
                     this.addToBoard(tmp);
                 } catch {
                     this.isGameOver = true;
-                    Tetris.GAME_OVER_SOUND.play();
+                    // Tetris.GAME_OVER_SOUND.play();
                 }
 
                 return false;
@@ -303,10 +303,9 @@ export default class Tetris {
             return;
         while (true)
             if (!this.move(0, 1)) {
-                Tetris.HARD_DROP_AUDIO.pause();
-                Tetris.HARD_DROP_AUDIO.currentTime = 0;
-
-                Tetris.HARD_DROP_AUDIO.play();
+                // Tetris.HARD_DROP_AUDIO.pause();
+                // Tetris.HARD_DROP_AUDIO.currentTime = 0;
+                // Tetris.HARD_DROP_AUDIO.play();
                 return;
             }
     }
@@ -394,7 +393,7 @@ export default class Tetris {
         for (let j = 1; j < this.boardMatrix[0].length - 1; j++) {
             if (this.boardMatrix[0][j] == 2) {
                 this.isGameOver = true;
-                Tetris.GAME_OVER_SOUND.play();
+                // Tetris.GAME_OVER_SOUND.play();
             }
         }
     }
@@ -446,7 +445,7 @@ export default class Tetris {
             this.line += counter;
             this.lvl = Math.floor(this.line / 10) + 1;
             if (this.lvl > prevLVL) {
-                Tetris.LVL_UP_AUDIO.play();
+                // Tetris.LVL_UP_AUDIO.play();
                 this.currentSpeed -= this.currentSpeed > 75 ? Tetris.STEP_SPEED : 0;
                 console.log("current moved delay:", this.currentSpeed, "ms");
             }
@@ -458,7 +457,7 @@ export default class Tetris {
         this.isAnimation = true;
 
         console.log("animation");
-        Tetris.CLEARED_LINES_AUDIO.play();
+        // Tetris.CLEARED_LINES_AUDIO.play();
         this.changeTimerStatus();
         let id = setInterval(() => {
             for (let i = 0; i < this.clearedLines.length; i++) {

@@ -26,8 +26,10 @@ export default class Tetromino {
     ];
 
     static O = [
-        [1, 1],
-        [1, 1]
+        [0, 0, 0, 0],
+        [0, 1, 1, 0],
+        [0, 1, 1, 0],
+        [0, 0, 0, 0]
     ];
 
     static S = [
@@ -75,8 +77,7 @@ export default class Tetromino {
                     rotatedTetromino[x][y] = this.tetromino[N - y - 1][x];
                 }
             }
-        }
-        else {
+        } else {
             for (let y = 0; y < N; y++) {
                 for (let x = 0; x < N; x++) {
                     rotatedTetromino[N - y - 1][x] = this.tetromino[x][y];
