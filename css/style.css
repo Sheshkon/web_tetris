@@ -18,25 +18,58 @@
 
 html,
 body {
-    background-color: rgb(18, 11, 51);
-    filter: opacity(1);
-    background-size: 400px;
+    /* background-color: rgb(18, 11, 51); */
+    /* filter: opacity(1); */
+    /* position: absolute;
+    object-fit: cover;
+    /* background-size: 400px; */
     margin: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
     height: 100%;
     overflow: hidden;
+    /* display: flex; */
     touch-action: none;
+    /* object-fit: cover; */
+    background-attachment: fixed;
 }
 
 #bg {
-    filter: grayscale();
-    background-image: url('https://blog.1a23.com/wp-content/uploads/sites/2/2020/02/pattern-5.svg');
+    /* filter: grayscale(); */
+    /* background-image: url('https://gfycat.com/yawningslipperygangesdolphin');
     background-repeat: repeat;
     width: 100%;
     height: 100%;
     position: fixed;
-    z-index: -1;
-    filter: opacity(0.4) drop-shadow(0 0 0 rgb(32, 151, 230));
+    z-index: -1; */
+    /* filter: opacity(0.4) drop-shadow(0 0 0 rgb(32, 151, 230)); */
 }
+
+#myVideo {
+    z-index: -1;
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+
+/* @media screen and (min-aspect-ratio: 2/3) {
+    #myVideo {
+        width: 100%;
+        height: 1px;
+    }
+}
+
+@media screen and (max-aspect-ratio: 2/3) {
+    #myVideo {
+        width: 1px;
+        height: 100%;
+    }
+} */
 
 
 /* #cleared_lines_audio {} */
