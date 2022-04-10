@@ -53,6 +53,7 @@ body {
     position: fixed;
     top: 0;
     left: 0;
+    display: block;
     background-color: rgb(33, 33, 35);
 }
 
