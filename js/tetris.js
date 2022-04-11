@@ -484,7 +484,7 @@ export default class Tetris {
                     this.matrixOfColors[this.clearedLines[i]][j] = this.getRandomInt(7);
                 }
             }
-        }, Tetris.AnimationTime / 100);
+        });
 
 
 
