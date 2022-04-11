@@ -62,6 +62,7 @@ export default class Tetris {
     isAnimation = false;
     botTimer = null;
     isBackgroundAudio = false;
+    isStoppedAudio = true;
 
     constructor(canvas, width, height, isOpponent = false) {
         this.canvas = canvas;
@@ -91,6 +92,24 @@ export default class Tetris {
             return;
         });
     }
+
+    stopBackgroundAudio() {
+        if (this.isStoppedAudio) return;
+        this.isStoppedAudio = true;
+        Tetris.BACKGROUND_AUDIO_LIST[0].pause();
+    }
+
+    resumeBackgroundAudio() {
+        if (!this.isStoppedAudio) return;
+
+        Tetris.BACKGROUND_AUDIO_LIST[0].play().then(() => {
+            this.isStoppedAudio = false;
+        }).catch(() => {
+            return;
+        });
+    }
+
+
 
     start() {
         this.repaintTimer = setInterval(this.paint.bind(this), 33);
@@ -478,8 +497,8 @@ export default class Tetris {
             this.boardMatrix = copyBoardMatrix;
             this.currentTetromino.move(0, -1);
             this.restartTimer(Tetris.AnimationTime);
-            Tetris.CLEARED_LINES_AUDIO.pause();
-            Tetris.CLEARED_LINES_AUDIO.currentTime = 0;
+            // Tetris.CLEARED_LINES_AUDIO.pause();
+            // Tetris.CLEARED_LINES_AUDIO.currentTime = 0;
         }, Tetris.AnimationTime);
     }
 

@@ -30,6 +30,18 @@ window.addEventListener('resize', (event) => {
     setSize();
 }, true);
 
+window.onfocus = function() {
+    tetris.resumeBackgroundAudio();
+    tetris.changePausedStatus();
+    console.log('focused');
+};
+
+window.onblur = function() {
+    tetris.stopBackgroundAudio();
+    tetris.changePausedStatus();
+    console.log('blur');
+};
+
 
 
 function fullScreen() {
@@ -114,6 +126,7 @@ function handleKeyDown(event) {
     // }
     if (!tetris.isBackgroundAudio) {
         tetris.playBackgroundAudio();
+        tetris.isStoppedAudio = false;
     }
 
     let key = event.key;
@@ -210,6 +223,7 @@ function getTouches(evt) {
 function handleTouchStart(event) {
     if (!tetris.isBackgroundAudio) {
         tetris.playBackgroundAudio();
+        tetris.isStoppedAudio = false;
     }
 
     const firstTouch = getTouches(event)[0];
