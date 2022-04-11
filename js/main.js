@@ -8,6 +8,10 @@ let yDown = null;
 // let bot = new Tetris(canvas.getContext('2d'), canvas.width, canvas.height, true); // maybe bot in the future
 // let botIsStarted = false;
 
+let full = document.querySelector('button');
+let body = document.getElementById('fullscreen');
+
+full.addEventListener('click', fullScreen);
 document.addEventListener('keydown', handleKeyDown, true);
 document.addEventListener('keyup', handleKeyUP, false);
 document.addEventListener('touchstart', handleTouchStart, false);
@@ -26,6 +30,18 @@ window.addEventListener('resize', (event) => {
     setSize();
 }, true);
 
+
+
+function fullScreen() {
+    console.log(canvas.requestFullscreen)
+    if (canvas.requestFullscreen) {
+        body.requestFullscreen();
+    } else if (canvas.webkitRequestFullscreen) { /* Safari */
+        body.webkitRequestFullscreen();
+    } else if (canvas.msRequestFullscreen) { /* IE11 */
+        body.msRequestFullscreen();
+    }
+}
 
 
 function start() {
