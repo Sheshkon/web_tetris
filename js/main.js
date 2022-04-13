@@ -1,4 +1,5 @@
 import Tetris from "../js/tetris.js";
+const delayTime = 85;
 let canvas = document.getElementById('game_field');
 let tetris = null;
 let keyDownTimerID = [null, null, null];
@@ -8,17 +9,98 @@ let yDown = null;
 // let bot = new Tetris(canvas.getContext('2d'), canvas.width, canvas.height, true); // maybe bot in the future
 // let botIsStarted = false;
 
-let full = document.querySelector('button');
 let body = document.getElementById('fullscreen');
-
-full.addEventListener('click', fullScreen);
+document.getElementById("help_button").addEventListener("click", showHelp, false);
+document.getElementById('fullscreen_button').addEventListener('click', fullScreen);
 document.addEventListener('keydown', handleKeyDown, true);
 document.addEventListener('keyup', handleKeyUP, false);
 document.addEventListener('touchstart', handleTouchStart, false);
 document.addEventListener('touchmove', handleTouchMove, false);
-document.addEventListener('touchend', handleTouchEnd, false);
-document.addEventListener('mousedown', handleMouseDown, false);
-canvas.addEventListener("mousemove", handleMouseEnter, false);
+
+let leftMoveTimerID;
+$('#left_button').on('touchstart', function(e) {
+    e.preventDefault();
+    tetris.move(-1, 0);
+    $(this).addClass("pushed");
+    leftMoveTimerID = setInterval(() => {
+        tetris.move(-1, 0);
+    }, delayTime)
+}).bind('touchend', () => {
+    clearInterval(leftMoveTimerID);
+    $('#left_button').removeClass("pushed");
+});
+
+let rightMoveTimerID;
+$('#right_button').on('touchstart', function(e) {
+    e.preventDefault();
+    tetris.move(1, 0);
+    $(this).addClass("pushed");
+    rightMoveTimerID = setInterval(() => {
+        tetris.move(1, 0);
+    }, delayTime)
+}).bind('touchend', () => {
+    clearInterval(rightMoveTimerID);
+    $('#right_button').removeClass("pushed");
+});
+
+let downMoveTimerID;
+$('#down_button').on('touchstart', function(e) {
+    e.preventDefault();
+    tetris.move(0, 1);
+    $(this).addClass('pushed');
+    downMoveTimerID = setInterval(() => {
+        tetris.move(0, 1);
+    }, delayTime)
+}).bind('touchend', () => {
+    clearInterval(downMoveTimerID);
+    $('#down_button').removeClass('pushed');
+});
+
+let hardDropTimerId;
+$('#harddrop_button').on('touchstart', function(e) {
+    e.preventDefault();
+    tetris.hardDrop();
+    $(this).addClass('pushed');
+
+    if (hardDropTimerId)
+        clearTimeout(hardDropTimerId);
+
+    hardDropTimerId = setTimeout(() => {
+        $('#harddrop_button').removeClass('pushed');
+        hardDropTimerId = null;
+    }, delayTime);
+});
+
+let rotateCounterWiseTimerId;
+$('#counterclockwise_button').on('touchstart', function(e) {
+    e.preventDefault();
+    tetris.rotate(false);
+    $(this).addClass('pushed');
+
+    if (rotateCounterWiseTimerId)
+        clearTimeout(rotateCounterWiseTimerId);
+
+    setTimeout(() => {
+        $('#counterclockwise_button').removeClass('pushed');
+        rotateCounterWiseTimerId = null;
+    }, delayTime);
+});
+
+let clockWiseTimerID;
+$('#clockwise_button').on('touchstart', function(e) {
+    e.preventDefault();
+    tetris.rotate(true);
+    $(this).addClass('pushed');
+
+    if (clockWiseTimerID)
+        clearTimeout(clockWiseTimerID);
+
+    setTimeout(() => {
+        $('#clockwise_button').removeClass('pushed');
+        clockWiseTimerID = null;
+    }, delayTime);
+});
+
 canvas.onselectstart = () => { return false; }
 
 window.addEventListener('load', () => {
@@ -41,8 +123,6 @@ window.onblur = function() {
     tetris.changePausedStatus();
     console.log('blur');
 };
-
-
 
 function fullScreen() {
     console.log(canvas.requestFullscreen)
@@ -76,6 +156,10 @@ function start() {
     // bot.start();
 }
 
+// function moveLeft() {
+//     tetris.move(-1, 0);
+// }
+
 
 function setSize() {
     canvas.width = window.innerWidth;
@@ -92,33 +176,19 @@ function setSize() {
     // bot.setButtons();
 }
 
-function handleMouseEnter(event) {
-    let x = event.clientX;
-    let y = event.clientY;
-    let index = tetris.checkButtons(x, y, tetris.buttons.length - 1);
-    if (index == -1) {
-        tetris.buttons[tetris.buttons.length - 1].isHovered = false;
-        return;
-    }
 
-    tetris.buttons[tetris.buttons.length - 1].isHovered = true;
-}
-
-function handleMouseDown(event) {
-    let x = event.clientX;
-    let y = event.clientY;
-    let index = tetris.checkButtons(x, y, tetris.buttons.length - 1);
-    if (index == -1) return;
+function showHelp() {
     tetris.changePausedStatus();
     setTimeout(() => {
         if (confirm(tetris.helpText)) {
             tetris.changePausedStatus();
+            // if (!isFullScreen)
+            // fullScreen();
         }
-        tetris.buttons[tetris.buttons.length - 1].isHovered = false;
     }, 85);
-
-
 }
+
+
 
 function handleKeyDown(event) {
     // if (event.defaultPrevented) {
@@ -242,107 +312,7 @@ function handleTouchStart(event) {
     if (tetris.isAnimation)
         return;
 
-    let pushedButton = tetris.checkButtons(xDown, yDown);
 
-    if (pushedButton !== -1) {
-        // tetris.changeButtonForm(pushedButton);
-
-        if (pushedButton === 0) {
-            if (tetris.buttons[pushedButton].isClicked)
-                return;
-            tetris.buttons[pushedButton].isClicked = true;
-            tetris.move(-1, 0);
-            clearButtonsIntervals(tetris.buttons);
-            // clearInterval(tetris.buttons[pushedButton].timerID);
-            tetris.buttons[pushedButton].timerID = setInterval(() => {
-                tetris.move(-1, 0);
-
-            }, 85);
-
-        }
-        if (pushedButton === 1) {
-            if (tetris.buttons[pushedButton].isClicked)
-                return;
-
-            tetris.buttons[pushedButton].isClicked = true;
-            tetris.move(1, 0);
-            clearButtonsIntervals(tetris.buttons);
-            // clearInterval(tetris.buttons[pushedButton].timerID);
-            tetris.buttons[pushedButton].timerID = setInterval(() => {
-                tetris.move(1, 0);
-
-            }, 85);
-
-        }
-        if (pushedButton === 2) {
-            tetris.rotate(true);
-            tetris.buttons[pushedButton].isClicked = true;
-            setTimeout(() => {
-                // tetris.setButtons();
-                tetris.buttons[pushedButton].isClicked = false;
-            }, 85);
-
-            //clockwise
-        }
-        if (pushedButton === 3) {
-            tetris.rotate(false);
-            tetris.buttons[pushedButton].isClicked = true;
-            setTimeout(() => {
-                // tetris.setButtons();
-                tetris.buttons[pushedButton].isClicked = false;
-            }, 85);
-            //counterclockwise
-        }
-
-        if (pushedButton === 4) {
-            if (tetris.buttons[pushedButton].isClicked)
-                return;
-
-            tetris.buttons[pushedButton].isClicked = true;
-            tetris.move(0, 1);
-            clearButtonsIntervals(tetris.buttons);
-            // clearInterval(tetris.buttons[pushedButton].timerID);
-            tetris.buttons[pushedButton].timerID = setInterval(() => {
-                tetris.move(0, 1);
-
-            }, 85);
-        }
-
-        if (pushedButton === 5) {
-            tetris.hardDrop();
-            tetris.buttons[pushedButton].isClicked = true;
-
-            setTimeout(() => {
-                // tetris.setButtons();
-                tetris.buttons[pushedButton].isClicked = false;
-            }, 85);
-
-        }
-
-        // Tetris.TAP_SOUND.pause();
-        // Tetris.TAP_SOUND.currentTime = 0;
-        // Tetris.TAP_SOUND.play();
-
-        // if (pushedButton == 6) {
-        //     // tetris.buttons[pushedButton].isClicked = true;
-        //     tetris.changePausedStatus();
-        //     setTimeout(() => {
-        //         if (confirm("CONTROLS:\n  use screen buttons or swipes\n  - LEFT/RIGHT/DOWN swipe - left/right/down move\n  - UP swipe - rotation\n  - multitouch x3 - pause\n  - multitouch x4 - restart")) {
-        //             tetris.changePausedStatus();
-        //             // window.open("https://github.com/Sheshkon/web_tetris#web-tetris-game", '_blank');
-        //         }
-        //     }, 1000);
-
-        //     setTimeout(() => {
-        //         // tetris.setButtons();
-        //         tetris.buttons[pushedButton].isClicked = false;
-        //     }, 500);
-        // }
-
-        xDown = null;
-        yDown = null;
-        return;
-    }
     event.preventDefault();
 };
 
@@ -358,19 +328,6 @@ function clearButtonsIntervals(container, keys = false) {
     }
 }
 
-function handleTouchEnd(event) {
-
-    for (let i = 0; i < tetris.buttons.length; i++) {
-        if (tetris.buttons[i].isClicked) {
-
-            clearInterval(tetris.buttons[i].timerID);
-            setTimeout(() => {
-                tetris.buttons[i].isClicked = false;
-            }, 50);
-        }
-    }
-
-}
 
 
 function handleTouchMove(event) {

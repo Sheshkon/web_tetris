@@ -8,20 +8,36 @@
     <link rel="shortcut icon" type="image/x-icon" href="./img/icon.png" />
     <title>Tetris</title>
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/button.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="module" src="./js/main.js"></script>
 </head>
 
 <body>
     <container id="fullscreen">
-        <button id="fullscreen_button">full screen</button>
-        <video autoplay loop muted playsinline id="myVideo">
-        <source src="https://sun1.velcom-by-minsk.userapi.com/c532036/u16371453/docs/d40/8151bca1ad76/Rik_i_Morti_-_Parallelnaya_vselennaya__Rick_and_Morty_-_Parallel_Universe_4k.mp4?extra=28Igt_60X181sSBA7E4W3HOreKTOxB4l7SG854SHHIEXTudcKWz6KZUJNOEwK18ygnSA3YMQMDj0NswDcQn69YZWoeb3uQAenSC5Tl3ibGHlJl2F2aCI2ba5tUdmQJrmHKZkLlvqpfFYvUing3D2Yfq2zg" type="video/mp4">
-      </video>
+        <button id="help_button"></button>
+        <button id="fullscreen_button"></button>
+        <button id="music_button"></button>
+
+        <continer id="control">
+            <button id="left_button"></button>
+            <button id="right_button"></button>
+            <button id="clockwise_button"></button>
+            <button id="counterclockwise_button"></button>
+            <button id="down_button"></button>
+            <button id="harddrop_button"></button>
+        </continer>
+
+
 
         <div id="bg"></div>
         <canvas id="game_field"> </canvas>
+        <video autoplay loop muted playsinline id="myVideo">
+            <source src="" type="video/mp4" poster=".\img\bg.jpg">
+          </video>
     </container>
 
-    <script type="module" src="./js/main.js"></script>
+
 </body>
 
 
