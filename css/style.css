@@ -1,4 +1,9 @@
 @import url('https://fonts.cdnfonts.com/css/minecrafter-alt');
+@font-face {
+    font-family: "Minecrafter Alt";
+    src: url('https://fonts.cdnfonts.com/css/minecrafter-alt');
+}
+
 #game_field {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -18,10 +23,12 @@
 
 html,
 body {
+    font-family: "Minecrafter Alt";
     /* filter: opacity(1); */
     /* position: absolute;
     object-fit: cover;
     /* background-size: 400px; */
+    /* background-color: yellow; */
     margin: 0;
     top: 0;
     bottom: 0;
@@ -46,7 +53,7 @@ body {
 }
 
 #myVideo {
-    z-index: -1;
+    /* z-index: -1;
     object-fit: cover;
     width: 100vw;
     height: 100vh;
@@ -54,107 +61,5 @@ body {
     top: 0;
     left: 0;
     display: block;
-    background-color: rgb(255, 255, 255);
-}
-
-#help_button,
-#music_button,
-#left_button,
-#right_button,
-#clockwise_button,
-#counterclockwise_button,
-#down_button,
-#harddrop_button,
-#fullscreen_button {
-    /* background-color: #ffffff; */
-    background-size: cover;
-    background-color: transparent;
-    text-align: center;
-    /* width: 150px;
-    height: 150px; */
-    position: absolute;
-    overflow: hidden;
-    border: none;
-    left: 100px;
-    top: 110px;
-}
-
-#left_button,
-#right_button,
-#clockwise_button,
-#counterclockwise_button,
-#down_button,
-#harddrop_button {
-    background-color: rgb(255, 0, 0);
-    border-radius: 50%;
-    border: 1px solid rgb(255, 38, 0);
-}
-
-#left_button:active,
-#right_button:active,
-#clockwise_button:active,
-#counterclockwise_button:active,
-#down_button:active,
-#harddrop_button:active {
-    box-shadow: none;
-    transform: translateY(5px);
-    /* border: 1px solid rgb(255, 38, 0); */
-}
-
-.border {
-    box-shadow: 0 5px rgb(105, 31, 31);
-}
-
-.pushed {
-    transform: translateY(5px);
-}
-
-#fullscreen_button {
-    background-image: url('../img/fullscreen-svgrepo-com.svg');
-}
-
-#help_button {
-    background-image: url('../img/help.png');
-    filter: contrast(1000%);
-}
-
-#music_button {
-    background-image: url('../img/music-off.svg');
-    filter: contrast(1000%);
-}
-
-@media (hover: hover) {
-    #control {
-        display: none;
-    }
-    #fullscreen_button:hover,
-    #music_button:hover,
-    #help_button:hover {
-        transform: scale(1.3);
-        /* filter: invert(100%) sepia(16%) saturate(500%) hue-rotate(45deg) brightness(97%) contrast(100%); */
-    }
-}
-
-#left_button {
-    background-image: url('../img/left.png');
-}
-
-#right_button {
-    background-image: url('../img/right.png');
-}
-
-#clockwise_button {
-    background-image: url('../img/clockwise.png');
-}
-
-#counterclockwise_button {
-    background-image: url('../img/counterclockwise.png');
-}
-
-#down_button {
-    background-image: url('../img/down.png');
-}
-
-#harddrop_button {
-    background-image: url('../img/harddrop.png');
+    background-color: rgb(255, 255, 255); */
 }

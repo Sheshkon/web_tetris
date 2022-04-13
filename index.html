@@ -8,27 +8,34 @@
     <link rel="shortcut icon" type="image/x-icon" href="./img/icon.png" />
     <title>Tetris</title>
     <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/button.css">
+    <link rel="stylesheet" href="./css/buttons.css">
+    <link rel="stylesheet" href="./css/labels.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="module" src="./js/main.js"></script>
 </head>
 
 <body>
-    <container id="fullscreen">
-        <button id="help_button"></button>
-        <button id="fullscreen_button"></button>
-        <button id="music_button"></button>
+    <container id="_body">
+        <container id="labels">
+            <p id="next_label">NEXT</p>
+            <p id="score_label">SCORE</p>
+            <p id="level_label">LEVEL</p>
+            <p id="lines_label">LINES</p>
+        </container>
 
-        <continer id="control">
-            <button id="left_button" class="border"></button>
-            <button id="right_button" class="border"></button>
-            <button id="clockwise_button" class="border"></button>
-            <button id="counterclockwise_button" class="border"></button>
-            <button id="down_button" class="border"></button>
-            <button id="harddrop_button" class="border"></button>
-        </continer>
-
-
+        <container id="buttons">
+            <button id="help_button"></button>
+            <button id="fullscreen_button"></button>
+            <button id="music_button"></button>
+            <continer id="control">
+                <button id="left_button" class="border"></button>
+                <button id="right_button" class="border"></button>
+                <button id="clockwise_button" class="border"></button>
+                <button id="counterclockwise_button" class="border"></button>
+                <button id="down_button" class="border"></button>
+                <button id="harddrop_button" class="border"></button>
+            </continer>
+        </container>
 
         <div id="bg"></div>
         <canvas id="game_field"> </canvas>
@@ -36,9 +43,6 @@
             <source src="" type="video/mp4" poster=".\img\bg.jpg">
           </video>
     </container>
-
-
 </body>
-
 
 </html>

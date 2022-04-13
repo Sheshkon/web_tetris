@@ -9,7 +9,7 @@ let yDown = null;
 // let bot = new Tetris(canvas.getContext('2d'), canvas.width, canvas.height, true); // maybe bot in the future
 // let botIsStarted = false;
 
-let body = document.getElementById('fullscreen');
+let body = document.getElementById('_body');
 document.getElementById("help_button").addEventListener("click", showHelp, false);
 document.getElementById('fullscreen_button').addEventListener('click', fullScreen);
 document.addEventListener('keydown', handleKeyDown, true);
@@ -165,6 +165,8 @@ function start() {
     tetris.changeActive();
     setSize();
     tetris.start();
+    document.getElementById('buttons').style.visibility = 'visible';
+    document.getElementById('labels').style.visibility = 'visible';
     // bot.start();
 }
 
@@ -183,6 +185,7 @@ function setSize() {
     canvas.style.height = `${window.innerHeight}px`;
     tetris.setSize(canvas.width, canvas.height);
     tetris.setButtons();
+    tetris.setLabels();
 
     // bot.setSize(canvas.width, canvas.height);
     // bot.setButtons();

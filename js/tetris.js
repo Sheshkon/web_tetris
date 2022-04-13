@@ -15,8 +15,6 @@ CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
     return this;
 }
 
-
-
 export default class Tetris {
     static START_SPEED = 1500;
     static instanceCounter = 0;
@@ -44,7 +42,6 @@ export default class Tetris {
     // static RESTART_GAME_AUDIO = new Audio('./audio/restart_game.wav');
     // static TAP_SOUND = new Audio('./audio/tap_sound.wav');
     static BACKGROUND_AUDIO_LIST = [new Audio('./audio/background/1.wav')];
-
     clearedLines = [];
     buttons = [];
     board = [];
@@ -61,18 +58,25 @@ export default class Tetris {
     botTimer = null;
     isBackgroundAudio = false;
     isStoppedAudio = true;
+    fullScreenBtn = document.getElementById('fullscreen_button');
+    leftBtn = document.getElementById('left_button');
+    rightBtn = document.getElementById('right_button');
+    helpBtn = document.getElementById('help_button');
+    musicBtn = document.getElementById('music_button');
+    clockwiseBtn = document.getElementById('clockwise_button');
+    counterClockwiseBtn = document.getElementById('counterclockwise_button');
+    downBtn = document.getElementById('down_button');
+    harddropBtn = document.getElementById('harddrop_button');
+    nextLabel = document.getElementById('next_label');
+    scoreLabel = document.getElementById('score_label');
+    levelLabel = document.getElementById('level_label');
+    linesLabel = document.getElementById('lines_label');
+    body = document.getElementById('_body');
+
+
 
     constructor(canvas, width, height, isOpponent = false) {
-        this.fullScreenBtn = document.getElementById('fullscreen_button');
-        this.leftBtn = document.getElementById('left_button');
-        this.rightBtn = document.getElementById('right_button');
 
-        this.helpBtn = document.getElementById('help_button');
-        this.musicBtn = document.getElementById('music_button');
-        this.clockwiseBtn = document.getElementById('clockwise_button');
-        this.counterClockwiseBtn = document.getElementById('counterclockwise_button');
-        this.downBtn = document.getElementById('down_button');
-        this.harddropBtn = document.getElementById('harddrop_button');
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d')
         this.isOpponent = isOpponent;
@@ -80,16 +84,13 @@ export default class Tetris {
         this.currentTetromino = this.createNewTetromino();
         this.nextTetromino = this.createNewTetromino();
         this.boardMatrix = this.createFieldMatrix();
-
         this.setButtons();
+        this.setLabels();
         this.createMatrixOfColors();
         Tetris.instanceCounter++;
         this.currentSpeed = Tetris.START_SPEED;
         this.dpi = window.devicePixelRatio;
         Tetris.BACKGROUND_AUDIO_LIST[0].loop = true;
-
-
-
     }
 
     playBackgroundAudio() {
@@ -354,10 +355,10 @@ export default class Tetris {
         let delta = Math.abs(width - height);
         this.cellSize = width > height ? Math.floor((width - delta - Tetris.PADDING * 6) / Tetris.CELLS_COUNT) : Math.floor((height - delta - Tetris.PADDING * 6) / Tetris.CELLS_COUNT);
 
-        if (this.isTouchableDevice) {
-            this.glassPos = new Position((this.width - this.cellSize) / 2 - ((this.cellSize * 11 + this.cellSize * Math.floor(Tetris.CELLS_COUNT / 3)) / 2), Tetris.PADDING * 3);
-
-        } else if (Tetris.activeCounter == 1) {
+        // if (this.isTouchableDevice) {
+        //     this.glassPos = new Position((this.width - this.cellSize) / 2 - ((this.cellSize * 11 + this.cellSize * Math.floor(Tetris.CELLS_COUNT / 3)) / 2), Tetris.PADDING * 3);
+        // }
+        if (Tetris.activeCounter == 1) {
             this.glassPos = new Position(Math.floor(width / 2) - this.cellSize * 9, Tetris.PADDING * 3);
         } else {
             this.cellSize = width > height ? (Math.floor(width / 50)) : (Math.floor(height / 50));
@@ -365,38 +366,8 @@ export default class Tetris {
         }
         this.borderWidth = Math.floor(this.cellSize / 7);
         this.fontSize = this.cellSize;
+        this.body.style.fontSize = `${this.canvasCords2Document(this.fontSize)}px`;
         this.ctx.font = `${this.fontSize}px Minecrafter Alt`;
-
-        let w = this.canvasCords2Document(this.cellSize * 2);
-        this.fullScreenBtn.style.width = `${w*0.75}px`;
-        this.fullScreenBtn.style.height = `${w*0.75}px`;
-        this.musicBtn.style.width = `${w*0.75}px`;
-        this.musicBtn.style.height = `${w*0.75}px`;
-        this.helpBtn.style.height = `${w}px`;
-        this.helpBtn.style.width = `${w}px`;
-        let y = this.glassPos.y + this.cellSize;
-        let x = this.glassPos.x + this.cellSize * 11 + this.cellSize * Math.floor(Tetris.CELLS_COUNT / 3) + this.cellSize / 2;
-
-        let x_y = this.canvasCords2Document(x + w * 0.25, y + w * 0.25);
-        console.log('fullscreen coords:', x_y.x, x_y.y);
-
-        this.fullScreenBtn.style.left = `${x_y.x}px`;
-        this.fullScreenBtn.style.top = `${x_y.y}px`;
-
-        console.log(this.fullScreenBtn.style.left, this.fullScreenBtn.top);
-
-        x_y = this.canvasCords2Document(x, y + this.cellSize * 2);
-        this.helpBtn.style.left = `${x_y.x}px`;
-        this.helpBtn.style.top = `${x_y.y}px`;
-
-        x_y = this.canvasCords2Document(x + w * 0.25, y + w * 0.25 + this.cellSize * 4);
-        this.musicBtn.style.left = `${x_y.x}px`;
-        this.musicBtn.style.top = `${x_y.y}px`;
-
-
-
-
-
     }
 
     canvasCords2Document(x, y = null) {
@@ -559,14 +530,13 @@ export default class Tetris {
         let x = Tetris.PADDING;
         let w = this.cellSize * 5;
         let h = w;
-        let r = null;
+
         if (this.width < this.height) {
             paddingX = Math.floor((this.width - Tetris.PADDING * 2) / 4);
             y = this.height - (this.height - (this.glassPos.y + Tetris.CELLS_COUNT * this.cellSize)) / 2 - h;
             // w = this.cellSize * 4;
             // h = w;
         }
-        r = Math.floor(w / 2);
 
         this.leftBtn.style.width = `${this.canvasCords2Document(w)}px`;
         this.leftBtn.style.height = `${this.canvasCords2Document(h)}px`;
@@ -597,6 +567,70 @@ export default class Tetris {
         this.harddropBtn.style.height = `${this.canvasCords2Document(h)}px`;
         this.harddropBtn.style.left = `${this.canvasCords2Document(this.width - x - paddingX / 2 - w)}px`;
         this.harddropBtn.style.top = `${this.canvasCords2Document(y + Math.floor(paddingX * Math.sqrt(3) / 2))}px`;
+
+        w = this.canvasCords2Document(this.cellSize * 2);
+        this.fullScreenBtn.style.width = `${w*0.75}px`;
+        this.fullScreenBtn.style.height = `${w*0.75}px`;
+        this.musicBtn.style.width = `${w*0.75}px`;
+        this.musicBtn.style.height = `${w*0.75}px`;
+        this.helpBtn.style.height = `${w}px`;
+        this.helpBtn.style.width = `${w}px`;
+
+        y = this.glassPos.y + this.cellSize;
+        x = this.glassPos.x + this.cellSize * 11 + this.cellSize * Math.floor(Tetris.CELLS_COUNT / 3) + this.cellSize / 2;
+
+        let x_y = this.canvasCords2Document(x + w * 0.25, y + w * 0.25);
+        this.fullScreenBtn.style.left = `${x_y.x}px`;
+        this.fullScreenBtn.style.top = `${x_y.y}px`;
+
+        x_y = this.canvasCords2Document(x, y + this.cellSize * 2);
+        this.helpBtn.style.left = `${x_y.x}px`;
+        this.helpBtn.style.top = `${x_y.y}px`;
+
+        x_y = this.canvasCords2Document(x + w * 0.25, y + w * 0.25 + this.cellSize * 4);
+        this.musicBtn.style.left = `${x_y.x}px`;
+        this.musicBtn.style.top = `${x_y.y}px`;
+    }
+
+    setLabels() {
+        let y = this.cellSize + this.glassPos.y - this.fontSize;
+        let h = this.cellSize * Math.floor(Tetris.CELLS_COUNT / 3);
+        let x = this.glassPos.x + this.cellSize * 11; + Math.floor(this.cellSize * Math.floor(Tetris.CELLS_COUNT / 3) / 2);
+        let w = this.cellSize * 6;
+        let padding = this.fontSize;
+        w = this.canvasCords2Document(w);
+        x = this.canvasCords2Document(x);
+        h = this.canvasCords2Document(h);
+        y = this.canvasCords2Document(y);
+        padding = this.canvasCords2Document(padding);
+
+
+        console.log('x', x, 'y', y);
+        this.nextLabel.style.left = `${x}px`;
+        this.nextLabel.style.top = `${y-padding}px`;
+        this.nextLabel.style.width = `${w}px`
+
+        this.scoreLabel.style.left = `${x}px`;
+        this.scoreLabel.style.top = `${y+h}px`;
+        this.scoreLabel.style.width = `${w}px`
+
+        this.linesLabel.style.left = `${x}px`;
+        this.linesLabel.style.top = `${y+h*1.5}px`;
+        this.linesLabel.style.width = `${w}px`
+
+        this.levelLabel.style.left = `${x}px`;
+        this.levelLabel.style.top = `${y+h*2}px`;
+        this.levelLabel.style.width = `${w}px`
+
+        console.log('style:', this.nextLabel.style.left, this.nextLabel.style.top);
+        // this.ctx.fillText("next", x, y - Math.floor(this.fontSize / 4));
+        // this.ctx.fillText("score", x, y + h + this.cellSize);
+        // this.ctx.fillText("lines", x, y + h + this.cellSize * 4);
+        // this.ctx.fillText("level", , y + h + this.cellSize * 7);
+        // this.ctx.fillStyle = 'red';
+        // this.ctx.fillText(`${this.score}`, x, y + h + this.cellSize * 2);
+        // this.ctx.fillText(`${this.line}`, x, y + h + this.cellSize * 5);
+        // this.ctx.fillText(`${this.lvl}`, x, y + h + this.cellSize * 8);
     }
 
     coords2Canvas(x, y) {
@@ -640,11 +674,6 @@ export default class Tetris {
 
     drawLabels(centerX, y, h) {
         this.ctx.globalAlpha = 1;
-        this.ctx.fillStyle = "black";
-        this.ctx.fillText("next", centerX, y - Math.floor(this.fontSize / 4));
-        this.ctx.fillText("score", centerX, y + h + this.cellSize);
-        this.ctx.fillText("lines", centerX, y + h + this.cellSize * 4);
-        this.ctx.fillText("level", centerX, y + h + this.cellSize * 7);
         this.ctx.fillStyle = 'red';
         this.ctx.fillText(`${this.score}`, centerX, y + h + this.cellSize * 2);
         this.ctx.fillText(`${this.line}`, centerX, y + h + this.cellSize * 5);
