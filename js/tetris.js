@@ -641,7 +641,7 @@ export default class Tetris {
     drawLabels(centerX, y, h) {
         this.ctx.globalAlpha = 1;
         this.ctx.fillStyle = "black";
-        this.ctx.fillText("next", centerX, y + Math.floor(this.fontSize / 2));
+        this.ctx.fillText("next", centerX, y - Math.floor(this.fontSize / 4));
         this.ctx.fillText("score", centerX, y + h + this.cellSize);
         this.ctx.fillText("lines", centerX, y + h + this.cellSize * 4);
         this.ctx.fillText("level", centerX, y + h + this.cellSize * 7);
