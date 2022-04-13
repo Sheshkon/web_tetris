@@ -12,10 +12,12 @@ let yDown = null;
 let body = document.getElementById('_body');
 document.getElementById("help_button").addEventListener("click", showHelp, false);
 document.getElementById('fullscreen_button').addEventListener('click', fullScreen);
+document.getElementById('music_button').addEventListener('click', pauseResumeMusic);
 document.addEventListener('keydown', handleKeyDown, true);
 document.addEventListener('keyup', handleKeyUP, false);
 document.addEventListener('touchstart', handleTouchStart, false);
 document.addEventListener('touchmove', handleTouchMove, false);
+
 
 let leftMoveTimerID;
 $('#left_button').on('touchstart', function(e) {
@@ -136,6 +138,10 @@ window.onblur = function() {
     console.log('blur');
 };
 
+function pauseResumeMusic() {
+    tetris.isStoppedAudio ? tetris.resumeBackgroundAudio() : tetris.stopBackgroundAudio();
+}
+
 function fullScreen() {
     console.log(canvas.requestFullscreen)
     if (canvas.requestFullscreen) {
@@ -150,6 +156,7 @@ function fullScreen() {
 
 function start() {
     console.log('start');
+    document.getElementById('bg').style.backgroundImage = `url('https://blog.1a23.com/wp-content/uploads/sites/2/2020/02/pattern-${Math.floor(Math.random() * 33)}.svg')`;
     let isTouchableDevice = false;
 
     tetris = new Tetris(canvas, canvas.width, canvas.height);

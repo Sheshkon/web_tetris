@@ -604,8 +604,6 @@ export default class Tetris {
         y = this.canvasCords2Document(y);
         padding = this.canvasCords2Document(padding);
 
-
-        console.log('x', x, 'y', y);
         this.nextLabel.style.left = `${x}px`;
         this.nextLabel.style.top = `${y-padding}px`;
         this.nextLabel.style.width = `${w}px`
@@ -621,16 +619,6 @@ export default class Tetris {
         this.levelLabel.style.left = `${x}px`;
         this.levelLabel.style.top = `${y+h*2}px`;
         this.levelLabel.style.width = `${w}px`
-
-        console.log('style:', this.nextLabel.style.left, this.nextLabel.style.top);
-        // this.ctx.fillText("next", x, y - Math.floor(this.fontSize / 4));
-        // this.ctx.fillText("score", x, y + h + this.cellSize);
-        // this.ctx.fillText("lines", x, y + h + this.cellSize * 4);
-        // this.ctx.fillText("level", , y + h + this.cellSize * 7);
-        // this.ctx.fillStyle = 'red';
-        // this.ctx.fillText(`${this.score}`, x, y + h + this.cellSize * 2);
-        // this.ctx.fillText(`${this.line}`, x, y + h + this.cellSize * 5);
-        // this.ctx.fillText(`${this.lvl}`, x, y + h + this.cellSize * 8);
     }
 
     coords2Canvas(x, y) {
