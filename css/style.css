@@ -14,7 +14,7 @@
     outline: none;
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
     /* mobile webkit */
-    /* background-color: #7106a2; */
+    background-color: white;
     background-position: center;
     background-repeat: repeat;
     width: 100%;
@@ -28,7 +28,6 @@ body {
     /* position: absolute;
     object-fit: cover;
     /* background-size: 400px; */
-    /* background-color: yellow; */
     margin: 0;
     top: 0;
     bottom: 0;
