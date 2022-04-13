@@ -87,7 +87,6 @@ body {
 #harddrop_button {
     background-color: rgb(255, 0, 0);
     border-radius: 50%;
-    box-shadow: 0 5px rgb(105, 31, 31);
     border: 1px solid rgb(255, 38, 0);
 }
 
@@ -102,22 +101,25 @@ body {
     /* border: 1px solid rgb(255, 38, 0); */
 }
 
+.border {
+    box-shadow: 0 5px rgb(105, 31, 31);
+}
+
 .pushed {
-    box-shadow: none;
     transform: translateY(5px);
 }
 
 #fullscreen_button {
-    background-image: url('/img/fullscreen-svgrepo-com.svg');
+    background-image: url('../img/fullscreen-svgrepo-com.svg');
 }
 
 #help_button {
-    background-image: url('/img/help.png');
+    background-image: url('../img/help.png');
     filter: contrast(1000%);
 }
 
 #music_button {
-    background-image: url('/img/music-off.svg');
+    background-image: url('../img/music-off.svg');
     filter: contrast(1000%);
 }
 
@@ -134,25 +136,25 @@ body {
 }
 
 #left_button {
-    background-image: url('/img/left.png');
+    background-image: url('../img/left.png');
 }
 
 #right_button {
-    background-image: url('/img/right.png');
+    background-image: url('../img/right.png');
 }
 
 #clockwise_button {
-    background-image: url('/img/clockwise.png');
+    background-image: url('../img/clockwise.png');
 }
 
 #counterclockwise_button {
-    background-image: url('/img/counterclockwise.png');
+    background-image: url('../img/counterclockwise.png');
 }
 
 #down_button {
-    background-image: url('/img/down.png');
+    background-image: url('../img/down.png');
 }
 
 #harddrop_button {
-    background-image: url('/img/harddrop.png');
+    background-image: url('../img/harddrop.png');
 }

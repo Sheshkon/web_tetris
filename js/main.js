@@ -21,26 +21,30 @@ let leftMoveTimerID;
 $('#left_button').on('touchstart', function(e) {
     e.preventDefault();
     tetris.move(-1, 0);
-    $(this).addClass("pushed");
+    $(this).addClass('pushed');
+    $(this).removeClass('border');
     leftMoveTimerID = setInterval(() => {
         tetris.move(-1, 0);
     }, delayTime)
 }).bind('touchend', () => {
     clearInterval(leftMoveTimerID);
-    $('#left_button').removeClass("pushed");
+    $('#left_button').removeClass('pushed');
+    $('#left_button').addClass('border')
 });
 
 let rightMoveTimerID;
 $('#right_button').on('touchstart', function(e) {
     e.preventDefault();
     tetris.move(1, 0);
-    $(this).addClass("pushed");
+    $(this).addClass('pushed');
+    $(this).removeClass('border');
     rightMoveTimerID = setInterval(() => {
         tetris.move(1, 0);
     }, delayTime)
 }).bind('touchend', () => {
     clearInterval(rightMoveTimerID);
-    $('#right_button').removeClass("pushed");
+    $('#right_button').removeClass('pushed');
+    $('#right_button').addClass('border')
 });
 
 let downMoveTimerID;
@@ -48,12 +52,14 @@ $('#down_button').on('touchstart', function(e) {
     e.preventDefault();
     tetris.move(0, 1);
     $(this).addClass('pushed');
+    $(this).removeClass('border');
     downMoveTimerID = setInterval(() => {
         tetris.move(0, 1);
     }, delayTime)
 }).bind('touchend', () => {
     clearInterval(downMoveTimerID);
     $('#down_button').removeClass('pushed');
+    $('#down_button').addClass('border')
 });
 
 let hardDropTimerId;
@@ -61,12 +67,14 @@ $('#harddrop_button').on('touchstart', function(e) {
     e.preventDefault();
     tetris.hardDrop();
     $(this).addClass('pushed');
+    $(this).removeClass('border');
 
     if (hardDropTimerId)
         clearTimeout(hardDropTimerId);
 
     hardDropTimerId = setTimeout(() => {
         $('#harddrop_button').removeClass('pushed');
+        $('#harddrop_button').addClass('border');
         hardDropTimerId = null;
     }, delayTime);
 });
@@ -76,12 +84,14 @@ $('#counterclockwise_button').on('touchstart', function(e) {
     e.preventDefault();
     tetris.rotate(false);
     $(this).addClass('pushed');
+    $(this).removeClass('border');
 
     if (rotateCounterWiseTimerId)
         clearTimeout(rotateCounterWiseTimerId);
 
     setTimeout(() => {
         $('#counterclockwise_button').removeClass('pushed');
+        $('#counterclockwise_button').addClass('border');
         rotateCounterWiseTimerId = null;
     }, delayTime);
 });
@@ -91,12 +101,14 @@ $('#clockwise_button').on('touchstart', function(e) {
     e.preventDefault();
     tetris.rotate(true);
     $(this).addClass('pushed');
+    $(this).removeClass('border');
 
     if (clockWiseTimerID)
         clearTimeout(clockWiseTimerID);
 
     setTimeout(() => {
         $('#clockwise_button').removeClass('pushed');
+        $('#clockwise_button').addClass('border');
         clockWiseTimerID = null;
     }, delayTime);
 });
