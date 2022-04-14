@@ -55,7 +55,7 @@
 }
 
 #help_button {
-    background-image: url('../img/help.png');
+    background-image: url('../img/help.svg');
     filter: contrast(1000%);
 }
 
