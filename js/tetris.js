@@ -371,7 +371,7 @@ export default class Tetris {
             this.glassPos = this.isOpponent ? new Position(Tetris.PADDING * 2 + Math.floor(width / 2), Tetris.PADDING * 6) : new Position(this.cellSize * 5, Tetris.PADDING * 3);
         }
         this.glass.style.width = `${this.canvasCords2Document(Tetris.CELLS_COUNT/2 * this.cellSize)}px`;
-
+        this.glass.style.height = `${this.canvasCords2Document(Tetris.CELLS_COUNT * this.cellSize)}px`;
         this.glass.style.left = `${this.canvasCords2Document(this.glassPos.x)}px`;
         this.glass.style.top = `${this.canvasCords2Document(this.glassPos.y)}px`;
         this.glass.style.borderRadius = `${this.canvasCords2Document(this.cellSize/4)}px`;
@@ -380,9 +380,11 @@ export default class Tetris {
         this.body.style.fontSize = `${this.canvasCords2Document(this.fontSize)}px`;
         this.ctx.font = `${this.fontSize}px Minecrafter Alt`;
         this.next.style.width = `${this.canvasCords2Document(this.cellSize * Math.floor(Tetris.CELLS_COUNT / 3))}px`;
+        this.next.style.height = `${this.canvasCords2Document(this.cellSize * Math.floor(Tetris.CELLS_COUNT / 3))}px`;
         this.next.style.left = `${this.canvasCords2Document(this.glassPos.x + this.cellSize * 11)}px`;
         this.next.style.top = `${this.canvasCords2Document(this.cellSize + this.glassPos.y)}px`;
-        // this.ctx.roundRect(nextFieldX, nextFieldY, nextFieldW, nextFieldH, this.cellSize).fill();
+        this.next.style.borderRadius = `${this.canvasCords2Document(this.cellSize/4)}px`
+            // this.ctx.roundRect(nextFieldX, nextFieldY, nextFieldW, nextFieldH, this.cellSize).fill();
     }
 
     canvasCords2Document(x, y = null) {
