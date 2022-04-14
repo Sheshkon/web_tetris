@@ -72,11 +72,10 @@ export default class Tetris {
     levelLabel = document.getElementById('level_label');
     linesLabel = document.getElementById('lines_label');
     body = document.getElementById('_body');
-
+    isDisableSound = false
 
 
     constructor(canvas, width, height, isOpponent = false) {
-
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d')
         this.isOpponent = isOpponent;
@@ -103,6 +102,10 @@ export default class Tetris {
         });
     }
 
+    disableEnableSound() {
+        this.isDisableSound = this.isDisableSound ? false : true;
+    }
+
     stopBackgroundAudio() {
         if (this.isStoppedAudio) return;
         this.isStoppedAudio = true;
@@ -110,7 +113,7 @@ export default class Tetris {
     }
 
     resumeBackgroundAudio() {
-        if (!this.isStoppedAudio) return;
+        if (this.isDisableSound || !this.isStoppedAudio) return;
 
         Tetris.BACKGROUND_AUDIO_LIST[0].play().then(() => {
             this.isStoppedAudio = false;

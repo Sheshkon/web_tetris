@@ -139,7 +139,13 @@ window.onblur = function() {
 };
 
 function pauseResumeMusic() {
-    tetris.isStoppedAudio ? tetris.resumeBackgroundAudio() : tetris.stopBackgroundAudio();
+    if (tetris.isDisableSound) {
+        tetris.isDisableSound = false;
+        tetris.resumeBackgroundAudio();
+    } else {
+        tetris.isDisableSound = true;
+        tetris.stopBackgroundAudio();
+    }
 }
 
 function fullScreen() {
