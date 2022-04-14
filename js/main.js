@@ -1,18 +1,20 @@
 import Tetris from "../js/tetris.js";
 const delayTime = 85;
-let canvas = document.getElementById('game_field');
+const canvas = document.getElementById('game_field');
 let tetris = null;
 let keyDownTimerID = [null, null, null];
 let isFired = [false, false, false];
 let xDown = null;
 let yDown = null;
+let isLightTheme = false;
 // let bot = new Tetris(canvas.getContext('2d'), canvas.width, canvas.height, true); // maybe bot in the future
 // let botIsStarted = false;
 
-let body = document.getElementById('_body');
-document.getElementById("help_button").addEventListener("click", showHelp, false);
+const body = document.getElementById('_body');
+document.getElementById('help_button').addEventListener('click', showHelp, false);
 document.getElementById('fullscreen_button').addEventListener('click', fullScreen);
 document.getElementById('music_button').addEventListener('click', pauseResumeMusic);
+document.getElementById('dark_light_theme_button').addEventListener('click', switchTheme, false);
 document.addEventListener('keydown', handleKeyDown, true);
 document.addEventListener('keyup', handleKeyUP, false);
 document.addEventListener('touchstart', handleTouchStart, false);
@@ -137,6 +139,20 @@ window.onblur = function() {
     tetris.changePausedStatus();
     console.log('blur');
 };
+
+function switchTheme() {
+    if (isLightTheme) {
+        $('#bg').addClass('darkTheme');
+        $('#labels').addClass('darkTheme');
+        $('#settings').addClass('darkTheme');
+        isLightTheme = false;
+    } else {
+        $('#bg').removeClass('darkTheme');
+        $('#labels').removeClass('darkTheme');
+        $('#settings').removeClass('darkTheme');
+        isLightTheme = true;
+    }
+}
 
 function pauseResumeMusic() {
     if (tetris.isDisableSound) {

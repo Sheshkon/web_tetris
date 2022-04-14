@@ -22,7 +22,7 @@
             <img src="./img/next.svg" id="next">
         </container>
 
-        <container id="labels">
+        <container id="labels" class="darkTheme">
             <p id="next_label">NEXT</p>
             <p id="score_label">SCORE</p>
             <p id="level_label">LEVEL</p>
@@ -30,9 +30,12 @@
         </container>
 
         <container id="buttons">
-            <button id="help_button"></button>
-            <button id="fullscreen_button"></button>
-            <button id="music_button"></button>
+            <container id="settings" class="darkTheme">
+                <button id="help_button"></button>
+                <button id="fullscreen_button"></button>
+                <button id="music_button"></button>
+                <button id="dark_light_theme_button"></button>
+            </container>
             <continer id="control">
                 <button id="left_button" class="border"></button>
                 <button id="right_button" class="border"></button>
@@ -43,7 +46,8 @@
             </continer>
         </container>
 
-        <div id="bg"></div>
+        <div id="bg" class="darkTheme"></div>
+
         <canvas id="game_field"> </canvas>
         <video autoplay loop muted playsinline id="myVideo">
             <source src="" type="video/mp4" poster=".\img\bg.jpg">
