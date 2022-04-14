@@ -607,12 +607,11 @@ export default class Tetris {
         let h = this.cellSize * Math.floor(Tetris.CELLS_COUNT / 3);
         let x = this.glassPos.x + this.cellSize * 11; + Math.floor(this.cellSize * Math.floor(Tetris.CELLS_COUNT / 3) / 2);
         let w = this.cellSize * 6;
-        let padding = this.fontSize;
+        let padding = this.canvasCords2Document(this.fontSize);
         w = this.canvasCords2Document(w);
         x = this.canvasCords2Document(x);
-        h = this.canvasCords2Document(h);
+        h = this.canvasCords2Document(h) + padding / 10;
         y = this.canvasCords2Document(y);
-        padding = this.canvasCords2Document(padding);
 
         this.nextLabel.style.left = `${x}px`;
         this.nextLabel.style.top = `${y-padding}px`;
@@ -743,7 +742,6 @@ export default class Tetris {
 
     }
     update() {
-
 
         if (Tetris.activeCounter === 1 && !this.isOpponent) {
             this.ctx.clearRect(0, 0, this.width, this.height);
