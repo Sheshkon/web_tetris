@@ -7,5 +7,7 @@
 #glass,
 #next {
     position: absolute;
+    background-color: rgba(0, 0, 0);
+    background-color: rgba( #000000, .85);
     background-color: rgba(0, 0, 0, .85);
 }
