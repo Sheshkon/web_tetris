@@ -273,8 +273,13 @@ function handleKeyDown(event) {
         tetris.restart();
         setSize();
     }
-    if (key == "Esc" || key == "Escape") {
+
+    if (key == "p" || code == "KeyQ") {
         tetris.changePausedStatus();
+    }
+    if (key == "F1" || code == "F1") {
+        showHelp();
+
     }
     if (event.code === 'Space') {
         tetris.hardDrop();

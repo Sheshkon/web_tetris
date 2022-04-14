@@ -19,7 +19,7 @@ export default class Tetris {
     static START_SPEED = 1500;
     static instanceCounter = 0;
     static MOBILE_HELP_TEXT = "CONTROLS:\n  use screen buttons or swipes\n  - LEFT/RIGHT/DOWN swipe - left/right/down move\n  - UP swipe - rotation\n  - multitouch x3 - pause\n  - multitouch x4 - restart"
-    static PC_HELP_TEXT = "CONTROLS:\n  ⬅️ ➡️ ⬇️ or A, D, S - left/right/down move\n  ⬆️ or W - rotation\n  Q, E - counterclockwise and clockwise rotation\n  Esc - pause\n  Enter - restart\n  Space - hard drop\n"
+    static PC_HELP_TEXT = "CONTROLS:\n  ⬅️ ➡️ ⬇️ or A, D, S - left/right/down move\n  ⬆️ or W - rotation\n  Q, E - counterclockwise and clockwise rotation\n  F1 - help\n  P - pause\n  Enter - restart\n  Space - hard drop\n"
     static LIST_OF_COLORS = ["rgb(255,127,0)", "rgb(0, 0, 255)", "rgb(0, 255, 0)", "rgb(203, 40, 40)", "rgb(114,188,212)", "rgb(237, 226, 21)", "rgb(161, 13, 143)", "gray"];
     static LIST_OF_DARKER_COLORS = ["rgb(120,60,0)", "rgb(0, 0, 120)", "rgb(0, 120, 0)", "rgb(100, 20, 20)", "rgb(57,99,106)", "rgb(115, 112, 10)", "rgb(80, 6, 71)", "gray"];
     static LIST_OF_TETROMINOES = ["L", "J", "S", "Z", "I", "O", "T"];
