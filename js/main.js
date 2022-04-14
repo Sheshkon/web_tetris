@@ -180,6 +180,7 @@ function start() {
     tetris.start();
     document.getElementById('buttons').style.visibility = 'visible';
     document.getElementById('labels').style.visibility = 'visible';
+    document.getElementById('backs').style.visibility = 'visible';
     // bot.start();
 }
 

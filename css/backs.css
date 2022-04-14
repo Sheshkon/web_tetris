@@ -1,0 +1,12 @@
+#backs {
+    position: absolute;
+    opacity: 0.7;
+    z-index: -1;
+    visibility: hidden;
+}
+
+#glass,
+#next {
+    position: absolute;
+    border-radius: 10px;
+}
