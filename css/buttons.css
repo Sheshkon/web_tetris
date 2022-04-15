@@ -1,6 +1,7 @@
 #buttons {
     visibility: hidden;
     position: absolute;
+    z-index: 3;
 }
 
 #help_button,

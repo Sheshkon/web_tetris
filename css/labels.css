@@ -1,6 +1,7 @@
 #labels {
     visibility: hidden;
     position: absolute;
+    z-index: 3;
 }
 
 #next_label,
