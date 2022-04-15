@@ -207,7 +207,7 @@ function start() {
     document.getElementById('buttons').style.visibility = 'visible';
     document.getElementById('labels').style.visibility = 'visible';
     backs.style.visibility = 'visible';
-    backs.style.opacity = 0.85;
+    // backs.style.opacity = 0.85;
 
     // bot.start();
 }
