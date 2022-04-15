@@ -161,11 +161,11 @@ function switchTheme() {
 
 function pauseResumeMusic() {
     if (tetris.isDisableSound) {
-        this.style.backgroundImage = "url('../img/music-on.svg')";
+        this.style.backgroundImage = "url('./img/music-on.svg')";
         tetris.isDisableSound = false;
         tetris.resumeBackgroundAudio();
     } else {
-        this.style.backgroundImage = "url('../img/music-off.svg')";
+        this.style.backgroundImage = "url('./img/music-off.svg')";
         tetris.isDisableSound = true;
         tetris.stopBackgroundAudio();
     }
