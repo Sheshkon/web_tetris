@@ -1,6 +1,5 @@
 #backs {
     position: absolute;
-    z-index: -1;
     visibility: hidden;
 }
 
@@ -8,4 +7,5 @@
 #next {
     position: absolute;
     background-color: rgba(0, 0, 0);
+    z-index: -1;
 }
