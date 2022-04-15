@@ -41,7 +41,7 @@ export default class Tetris {
     // static GAME_OVER_SOUND = new Audio('./audio/game_over.wav');
     // static RESTART_GAME_AUDIO = new Audio('./audio/restart_game.wav');
     // static TAP_SOUND = new Audio('./audio/tap_sound.wav');
-    static BACKGROUND_AUDIO_LIST = [new Audio('./audio/background/1.wav')];
+    static BACKGROUND_AUDIO_LIST = [new Audio('./audio/background/1.mp3')];
     clearedLines = [];
     buttons = [];
     board = [];
@@ -75,7 +75,7 @@ export default class Tetris {
     glass = document.getElementById('glass');
     next = document.getElementById('next');
     body = document.getElementById('_body');
-    isDisableSound = false
+    isDisableSound = true;
 
 
     constructor(canvas, width, height, isOpponent = false) {
@@ -95,19 +95,16 @@ export default class Tetris {
         Tetris.BACKGROUND_AUDIO_LIST[0].loop = true;
     }
 
-    playBackgroundAudio() {
-        if (this.isBackgroundAudio) return;
+    // playBackgroundAudio() {
+    //     if (this.isBackgroundAudio) return;
 
-        Tetris.BACKGROUND_AUDIO_LIST[0].play().then(() => {
-            this.isBackgroundAudio = true
-        }).catch(() => {
-            return;
-        });
-    }
+    //     Tetris.BACKGROUND_AUDIO_LIST[0].play().then(() => {
+    //         this.isBackgroundAudio = true
+    //     }).catch(() => {
+    //         return;
+    //     });
+    // }
 
-    disableEnableSound() {
-        this.isDisableSound = this.isDisableSound ? false : true;
-    }
 
     stopBackgroundAudio() {
         if (this.isStoppedAudio) return;
@@ -117,7 +114,6 @@ export default class Tetris {
 
     resumeBackgroundAudio() {
         if (this.isDisableSound || !this.isStoppedAudio) return;
-
         Tetris.BACKGROUND_AUDIO_LIST[0].play().then(() => {
             this.isStoppedAudio = false;
         }).catch(() => {

@@ -2,7 +2,11 @@ import Tetris from "../js/tetris.js";
 const delayTime = 85;
 const canvas = document.getElementById('game_field');
 let tetris = null;
-let keyDownTimerID = [null, null, null];
+let keyDownTimerID = [
+    [],
+    [],
+    []
+];
 let isFired = [false, false, false];
 let xDown = null;
 let yDown = null;
@@ -11,6 +15,7 @@ let isLightTheme = false;
 // let botIsStarted = false;
 
 const body = document.getElementById('_body');
+
 document.getElementById('help_button').addEventListener('click', showHelp, false);
 document.getElementById('fullscreen_button').addEventListener('click', fullScreen);
 document.getElementById('music_button').addEventListener('click', pauseResumeMusic);
@@ -156,9 +161,11 @@ function switchTheme() {
 
 function pauseResumeMusic() {
     if (tetris.isDisableSound) {
+        this.style.backgroundImage = "url('../img/music-on.svg')";
         tetris.isDisableSound = false;
         tetris.resumeBackgroundAudio();
     } else {
+        this.style.backgroundImage = "url('../img/music-off.svg')";
         tetris.isDisableSound = true;
         tetris.stopBackgroundAudio();
     }
@@ -178,7 +185,7 @@ function fullScreen() {
 
 function start() {
     console.log('start');
-    document.getElementById('bg').style.backgroundImage = `url('https://blog.1a23.com/wp-content/uploads/sites/2/2020/02/pattern-${Math.floor(Math.random() * 33)}.svg')`;
+    document.getElementById('bg').style.backgroundImage = `url('https://blog.1a23.com/wp-content/uploads/sites/2/2020/02/pattern-${Math.floor(Math.random() * 33)+1}.svg')`;
     let isTouchableDevice = false;
 
     tetris = new Tetris(canvas, canvas.width, canvas.height);
@@ -197,6 +204,7 @@ function start() {
     document.getElementById('buttons').style.visibility = 'visible';
     document.getElementById('labels').style.visibility = 'visible';
     document.getElementById('backs').style.visibility = 'visible';
+
     // bot.start();
 }
 
@@ -236,13 +244,7 @@ function showHelp() {
 
 
 function handleKeyDown(event) {
-    // if (event.defaultPrevented) {
-    //     return; // Do nothing if the event was already processed
-    // }
-    if (!tetris.isBackgroundAudio) {
-        tetris.playBackgroundAudio();
-        tetris.isStoppedAudio = false;
-    }
+    event.preventDefault();
 
     let key = event.key;
     let code = event.code;
@@ -251,10 +253,9 @@ function handleKeyDown(event) {
         if (isFired[0])
             return;
         tetris.move(0, 1);
-        clearButtonsIntervals(keyDownTimerID, true);
-        keyDownTimerID[0] = setInterval(() => {
+        keyDownTimerID[0].push(setInterval(() => {
             tetris.move(0, 1);
-        }, 85);
+        }, delayTime));
         isFired[0] = true;
 
     }
@@ -268,10 +269,9 @@ function handleKeyDown(event) {
         if (isFired[1])
             return;
         tetris.move(-1, 0);
-        clearButtonsIntervals(keyDownTimerID, true);
-        keyDownTimerID[1] = setInterval(() => {
+        keyDownTimerID[1].push(setInterval(() => {
             tetris.move(-1, 0);
-        }, 85);
+        }, delayTime));
         isFired[1] = true;
 
     }
@@ -279,10 +279,9 @@ function handleKeyDown(event) {
         if (isFired[2])
             return;
         tetris.move(1, 0);
-        clearButtonsIntervals(keyDownTimerID, true);
-        keyDownTimerID[2] = setInterval(() => {
+        keyDownTimerID[2].push(setInterval(() => {
             tetris.move(1, 0);
-        }, 85);
+        }, delayTime));
         isFired[2] = true;
 
     }
@@ -291,7 +290,7 @@ function handleKeyDown(event) {
         setSize();
     }
 
-    if (key == "p" || code == "KeyQ") {
+    if (key == "p" || code == "KeyP") {
         tetris.changePausedStatus();
     }
     if (key == "F1" || code == "F1") {
@@ -306,10 +305,6 @@ function handleKeyDown(event) {
     //     bot.changeActive();
     //     setSize();
     // }
-
-
-    // Cancel the default action to avoid it being handled twice
-    event.preventDefault();
 }
 
 
@@ -320,17 +315,24 @@ function handleKeyUP(event) {
 
     if (key == "Right" || key == "ArrowRight" || code == "KeyD") {
         isFired[2] = false;
+        keyDownTimerID[2].forEach(element => {
+            clearInterval(element);
+        });
         clearInterval(keyDownTimerID[2]);
     }
 
     if (key == "Left" || key == "ArrowLeft" || code == "KeyA") {
         isFired[1] = false;
-        clearInterval(keyDownTimerID[1]);
+        keyDownTimerID[1].forEach(element => {
+            clearInterval(element);
+        });
     }
 
     if (key == "DOWN" || key == "ArrowDown" || code == "KeyS") {
         isFired[0] = false;
-        clearInterval(keyDownTimerID[0]);
+        keyDownTimerID[0].forEach(element => {
+            clearInterval(element);
+        });
     }
 }
 
@@ -341,11 +343,6 @@ function getTouches(evt) {
 }
 
 function handleTouchStart(event) {
-    if (!tetris.isBackgroundAudio) {
-        tetris.playBackgroundAudio();
-        tetris.isStoppedAudio = false;
-    }
-
     const firstTouch = getTouches(event)[0];
     if (event.touches.length == 3) {
         // document.location.reload();
