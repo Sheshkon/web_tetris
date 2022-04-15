@@ -49,6 +49,7 @@
 }
 
 #music_button {
+    background-image: url('../img/music-on.svg');
     background-image: url('../img/music-off.svg');
 }
 
