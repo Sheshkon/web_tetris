@@ -15,7 +15,7 @@ let isLightTheme = false;
 // let botIsStarted = false;
 
 const body = document.getElementById('_body');
-
+const backs = document.getElementById('backs');
 document.getElementById('help_button').addEventListener('click', showHelp, false);
 document.getElementById('fullscreen_button').addEventListener('click', fullScreen);
 document.getElementById('music_button').addEventListener('click', pauseResumeMusic);
@@ -203,7 +203,8 @@ function start() {
     tetris.start();
     document.getElementById('buttons').style.visibility = 'visible';
     document.getElementById('labels').style.visibility = 'visible';
-    document.getElementById('backs').style.visibility = 'visible';
+    backs.style.visibility = 'visible';
+    backs.style.opacity = 0.85;
 
     // bot.start();
 }
