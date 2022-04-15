@@ -16,6 +16,7 @@ let isLightTheme = false;
 
 const body = document.getElementById('_body');
 const backs = document.getElementById('backs');
+const control = document.getElementById('control');
 document.getElementById('help_button').addEventListener('click', showHelp, false);
 document.getElementById('fullscreen_button').addEventListener('click', fullScreen);
 document.getElementById('music_button').addEventListener('click', pauseResumeMusic);
@@ -195,6 +196,8 @@ function start() {
     if (isTouchableDevice) {
         tetris.isTouchableDevice = true;
         tetris.helpText = Tetris.MOBILE_HELP_TEXT;
+        control.style.visibility = 'visible';
+
     }
 
     // bot.isTouchableDevice = isTouchableDevice;

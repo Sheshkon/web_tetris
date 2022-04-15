@@ -21,6 +21,10 @@
     border: none;
 }
 
+#control {
+    visibility: hidden;
+}
+
 #left_button,
 #right_button,
 #clockwise_button,
@@ -58,9 +62,6 @@
 }
 
 @media (hover: hover) {
-    #control {
-        display: none;
-    }
     #fullscreen_button:hover,
     #music_button:hover,
     #help_button:hover,
