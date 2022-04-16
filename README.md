@@ -24,6 +24,7 @@ Desktop version includes:
 ⬅️ ➡️ ⬇️ or A, D, S - left/right/down move </br>
 ⬆️ or W - rotation </br>
 
+F1 - help </br>
 Q, E - counterclockwise and clockwise rotation </br>
 P - pause </br>
 Enter - restart </br>
