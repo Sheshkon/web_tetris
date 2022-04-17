@@ -7,6 +7,13 @@ let keyDownTimerID = [
     [],
     []
 ];
+
+let buttonDownTimerID = [
+    [],
+    [],
+    []
+];
+
 let isFired = [false, false, false];
 let xDown = null;
 let yDown = null;
@@ -40,9 +47,13 @@ $('#left_button').on('touchstart', function(e) {
     $(this).removeClass('border');
     leftMoveTimerID = setInterval(() => {
         tetris.move(-1, 0);
-    }, delayTime)
+    }, delayTime);
+    buttonDownTimerID[0].push(leftMoveTimerID);
 }).bind('touchend', () => {
-    clearInterval(leftMoveTimerID);
+    // clearInterval(leftMoveTimerID);
+    buttonDownTimerID[0].forEach(el => {
+        clearInterval(el);
+    })
     $('#left_button').removeClass('pushed');
     $('#left_button').addClass('border')
 });
@@ -55,9 +66,13 @@ $('#right_button').on('touchstart', function(e) {
     $(this).removeClass('border');
     rightMoveTimerID = setInterval(() => {
         tetris.move(1, 0);
-    }, delayTime)
+    }, delayTime);
+    buttonDownTimerID[1].push(rightMoveTimerID);
 }).bind('touchend', () => {
-    clearInterval(rightMoveTimerID);
+    // clearInterval(rightMoveTimerID);
+    buttonDownTimerID[1].forEach(el => {
+        clearInterval(el);
+    })
     $('#right_button').removeClass('pushed');
     $('#right_button').addClass('border')
 });
@@ -70,9 +85,13 @@ $('#down_button').on('touchstart', function(e) {
     $(this).removeClass('border');
     downMoveTimerID = setInterval(() => {
         tetris.move(0, 1);
-    }, delayTime)
+    }, delayTime);
+    buttonDownTimerID[2].push(downMoveTimerID);
 }).bind('touchend', () => {
-    clearInterval(downMoveTimerID);
+    // clearInterval(downMoveTimerID);
+    buttonDownTimerID[2].forEach(el => {
+        clearInterval(el);
+    })
     $('#down_button').removeClass('pushed');
     $('#down_button').addClass('border')
 });
