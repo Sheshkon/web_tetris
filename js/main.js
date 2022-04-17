@@ -54,6 +54,7 @@ $('#left_button').on('touchstart', function(e) {
     buttonDownTimerID[0].forEach(el => {
         clearInterval(el);
     })
+    buttonDownTimerID[0] = [];
     $('#left_button').removeClass('pushed');
     $('#left_button').addClass('border')
 });
@@ -72,7 +73,8 @@ $('#right_button').on('touchstart', function(e) {
     // clearInterval(rightMoveTimerID);
     buttonDownTimerID[1].forEach(el => {
         clearInterval(el);
-    })
+    });
+    buttonDownTimerID[1] = [];
     $('#right_button').removeClass('pushed');
     $('#right_button').addClass('border')
 });
@@ -92,6 +94,7 @@ $('#down_button').on('touchstart', function(e) {
     buttonDownTimerID[2].forEach(el => {
         clearInterval(el);
     })
+    buttonDownTimerID[2] = [];
     $('#down_button').removeClass('pushed');
     $('#down_button').addClass('border')
 });
@@ -156,6 +159,16 @@ window.addEventListener('load', () => {
 
 window.addEventListener('resize', (event) => {
     setSize();
+    buttonDownTimerID.forEach(el => {
+        el.forEach(elNext => {
+            clearInterval(elNext);
+        })
+    });
+    buttonDownTimerID = [
+        [],
+        [],
+        [],
+    ]
 }, true);
 
 window.onfocus = function() {
@@ -347,7 +360,7 @@ function handleKeyUP(event) {
         keyDownTimerID[2].forEach(element => {
             clearInterval(element);
         });
-        clearInterval(keyDownTimerID[2]);
+        keyDownTimerID[2] = [];
     }
 
     if (key == "Left" || key == "ArrowLeft" || code == "KeyA") {
@@ -355,6 +368,7 @@ function handleKeyUP(event) {
         keyDownTimerID[1].forEach(element => {
             clearInterval(element);
         });
+        keyDownTimerID[1] = [];
     }
 
     if (key == "DOWN" || key == "ArrowDown" || code == "KeyS") {
@@ -362,6 +376,7 @@ function handleKeyUP(event) {
         keyDownTimerID[0].forEach(element => {
             clearInterval(element);
         });
+        keyDownTimerID[0] = [];
     }
 }
 
