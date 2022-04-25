@@ -223,7 +223,7 @@ function fullScreen() {
 
 function start() {
     console.log('start');
-    document.getElementById('bg').style.backgroundImage = `url('https://blog.1a23.com/wp-content/uploads/sites/2/2020/02/pattern-${Math.floor(Math.random() * 33)+1}.svg')`;
+    // document.getElementById('bg').style.backgroundImage = `url('https://blog.1a23.com/wp-content/uploads/sites/2/2020/02/pattern-${Math.floor(Math.random() * 33)+1}.svg')`;
     let isTouchableDevice = false;
 
     tetris = new Tetris(canvas, canvas.width, canvas.height);
