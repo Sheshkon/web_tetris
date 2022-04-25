@@ -43,7 +43,7 @@ body {
 }
 
 #bg {
-    /* background-image: url('https://blog.1a23.com/wp-content/uploads/sites/2/2020/02/pattern-7.svg'); */
+    background-image: url('../img/pattern-2.svg');
     background-repeat: repeat;
     position: fixed;
     width: 100%;
