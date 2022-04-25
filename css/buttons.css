@@ -73,25 +73,25 @@
 }
 
 #left_button {
-    background-image: url('../img/left.png');
+    background-image: url('../img/left.svg');
 }
 
 #right_button {
-    background-image: url('../img/right.png');
+    background-image: url('../img/right.svg');
 }
 
 #clockwise_button {
-    background-image: url('../img/clockwise.png');
+    background-image: url('../img/clockwise.svg');
 }
 
 #counterclockwise_button {
-    background-image: url('../img/counterclockwise.png');
+    background-image: url('../img/counterclockwise.svg');
 }
 
 #down_button {
-    background-image: url('../img/down.png');
+    background-image: url('../img/down.svg');
 }
 
 #harddrop_button {
-    background-image: url('../img/harddrop.png');
+    background-image: url('../img/harddrop.svg');
 }
