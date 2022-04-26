@@ -27,6 +27,8 @@ const control = document.getElementById('control');
 document.getElementById('help_button').addEventListener('click', showHelp, false);
 document.getElementById('fullscreen_button').addEventListener('click', fullScreen);
 document.getElementById('music_button').addEventListener('click', pauseResumeMusic);
+document.getElementById('music_button').addEventListener('mouseover', mouseOverMusicLine);
+document.getElementById('music_button').addEventListener('mouseout', mouseOutMusicLine);
 document.getElementById('dark_light_theme_button').addEventListener('click', switchTheme, false);
 document.addEventListener('keydown', handleKeyDown, true);
 document.addEventListener('keyup', handleKeyUP, false);
@@ -197,13 +199,27 @@ function switchTheme() {
     }
 }
 
+function mouseOverMusicLine() {
+    if (tetris.isTouchableDevice)
+        return;
+
+    $('#music_line').css('transform', 'scale(1.3,1.3)');
+}
+
+function mouseOutMusicLine() {
+    if (tetris.isTouchableDevice)
+        return;
+    $('#music_line').css('transform', 'scale(1,1)');
+}
+
 function pauseResumeMusic() {
     if (tetris.isDisableSound) {
-        this.style.backgroundImage = "url('./img/music-on.svg')";
+        $('#music_line').css('visibility', 'hidden');
         tetris.isDisableSound = false;
         tetris.resumeBackgroundAudio();
     } else {
-        this.style.backgroundImage = "url('./img/music-off.svg')";
+        // this.style.backgroundImage = "url('./img/music-off.svg')";
+        $('#music_line').css('visibility', 'visible');
         tetris.isDisableSound = true;
         tetris.stopBackgroundAudio();
     }

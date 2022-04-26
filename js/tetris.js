@@ -63,6 +63,7 @@ export default class Tetris {
     rightBtn = document.getElementById('right_button');
     helpBtn = document.getElementById('help_button');
     musicBtn = document.getElementById('music_button');
+    musicLine = document.getElementById('music_line');
     themeBtn = document.getElementById('dark_light_theme_button');
     clockwiseBtn = document.getElementById('clockwise_button');
     counterClockwiseBtn = document.getElementById('counterclockwise_button');
@@ -580,8 +581,11 @@ export default class Tetris {
         w = this.canvasCords2Document(this.cellSize * 2);
         this.fullScreenBtn.style.width = `${w*0.75}px`;
         this.fullScreenBtn.style.height = `${w*0.75}px`;
-        this.musicBtn.style.width = `${w*0.75}px`;
-        this.musicBtn.style.height = `${w*0.75}px`;
+        this.musicBtn.style.height = `${w*0.9}px`;
+        this.musicBtn.style.width = `${w*0.8}px`;
+        this.musicLine.style.height = `${w*0.9}px`;
+        this.musicLine.style.width = `${w*0.8}px`;
+
         this.helpBtn.style.height = `${w}px`;
         this.helpBtn.style.width = `${w}px`;
         this.themeBtn.style.width = `${w}px`;
@@ -599,9 +603,11 @@ export default class Tetris {
         this.helpBtn.style.left = `${x_y.x}px`;
         this.helpBtn.style.top = `${x_y.y}px`;
 
-        x_y = this.canvasCords2Document(x + w * 0.25, y + w * 0.25 + this.cellSize * 4);
+        x_y = this.canvasCords2Document(x, y + w * 0.25 + this.cellSize * 4);
         this.musicBtn.style.left = `${x_y.x}px`;
         this.musicBtn.style.top = `${x_y.y}px`;
+        this.musicLine.style.left = `${x_y.x}px`;
+        this.musicLine.style.top = `${x_y.y}px`;
 
         x_y = this.canvasCords2Document(x, y + w * 0.25 + this.cellSize * 6);
         this.themeBtn.style.left = `${x_y.x}px`;
