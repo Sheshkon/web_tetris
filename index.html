@@ -38,7 +38,6 @@
                 <button id="fullscreen_button"></button>
                 <div id="music_line"></div>
                 <button id="music_button"></button>
-
                 <button id="dark_light_theme_button"></button>
             </container>
             <continer id="control">
@@ -53,21 +52,64 @@
 
         <div id="bg" class="darkTheme"></div>
         <dialog class="help_modal" id="help_modal">
-            <!-- <h6>CONTROLS:</h6> -->
-            <!-- <div id="mobile_help_text">
-
-            </div> -->
+            <p id="controls">CONTROLS</p>
             <div id="pc_help_text">
-                <p>CONTROLS</p>
-                <p>⬅️ ➡️ ⬇️ or A, D, S - left/right/down move</p>
-                <p>⬆️ or W - rotation</p>
-                <p> Q, E - counterclockwise and clockwise rotation</p>
-                <p> F1 - help</p>
-                <p> P - pause</p>
-                <p> Enter - restart</p>
-                <p> Space - hard drop</p>
-                <a href="https://github.com/Sheshkon/web_tetris" target="_blank">project link</a>
+                <table>
+                    <tr>
+                        <td class="left"> moves</td>
+                        <td>⬅️ ➡️ ⬇️ (A, D, S)</td>
+                    </tr>
+                    <tr>
+                        <td class="left"> rotation</td>
+                        <td>⬆️ (W)</td>
+                    </tr>
+                    <tr>
+                        <td class="left"> ccw/cw rotation</td>
+                        <td>Q, E</td>
+                    </tr>
+                    <tr>
+                        <td class="left"> help</td>
+                        <td>F1</td>
+                    </tr>
+                    <tr>
+                        <td class="left"> pause</td>
+                        <td>P</td>
+                    </tr>
+                    <tr>
+                        <td class="left"> restart</td>
+                        <td>Enter</td>
+                    </tr>
+                    <tr>
+                        <td class="left"> hard drop</td>
+                        <td>Space</td>
+                    </tr>
+                </table>
             </div>
+            <!-- CONTROLS:\n \n - LEFT/RIGHT/DOWN swipe - left/right/down move\n - UP swipe - rotation\n - multitouch x3 - pause\n - multitouch x4 - restart" -->
+
+            <div id="mobile_help_text">
+                <table>
+                    <tr>
+                        <td class="left">moves</td>
+                        <td>buttons/swipes</td>
+                    </tr>
+                    <tr>
+                        <td class="left"> cw rotation</td>
+                        <td>UP swipe</td>
+                    </tr>
+
+                    <tr>
+                        <td class="left"> pause</td>
+                        <td>multitouch x3</td>
+                    </tr>
+                    <tr>
+                        <td class="left"> restart</td>
+                        <td>multitouch x4</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="div_link"><a href="https://github.com/Sheshkon/web_tetris" target="_blank">project link</a></div>
+            <hr>
             <button id="close_help_modal">ok</button>
         </dialog>
 

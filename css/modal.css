@@ -1,38 +1,66 @@
-        #help_modal {
-            max-width: 50ch;
-            z-index: 100;
-        }
-        
-        #help_modal p,
-        #help_modal a {
-            font-size: small;
-            line-height: 0.7em;
-            /* within paragraph */
-            margin-bottom: 0em;
-            /* between paragraphs */
-        }
-        
-        dialog {
-            border: solid rgb(255, 0, 0) .2em;
-            border-radius: 10px;
-            position: relative;
-            padding-bottom: 1.5em;
-        }
-        
-        #close_help_modal {
-            position: absolute;
-            color: white;
-            background-color: black;
-            border-radius: .4em;
-            width: 10em;
-            font-family: "Minecrafter Alt";
-            margin-top: 1em;
-            left: 50%;
-            transform: translateX(-50%);
-            /* transform: translate(-50%, -100%); */
-        }
-        
-        #close_help_modal:hover {
-            color: black;
-            background-color: green;
-        }
+#pc_help_text,
+#mobile_help_text {
+    /* visibility: hidden; */
+    display: none;
+}
+
+#help_modal {
+    max-width: 50ch;
+    z-index: 100;
+}
+
+#help_modal p,
+#help_modal a,
+td {
+    font-size: 0.5em;
+    /* line-height: 0.5rem; */
+    text-align: center;
+}
+
+dialog {
+    border: solid blue .1em;
+    border-radius: 1em;
+    position: relative;
+}
+
+#close_help_modal {
+    color: white;
+    background-color: black;
+    border-radius: .4em;
+    font-family: "Minecrafter Alt";
+    margin: 0 auto;
+    display: block;
+    width: 5em;
+    font-size: 0.7em;
+}
+
+#close_help_modal:hover {
+    color: black;
+    background-color: green;
+}
+
+table {
+    border: none;
+    padding-top: 0% !important;
+    margin-top: 0%;
+}
+
+td {
+    text-align: center;
+    font-style: italic;
+    padding-bottom: 0.5em;
+    padding-left: 2em;
+}
+
+.left {
+    color: red;
+    text-align: left;
+    font-style: normal;
+    font-weight: lighter;
+    padding-left: 0%;
+}
+
+#controls {
+    font-size: 1em !important;
+    text-align: center;
+}

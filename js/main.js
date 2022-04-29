@@ -26,6 +26,9 @@ const backs = document.getElementById('backs');
 const control = document.getElementById('control');
 const canvas = document.getElementById('game_field');
 const helpModel = document.querySelector("#help_modal");
+const helpPCText = document.getElementById('pc_help_text');
+const helpMobileText = document.getElementById('mobile_help_text');
+
 document.getElementById('help_button').addEventListener('click', showHelp, false);
 document.getElementById('fullscreen_button').addEventListener('click', fullScreen);
 document.getElementById('music_button').addEventListener('click', pauseResumeMusic);
@@ -254,7 +257,9 @@ function start() {
         tetris.isTouchableDevice = true;
         tetris.helpText = Tetris.MOBILE_HELP_TEXT;
         control.style.visibility = 'visible';
-
+        helpMobileText.style.display = 'inline';
+    } else {
+        helpPCText.style.display = 'inline';
     }
 
     // bot.isTouchableDevice = isTouchableDevice;
