@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./css/buttons.css">
     <link rel="stylesheet" href="./css/labels.css">
     <link rel="stylesheet" href="./css/backs.css">
+    <link rel="stylesheet" href="./css/modal.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="module" src="./js/main.js"></script>
 </head>
@@ -51,6 +52,23 @@
         </container>
 
         <div id="bg" class="darkTheme"></div>
+        <dialog class="help_modal" id="help_modal">
+            <!-- <h6>CONTROLS:</h6> -->
+            <!-- <div id="mobile_help_text">
+
+            </div> -->
+            <div id="pc_help_text">
+                <p>CONTROLS</p>
+                <p>⬅️ ➡️ ⬇️ or A, D, S - left/right/down move</p>
+                <p>⬆️ or W - rotation</p>
+                <p> Q, E - counterclockwise and clockwise rotation</p>
+                <p> F1 - help\n P - pause</p>
+                <p> Enter - restart</p>
+                <p> Space - hard drop</p>
+                <a href="https://github.com/Sheshkon/web_tetris" target="_blank">project link</a>
+            </div>
+            <button id="close_help_modal">ok</button>
+        </dialog>
 
         <canvas id="game_field"> </canvas>
         <video autoplay loop muted playsinline id="myVideo">
