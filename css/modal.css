@@ -6,13 +6,17 @@
         #help_modal p,
         #help_modal a {
             font-size: small;
+            line-height: 0.7em;
+            /* within paragraph */
+            margin-bottom: 0em;
+            /* between paragraphs */
         }
         
         dialog {
             border: solid rgb(255, 0, 0) .2em;
             border-radius: 10px;
             position: relative;
-            height: max-content;
+            padding-bottom: 1.5em;
         }
         
         #close_help_modal {
@@ -21,14 +25,11 @@
             background-color: black;
             border-radius: .4em;
             width: 10em;
-            /* border-color: transparent; */
             font-family: "Minecrafter Alt";
-            /* font-size: 0.7em; */
             margin-top: 1em;
             left: 50%;
-            /* transform: translateX(-50%); */
-            transform: translate(-50%, -100%);
-            margin-bottom: 2em;
+            transform: translateX(-50%);
+            /* transform: translate(-50%, -100%); */
         }
         
         #close_help_modal:hover {
