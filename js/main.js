@@ -31,7 +31,11 @@ const helpPCText = document.getElementById('pc_help_text');
 const helpMobileText = document.getElementById('mobile_help_text');
 
 
-
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker
+        .register('/web_tetris/appCache.js', { scope: '/web_tetris/' })
+        .then(function() { console.log("Service Worker Registered"); });
+}
 
 window.addEventListener('beforeunload', (event) => {
     event.preventDefault();

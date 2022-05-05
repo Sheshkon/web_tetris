@@ -9,20 +9,19 @@ self.addEventListener('activate', function(event) {
 let CACHE_NAME = 'app_serviceworker_v_1',
 
     cacheUrls = [
-        '../',
-        'web_tetris/',
-        '../css/backs.css',
-        '../css/buttons.css',
-        '../css/labels.css',
-        '../css/modal.css',
-        '../css/style.css',
-        '../js/main.js',
-        '../js/position.js',
-        '../js/tetris.js',
-        '../js/tetromino.js',
+        '/web_tetris/',
+        '/web_tetris/css/backs.css',
+        '/web_tetris/css/buttons.css',
+        '/web_tetris/css/labels.css',
+        '/web_tetris/css/modal.css',
+        '/web_tetris/css/style.css',
+        '/web_tetris/js/main.js',
+        '/web_tetris/js/position.js',
+        '/web_tetris/js/tetris.js',
+        '/web_tetris/js/tetromino.js',
         //. '/test_serviceworker/css/custom.css',
         // '/test_serviceworker/images/icon.png',
-        '../index.html'
+        '/web_tetris/index.html'
     ];
 
 self.addEventListener('install', function(event) {
