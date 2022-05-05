@@ -33,7 +33,7 @@ const helpMobileText = document.getElementById('mobile_help_text');
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker
-        .register('/web_tetris/js/appCache.js', { scope: '/web_tetris/js/' })
+        .register('/web_tetris/js/appCache.js')
         .then(function() { console.log("Service Worker Registered"); });
 }
 
