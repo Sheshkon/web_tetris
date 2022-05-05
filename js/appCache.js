@@ -9,6 +9,7 @@ self.addEventListener('activate', function(event) {
 let CACHE_NAME = 'app_serviceworker_v_1',
 
     cacheUrls = [
+        '../',
         '../css/backs.css',
         '../css/buttons.css',
         '../css/labels.css',
