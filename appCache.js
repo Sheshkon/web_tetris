@@ -10,6 +10,7 @@ const CACHE_NAME = 'app_serviceworker_v_1',
 
     cacheUrls = [
         '/web_tetris/',
+        '/web_tetris/index.html',
         '/web_tetris/css/backs.css',
         '/web_tetris/css/buttons.css',
         '/web_tetris/css/labels.css',
@@ -19,9 +20,22 @@ const CACHE_NAME = 'app_serviceworker_v_1',
         '/web_tetris/js/position.js',
         '/web_tetris/js/tetris.js',
         '/web_tetris/js/tetromino.js',
-        //. '/test_serviceworker/css/custom.css',
-        // '/test_serviceworker/images/icon.png',
-        '/web_tetris/index.html'
+        '/web_tetris/img/clockwise.svg',
+        '/web_tetris/img/counterclockwise.svg',
+        '/web_tetris/img/down.svg',
+        '/web_tetris/img/fullscreen-svgrepo-com.svg',
+        '/web_tetris/img/harddrop.svg',
+        '/web_tetris/img/help.svg',
+        '/web_tetris/img/left.svg',
+        '/web_tetris/img/line.svg',
+        '/web_tetris/img/music.svg',
+        '/web_tetris/img/next.svg',
+        '/web_tetris/img/pattern-2.svg',
+        '/web_tetris/img/right.svg',
+        '/theme_light_dark_icon_137104.svg',
+        '/web_tetris/img/icon.png',
+        'https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js',
+        'https://fonts.cdnfonts.com/css/minecrafter-alt'
     ];
 
 self.addEventListener('install', function(event) {
