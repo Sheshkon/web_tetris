@@ -2,26 +2,25 @@ self.addEventListener('activate', function(event) {
     console.log('activate', event);
 });
 
-self.addEventListener('install', function(event) {
-    console.log('install', event);
-});
+// self.addEventListener('install', function(event) {
+//     console.log('install', event);
+// });
 
 let CACHE_NAME = 'app_serviceworker_v_1',
 
     cacheUrls = [
-
-        '../css/backs.css',
-        '../css/buttons.css',
-        '../css/labels.css',
-        '../css/modal.css',
-        '../css/style.css',
-        '../js/main.js',
-        '../js/position.js',
-        '../js/tetris.js',
-        '../js/tetromino.js',
+        'css/backs.css',
+        'css/buttons.css',
+        'css/labels.css',
+        'css/modal.css',
+        'css/style.css',
+        'js/main.js',
+        'js/position.js',
+        'js/tetris.js',
+        'js/tetromino.js',
         //. '/test_serviceworker/css/custom.css',
         // '/test_serviceworker/images/icon.png',
-        '../index.html'
+        'index.html'
     ];
 
 self.addEventListener('install', function(event) {
