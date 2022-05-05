@@ -496,7 +496,7 @@ export default class Tetris {
             this.lvl = Math.floor(this.line / 10) + 1;
             if (this.lvl > prevLVL) {
                 // Tetris.LVL_UP_AUDIO.play();
-                this.currentSpeed -= this.currentSpeed > 75 ? Tetris.STEP_SPEED : 0;
+                this.currentSpeed -= this.currentSpeed > Tetris.STEP_SPEED ? Tetris.STEP_SPEED : 0;
                 console.log("current moved delay:", this.currentSpeed, "ms");
             }
             this.animation(copyBoardMatrix, copyColorsMatrix);

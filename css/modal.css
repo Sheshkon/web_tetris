@@ -18,7 +18,7 @@ td {
 }
 
 dialog {
-    border: solid blue .1em;
+    border: solid red .1em;
     border-radius: 1em;
     position: relative;
 }
