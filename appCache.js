@@ -6,7 +6,7 @@ self.addEventListener('activate', function(event) {
 //     console.log('install', event);
 // });
 
-let CACHE_NAME = 'app_serviceworker_v_1',
+const CACHE_NAME = 'app_serviceworker_v_1',
 
     cacheUrls = [
         '/web_tetris/',
@@ -33,11 +33,31 @@ self.addEventListener('install', function(event) {
 });
 
 
+
+const MAX_AGE = 86400000;
+
 self.addEventListener('fetch', function(event) {
+
     event.respondWith(
         caches.match(event.request).then(function(cachedResponse) {
+            let lastModified, fetchRequest;
 
             if (cachedResponse) {
+                lastModified = new Date(cachedResponse.headers.get('last-modified'));
+                if (lastModified && (Date.now() - lastModified.getTime()) > MAX_AGE) {
+                    fetchRequest = event.request.clone();
+                    return fetch(fetchRequest).then(function(response) {
+                        if (!response || response.status !== 200) {
+                            return cachedResponse;
+                        }
+                        caches.open(CACHE_NAME).then(function(cache) {
+                            cache.put(event.request, response.clone());
+                        });
+                        return response;
+                    }).catch(function() {
+                        return cachedResponse;
+                    });
+                }
                 return cachedResponse;
             }
 
