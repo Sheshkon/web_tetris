@@ -118,6 +118,15 @@
             <source src="" type="video/mp4" poster=".\img\bg.jpg">
           </video>
     </container>
+    <script>
+        navigator.serviceWorker.register(
+            'js/appCache.js'
+        ).then(function(registration) {
+            console.log('ServiceWorker registration', registration);
+        }).catch(function(err) {
+            throw new Error('ServiceWorker error: ' + err);
+        });
+    </script>
 </body>
 
 </html>

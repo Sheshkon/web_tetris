@@ -30,10 +30,11 @@ const helpModel = document.querySelector("#help_modal");
 const helpPCText = document.getElementById('pc_help_text');
 const helpMobileText = document.getElementById('mobile_help_text');
 
+
+
+
 window.addEventListener('beforeunload', (event) => {
-    // Отмените событие, как указано в стандарте.
     event.preventDefault();
-    // Chrome требует установки возвратного значения.
     cache();
     event.returnValue = '';
 
