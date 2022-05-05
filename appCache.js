@@ -34,6 +34,7 @@ const CACHE_NAME = 'app_serviceworker_v_1',
         '/web_tetris/img/right.svg',
         '/theme_light_dark_icon_137104.svg',
         '/web_tetris/img/icon.png',
+        '/web_tetris/audio/background/1.mp3',
         'https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js',
         'https://fonts.cdnfonts.com/css/minecrafter-alt'
     ];
