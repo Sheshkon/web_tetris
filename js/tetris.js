@@ -1,6 +1,6 @@
 import Tetromino from '../js/tetromino.js';
 import Position from '../js/position.js';
-import botMove from '../js/bot.js';
+// import botMove from '../js/bot.js';
 
 CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
     if (w < 2 * r) r = Math.floor(w / 2);
