@@ -341,8 +341,7 @@ function start() {
 function loadCashes() {
     let isLightThemeCasched = JSON.parse(localStorage.getItem('isLightTheme'));
     if (isLightThemeCasched) {
-        isLightTheme = isLightThemeCasched;
-        switchTheme();
+        setLightTheme();
     }
 
     let cachedTetris = JSON.parse(localStorage.getItem('tetris'));
