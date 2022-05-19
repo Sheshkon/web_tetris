@@ -52,87 +52,88 @@
         </container>
 
         <div id="bg" class="darkTheme"></div>
-        <dialog class="settings_modasl" id="settings_modal">
-            <p>SETTINGS</p>
-        </dialog>
 
-
-        <dialog class="highscore_modal" id="highscore_modal">
-
-            <div id="highscore"></div>
-
-            <hr>
-            <button id="close_highscore_modal">ok</button>
-        </dialog>
-
-
-        <dialog class="help_modal" id="help_modal">
-            <p id="controls">CONTROLS</p>
-            <div id="pc_help_text">
-                <table>
-                    <tr>
-                        <td class="left"> moves</td>
-                        <td>⬅️ ➡️ ⬇️ (A, D, S)</td>
-                    </tr>
-                    <tr>
-                        <td class="left"> rotation</td>
-                        <td>⬆️ (W)</td>
-                    </tr>
-                    <tr>
-                        <td class="left"> ccw/cw rotation</td>
-                        <td>Q, E</td>
-                    </tr>
-                    <tr>
-                        <td class="left"> help</td>
-                        <td>F1</td>
-                    </tr>
-                    <tr>
-                        <td class="left"> pause</td>
-                        <td>P</td>
-                    </tr>
-                    <tr>
-                        <td class="left"> restart</td>
-                        <td>Enter</td>
-                    </tr>
-                    <tr>
-                        <td class="left"> hard drop</td>
-                        <td>Space</td>
-                    </tr>
-                </table>
-            </div>
-            <!-- CONTROLS:\n \n - LEFT/RIGHT/DOWN swipe - left/right/down move\n - UP swipe - rotation\n - multitouch x3 - pause\n - multitouch x4 - restart" -->
-
-            <div id="mobile_help_text">
-                <table>
-                    <tr>
-                        <td class="left">moves</td>
-                        <td>buttons/swipes</td>
-                    </tr>
-                    <tr>
-                        <td class="left"> cw rotation</td>
-                        <td>UP swipe</td>
-                    </tr>
-
-                    <tr>
-                        <td class="left"> pause</td>
-                        <td>multitouch x3</td>
-                    </tr>
-                    <tr>
-                        <td class="left"> restart</td>
-                        <td>multitouch x4</td>
-                    </tr>
-                </table>
-            </div>
-            <div class="div_link"><a href="https://github.com/Sheshkon/web_tetris" target="_blank">project link</a></div>
-            <hr>
-            <button id="close_help_modal">ok</button>
-        </dialog>
 
         <canvas id="game_field"> </canvas>
         <video autoplay loop muted playsinline id="myVideo">
             <source src="" type="video/mp4" poster=".\img\bg.jpg">
           </video>
     </container>
+    <dialog class="settings_modasl" id="settings_modal">
+        <p>SETTINGS</p>
+    </dialog>
+
+
+    <dialog class="highscore_modal" id="highscore_modal">
+
+        <div id="highscore"></div>
+
+        <hr>
+        <button id="close_highscore_modal">ok</button>
+    </dialog>
+
+
+    <dialog class="help_modal" id="help_modal">
+        <p id="controls">CONTROLS</p>
+        <div id="pc_help_text">
+            <table>
+                <tr>
+                    <td class="left"> moves</td>
+                    <td>⬅️ ➡️ ⬇️ (A, D, S)</td>
+                </tr>
+                <tr>
+                    <td class="left"> rotation</td>
+                    <td>⬆️ (W)</td>
+                </tr>
+                <tr>
+                    <td class="left"> ccw/cw rotation</td>
+                    <td>Q, E</td>
+                </tr>
+                <tr>
+                    <td class="left"> help</td>
+                    <td>F1</td>
+                </tr>
+                <tr>
+                    <td class="left"> pause</td>
+                    <td>P</td>
+                </tr>
+                <tr>
+                    <td class="left"> restart</td>
+                    <td>Enter</td>
+                </tr>
+                <tr>
+                    <td class="left"> hard drop</td>
+                    <td>Space</td>
+                </tr>
+            </table>
+        </div>
+        <!-- CONTROLS:\n \n - LEFT/RIGHT/DOWN swipe - left/right/down move\n - UP swipe - rotation\n - multitouch x3 - pause\n - multitouch x4 - restart" -->
+
+        <div id="mobile_help_text">
+            <table>
+                <tr>
+                    <td class="left">moves</td>
+                    <td>buttons/swipes</td>
+                </tr>
+                <tr>
+                    <td class="left"> cw rotation</td>
+                    <td>UP swipe</td>
+                </tr>
+
+                <tr>
+                    <td class="left"> pause</td>
+                    <td>multitouch x3</td>
+                </tr>
+                <tr>
+                    <td class="left"> restart</td>
+                    <td>multitouch x4</td>
+                </tr>
+            </table>
+        </div>
+        <div class="div_link"><a href="https://github.com/Sheshkon/web_tetris" target="_blank">project link</a></div>
+        <hr>
+        <button id="close_help_modal">ok</button>
+    </dialog>
 </body>
 
 </html>

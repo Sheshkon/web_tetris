@@ -7,7 +7,7 @@
 dialog p,
 dialog a,
 td {
-    font-size: 0.5em;
+    /* font-size: 0.5rem; */
     /* line-height: 0.5rem; */
     text-align: center;
 }
@@ -31,12 +31,6 @@ td {
 #close_highscore_modal:hover {
     color: black;
     background-color: green;
-}
-
-table {
-    border: none;
-    padding-top: 0% !important;
-    margin-top: 0%;
 }
 
 td {
@@ -67,9 +61,9 @@ dialog {
     border: solid red .1em;
     border-radius: 1em;
     position: absolute;
-    top: 50%;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
+    top: 0%;
+    /* -ms-transform: translateY(-50%);
+    transform: translateY(-50%); */
 }
 
 #highscore {
@@ -77,10 +71,13 @@ dialog {
 }
 
 table {
+    display: block;
     border-collapse: collapse;
     border-spacing: 0;
     width: 100%;
     border: 1px solid #ddd;
+    overflow: scroll;
+    height: 30vh;
 }
 
 th,
