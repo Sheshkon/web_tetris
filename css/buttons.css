@@ -55,12 +55,13 @@
 }
 
 #music_button {
-    background-image: url('../img/music.svg');
+    /* background-image: url('../img/music.svg'); */
+    background-image: url('../img/leaderboard.svg');
     /* background-image: url('../img/music-off.svg'); */
 }
 
 #music_line {
-    background-image: url('../img/line.svg');
+    /* background-image: url('../img/line.svg'); */
 }
 
 #dark_light_theme_button {

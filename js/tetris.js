@@ -1,5 +1,9 @@
 import Tetromino from '../js/tetromino.js';
 import Position from '../js/position.js';
+import { clearScores, addScore } from '../js/db.js'
+
+// init();
+
 // import botMove from '../js/bot.js';
 
 CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
@@ -304,7 +308,7 @@ export default class Tetris {
                 try {
                     this.addToBoard(tmp);
                 } catch {
-                    this.isGameOver = true;
+                    this.setGameOver();
                     // Tetris.GAME_OVER_SOUND.play();
                 }
 
@@ -437,15 +441,24 @@ export default class Tetris {
 
     checkGameOver() {
         if (this.isGameOver) {
+
             return true;
         }
 
         for (let j = 1; j < this.boardMatrix[0].length - 1; j++) {
             if (this.boardMatrix[0][j] == 2) {
-                this.isGameOver = true;
+                this.setGameOver();
                 // Tetris.GAME_OVER_SOUND.play();
             }
         }
+    }
+
+    setGameOver() {
+        if (!this.isGameOver) {
+            addScore(this.score, this.lvl, this.line);
+            this.isGameOver = true;
+        }
+
     }
 
     copyMatrix(m) {
@@ -582,7 +595,7 @@ export default class Tetris {
         this.fullScreenBtn.style.width = `${w*0.75}px`;
         this.fullScreenBtn.style.height = `${w*0.75}px`;
         this.musicBtn.style.height = `${w*0.9}px`;
-        this.musicBtn.style.width = `${w*0.8}px`;
+        this.musicBtn.style.width = `${w*0.9}px`;
         this.musicLine.style.height = `${w*0.9}px`;
         this.musicLine.style.width = `${w*0.8}px`;
 

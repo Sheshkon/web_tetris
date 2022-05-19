@@ -4,26 +4,16 @@
     display: none;
 }
 
-#help_modal {
-    max-width: 50ch;
-    z-index: 100;
-}
-
-#help_modal p,
-#help_modal a,
+dialog p,
+dialog a,
 td {
     font-size: 0.5em;
     /* line-height: 0.5rem; */
     text-align: center;
 }
 
-dialog {
-    border: solid red .1em;
-    border-radius: 1em;
-    position: relative;
-}
-
-#close_help_modal {
+#close_help_modal,
+#close_highscore_modal {
     color: white;
     background-color: black;
     border-radius: .4em;
@@ -37,7 +27,8 @@ dialog {
     font-size: 0.7em;
 }
 
-#close_help_modal:hover {
+#close_help_modal:hover,
+#close_highscore_modal:hover {
     color: black;
     background-color: green;
 }
@@ -66,4 +57,38 @@ td {
 #controls {
     font-size: 1em !important;
     text-align: center;
+}
+
+dialog {
+    max-width: 50ch;
+    width: fit-content;
+    /* height: fit-content; */
+    z-index: 100;
+    border: solid red .1em;
+    border-radius: 1em;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+#highscore {
+    /* font-size: 0.5rem !important; */
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2
 }

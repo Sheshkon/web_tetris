@@ -19,6 +19,7 @@ const CACHE_NAME = 'app_serviceworker_v_1',
         '/web_tetris/js/main.js',
         '/web_tetris/js/position.js',
         '/web_tetris/js/tetris.js',
+        '/web_tetris/js/db.js',
         '/web_tetris/js/tetromino.js',
         '/web_tetris/js/bot.js',
         '/web_tetris/img/clockwise.svg',
@@ -37,7 +38,9 @@ const CACHE_NAME = 'app_serviceworker_v_1',
         '/web_tetris/img/icon.png',
         '/web_tetris/audio/background/1.mp3',
         'https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js',
+        'https://cdn.jsdelivr.net/npm/idb@7/build/umd.js',
         'https://fonts.cdnfonts.com/css/minecrafter-alt'
+
     ];
 
 self.addEventListener('install', function(event) {

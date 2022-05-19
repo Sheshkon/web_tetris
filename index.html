@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="./css/modal.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="module" src="./js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/idb@7/build/umd.js"></script>
 </head>
 
 <body>
@@ -51,6 +52,20 @@
         </container>
 
         <div id="bg" class="darkTheme"></div>
+        <dialog class="settings_modasl" id="settings_modal">
+            <p>SETTINGS</p>
+        </dialog>
+
+
+        <dialog class="highscore_modal" id="highscore_modal">
+
+            <div id="highscore"></div>
+
+            <hr>
+            <button id="close_highscore_modal">ok</button>
+        </dialog>
+
+
         <dialog class="help_modal" id="help_modal">
             <p id="controls">CONTROLS</p>
             <div id="pc_help_text">
