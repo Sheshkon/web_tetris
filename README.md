@@ -1,5 +1,6 @@
 # Web tetris game
 Resizable tetris in web browser is an addition to the desktop version. </br>
+This Tetirs offers the ability to play offline, and store game results. Awesome!
 
 Desktop version includes: 
 * [Telegram bot support](https://t.me/tetris_game_tetris_bot?start=null);
