@@ -4,17 +4,17 @@ import Tetromino from "../js/tetromino.js";
 const delayTime = 85;
 
 let tetris = null;
-let keyDownTimerID = [
-    [],
-    [],
-    []
-];
+// let keyDownTimerID = [
+//     [],
+//     [],
+//     []
+// ];
 
-let buttonDownTimerID = [
-    [],
-    [],
-    []
-];
+// let buttonDownTimerID = [
+//     [],
+//     [],
+//     []
+// ];
 
 
 let isFired = [false, false, false];
@@ -76,62 +76,62 @@ function cache() {
 }
 
 
-let leftMoveTimerID;
+// let leftMoveTimerID;
 $('#left_button').on('touchstart', function(e) {
     e.preventDefault();
     tetris.move(-1, 0);
     $(this).addClass('pushed');
     $(this).removeClass('border');
-    leftMoveTimerID = setInterval(() => {
-        tetris.move(-1, 0);
-    }, delayTime);
-    buttonDownTimerID[0].push(leftMoveTimerID);
+    // leftMoveTimerID = setInterval(() => {
+    tetris.move(-1, 0);
+    // }, delayTime);
+    // buttonDownTimerID[0].push(leftMoveTimerID);
 }).bind('touchend', () => {
     // clearInterval(leftMoveTimerID);
-    buttonDownTimerID[0].forEach(el => {
-        clearInterval(el);
-    })
-    buttonDownTimerID[0] = [];
+    // buttonDownTimerID[0].forEach(el => {
+    //     clearInterval(el);
+    // })
+    // buttonDownTimerID[0] = [];
     $('#left_button').removeClass('pushed');
     $('#left_button').addClass('border')
 });
 
-let rightMoveTimerID;
+// let rightMoveTimerID;
 $('#right_button').on('touchstart', function(e) {
     e.preventDefault();
     tetris.move(1, 0);
     $(this).addClass('pushed');
     $(this).removeClass('border');
-    rightMoveTimerID = setInterval(() => {
-        tetris.move(1, 0);
-    }, delayTime);
-    buttonDownTimerID[1].push(rightMoveTimerID);
+    // rightMoveTimerID = setInterval(() => {
+    tetris.move(1, 0);
+    // }, delayTime);
+    // buttonDownTimerID[1].push(rightMoveTimerID);
 }).bind('touchend', () => {
     // clearInterval(rightMoveTimerID);
-    buttonDownTimerID[1].forEach(el => {
-        clearInterval(el);
-    });
-    buttonDownTimerID[1] = [];
+    // buttonDownTimerID[1].forEach(el => {
+    //     clearInterval(el);
+    // });
+    // buttonDownTimerID[1] = [];
     $('#right_button').removeClass('pushed');
     $('#right_button').addClass('border')
 });
 
-let downMoveTimerID;
+// let downMoveTimerID;
 $('#down_button').on('touchstart', function(e) {
     e.preventDefault();
     tetris.move(0, 1);
     $(this).addClass('pushed');
     $(this).removeClass('border');
-    downMoveTimerID = setInterval(() => {
-        tetris.move(0, 1);
-    }, delayTime);
+    // downMoveTimerID = setInterval(() => {
+    tetris.move(0, 1);
+    // }, delayTime);
     buttonDownTimerID[2].push(downMoveTimerID);
 }).bind('touchend', () => {
     // clearInterval(downMoveTimerID);
-    buttonDownTimerID[2].forEach(el => {
-        clearInterval(el);
-    })
-    buttonDownTimerID[2] = [];
+    // buttonDownTimerID[2].forEach(el => {
+    //     clearInterval(el);
+    // })
+    // buttonDownTimerID[2] = [];
     $('#down_button').removeClass('pushed');
     $('#down_button').addClass('border')
 });
@@ -196,16 +196,16 @@ window.addEventListener('load', () => {
 
 window.addEventListener('resize', (event) => {
     setSize();
-    buttonDownTimerID.forEach(el => {
-        el.forEach(elNext => {
-            clearInterval(elNext);
-        })
-    });
-    buttonDownTimerID = [
-        [],
-        [],
-        [],
-    ]
+    // buttonDownTimerID.forEach(el => {
+    //     el.forEach(elNext => {
+    //         clearInterval(elNext);
+    //     })
+    // });
+    // buttonDownTimerID = [
+    //     [],
+    //     [],
+    //     [],
+    // ]
 }, true);
 
 window.onfocus = () => {
@@ -571,48 +571,48 @@ function handleTouchStart(event) {
     event.preventDefault();
 };
 
-function clearButtonsIntervals(container, keys = false) {
-    if (keys) {
-        for (let i = 0; i < container.length; i++) {
-            clearInterval(container[i]);
-        }
-        return;
-    }
-    for (let i = 0; i < container.length; i++) {
-        clearInterval(container[i].timerID);
-    }
-}
+// function clearButtonsIntervals(container, keys = false) {
+//     if (keys) {
+//         for (let i = 0; i < container.length; i++) {
+//             clearInterval(container[i]);
+//         }
+//         return;
+//     }
+//     for (let i = 0; i < container.length; i++) {
+//         clearInterval(container[i].timerID);
+//     }
+// }
 
 
 
-function handleTouchMove(event) {
-    if (!xDown || !yDown) {
-        return;
-    }
+// function handleTouchMove(event) {
+//     if (!xDown || !yDown) {
+//         return;
+//     }
 
 
-    var xUp = event.touches[0].clientX;
-    var yUp = event.touches[0].clientY;
+//     var xUp = event.touches[0].clientX;
+//     var yUp = event.touches[0].clientY;
 
-    var xDiff = xDown - xUp;
-    var yDiff = yDown - yUp;
+//     var xDiff = xDown - xUp;
+//     var yDiff = yDown - yUp;
 
-    if (Math.abs(xDiff) > Math.abs(yDiff)) { /*most significant*/
-        if (xDiff > 0) {
-            tetris.move(-1, 0);
+//     if (Math.abs(xDiff) > Math.abs(yDiff)) { /*most significant*/
+//         if (xDiff > 0) {
+//             tetris.move(-1, 0);
 
-        } else {
-            tetris.move(1, 0);
-        }
-    } else {
-        if (yDiff > 0) {
-            tetris.rotate(true);
-        } else {
-            tetris.move(0, 1);
-        }
-    }
+//         } else {
+//             tetris.move(1, 0);
+//         }
+//     } else {
+//         if (yDiff > 0) {
+//             tetris.rotate(true);
+//         } else {
+//             tetris.move(0, 1);
+//         }
+//     }
 
-    /* reset values */
-    xDown = null;
-    yDown = null;
-};
+//     /* reset values */
+//     xDown = null;
+//     yDown = null;
+// };
