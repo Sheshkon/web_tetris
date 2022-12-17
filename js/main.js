@@ -63,7 +63,7 @@ document.getElementById('dark_light_theme_button').addEventListener('click', swi
 document.addEventListener('keydown', handleKeyDown, true);
 document.addEventListener('keyup', handleKeyUP, false);
 document.addEventListener('touchstart', handleTouchStart, false);
-document.addEventListener('touchmove', handleTouchMove, false);
+// document.addEventListener('touchmove', handleTouchMove, false);
 document.getElementById('close_help_modal').addEventListener('click', closeHelpModel, false);
 document.getElementById('close_highscore_modal').addEventListener('click', closeHighscoreModal, false);
 
