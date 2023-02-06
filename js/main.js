@@ -507,6 +507,10 @@ function handleKeyDown(event) {
         tetris.hardDrop();
     }
 
+    if (event.code ==='F11'){
+        fullScreen()
+    }
+
     // if (code == "KeyB") {
     //     bot.changeActive();
     //     setSize();

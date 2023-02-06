@@ -605,7 +605,7 @@ export default class Tetris {
         this.themeBtn.style.height = `${w}px`;
 
 
-        y = this.glassPos.y;
+        y = this.glassPos.y  - w;
         x = this.glassPos.x + this.cellSize * 11 + this.cellSize * Math.floor(Tetris.CELLS_COUNT / 3) + this.cellSize / 2;
 
         let x_y = this.canvasCords2Document(x, y + w * 0.25);

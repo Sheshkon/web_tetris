@@ -23,6 +23,10 @@
     border: none;
 }
 
+#fullscreen_button{
+    display: none
+}
+
 #control {
     visibility: hidden;
 }
