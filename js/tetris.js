@@ -592,8 +592,8 @@ export default class Tetris {
         this.harddropBtn.style.top = `${this.canvasCords2Document(y + Math.floor(paddingX * Math.sqrt(3) / 2))}px`;
 
         w = this.canvasCords2Document(this.cellSize * 2);
-        this.fullScreenBtn.style.width = `${w*0.75}px`;
-        this.fullScreenBtn.style.height = `${w*0.75}px`;
+        this.fullScreenBtn.style.width = `${w}px`;
+        this.fullScreenBtn.style.height = `${w}px`;
         this.musicBtn.style.height = `${w*0.9}px`;
         this.musicBtn.style.width = `${w*0.9}px`;
         this.musicLine.style.height = `${w*0.9}px`;
@@ -608,7 +608,7 @@ export default class Tetris {
         y = this.glassPos.y;
         x = this.glassPos.x + this.cellSize * 11 + this.cellSize * Math.floor(Tetris.CELLS_COUNT / 3) + this.cellSize / 2;
 
-        let x_y = this.canvasCords2Document(x + w * 0.25, y + w * 0.25);
+        let x_y = this.canvasCords2Document(x, y + w * 0.25);
         this.fullScreenBtn.style.left = `${x_y.x}px`;
         this.fullScreenBtn.style.top = `${x_y.y}px`;
 
