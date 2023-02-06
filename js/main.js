@@ -1,5 +1,5 @@
-import Tetris from "../js/tetris.js";
-import Tetromino from "../js/tetromino.js";
+import Tetris from "../js/tetris.min.js";
+import Tetromino from "../js/tetromino.min.js";
 
 const delayTime = 85;
 
