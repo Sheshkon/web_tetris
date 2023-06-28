@@ -3,6 +3,7 @@
 !/**/
 !*min.*
 !*.svg
+!*.png
 !.gitignore
 !*.md
 !index.html
