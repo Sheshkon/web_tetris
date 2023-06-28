@@ -2,6 +2,7 @@
 !audio
 !/**/
 !*min.*
+!*.svg
 !.gitignore
 !*.md
 !index.html
